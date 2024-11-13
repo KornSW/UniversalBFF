@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>UniversalBFF</AssemblyName>
+    <RootNamespace>UniversalBFF</RootNamespace>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <PackageId>UniversalBFF</PackageId>
+    <Description>UniversalBFF (Core)</Description>
+    <Product>UniversalBFF</Product>
+    <Company>(public domain)</Company>
+    <Copyright>KornSW</Copyright>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Authors>KornSW</Authors>
+    <FileVersion>1.0.0.0</FileVersion>
+    <PackageTags></PackageTags>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\..\dist\bin-net6.0\UniversalBFF.xml</DocumentationFile>
+    <OutputPath>..\..\dist\bin-net6.0\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DefineConstants>TRACE;DEBUG;NET5</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\dist\bin-net6.0\</OutputPath>
+    <DocumentationFile>..\..\dist\bin-net6.0\UniversalBFF.xml</DocumentationFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DefineConstants>TRACE;NET5</DefineConstants>
+  </PropertyGroup>
+
+  <Import Project="..\UniversalBFF\UniversalBFF.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <PackageReference Include="ComponentDiscovery" Version="4.9.0.817" />
+    <PackageReference Include="KornSW.AbstractFileSystem.Common" Version="2.1.0" />
+    <PackageReference Include="KornSW.AbstractFileSystem.RepositoryContract" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="3.0.0" />
+    <PackageReference Include="SmartStandards.Logging" Version="1.2.3" />
+    <PackageReference Include="Snowflake44" Version="3.1.0" />
+    <PackageReference Include="UJMW.DynamicClient" Version="3.3.1" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="0.3.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UniversalBFF.ModuleContract.net6.0\UniversalBFF.ModuleContract.net6.0.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>

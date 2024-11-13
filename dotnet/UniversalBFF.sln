@@ -1,0 +1,107 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4130D21C-FE8F-4925-93E7-217B4AF1B7D9}"
+	ProjectSection(SolutionItems) = preProject
+		..\vers\changelog.md = ..\vers\changelog.md
+		..\readme.md = ..\readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EFB5135D-039A-4D92-8FDD-9EA5D070F991}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C5272353-539E-4138-93FD-9DF437F6DA47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{ADA576B9-92C4-4C75-9605-06023D1026B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{5EFC1751-7CFC-47C3-A462-7316FF3AF497}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversalBFF.ModuleContract.net6.0", "src\UniversalBFF.ModuleContract.net6.0\UniversalBFF.ModuleContract.net6.0.csproj", "{7DD74214-E31D-4E22-A869-AAE8373073E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversalBFF.net6.0", "src\UniversalBFF.net6.0\UniversalBFF.net6.0.csproj", "{10E1BAD5-E97A-475E-BA07-C534ED55D600}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UniversalBFF.ModuleContract", "src\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.shproj", "{CF0A161A-99BA-4F01-AF5E-16C6FCBC95AE}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UniversalBFF", "src\UniversalBFF\UniversalBFF.shproj", "{BA65A92B-FC92-4503-A597-54516134AE54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversalBFF.AspHost", "src\UniversalBFF.AspHost\UniversalBFF.AspHost.csproj", "{099B662C-C28F-4402-8C85-1FAEB91AEC9C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{83D50357-482E-497F-A731-45373B1521FC} = {83D50357-482E-497F-A731-45373B1521FC}
+	EndProjectSection
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UniversalBFF.CefHost", "src\UniversalBFF.CefHost\UniversalBFF.CefHost.shproj", "{66A05B9E-4A5F-45B1-B30C-8AF4FE6ECAFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversalBFF.CefHost.net6.0", "src\UniversalBFF.CefHost.net6.0\UniversalBFF.CefHost.net6.0.csproj", "{4860071E-D67F-4801-88D1-CDD801FE632E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{83D50357-482E-497F-A731-45373B1521FC} = {83D50357-482E-497F-A731-45373B1521FC}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversalBFF.DemoModule", "src\UniversalBFF.DemoModule\UniversalBFF.DemoModule.csproj", "{83D50357-482E-497F-A731-45373B1521FC}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UniversalBFF.Tests", "test\UniversalBFF.Tests\UniversalBFF.Tests.shproj", "{5E17C8E8-0BC8-4F7C-A022-C8104A415628}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversalBFF.Tests.net6.0", "test\UniversalBFF.Tests.net6.0\UniversalBFF.Tests.net6.0.csproj", "{94A902D4-304B-4F17-9E66-0E58DA8713BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DD74214-E31D-4E22-A869-AAE8373073E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DD74214-E31D-4E22-A869-AAE8373073E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DD74214-E31D-4E22-A869-AAE8373073E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DD74214-E31D-4E22-A869-AAE8373073E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10E1BAD5-E97A-475E-BA07-C534ED55D600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10E1BAD5-E97A-475E-BA07-C534ED55D600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10E1BAD5-E97A-475E-BA07-C534ED55D600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10E1BAD5-E97A-475E-BA07-C534ED55D600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{099B662C-C28F-4402-8C85-1FAEB91AEC9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{099B662C-C28F-4402-8C85-1FAEB91AEC9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{099B662C-C28F-4402-8C85-1FAEB91AEC9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{099B662C-C28F-4402-8C85-1FAEB91AEC9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4860071E-D67F-4801-88D1-CDD801FE632E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4860071E-D67F-4801-88D1-CDD801FE632E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4860071E-D67F-4801-88D1-CDD801FE632E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4860071E-D67F-4801-88D1-CDD801FE632E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83D50357-482E-497F-A731-45373B1521FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83D50357-482E-497F-A731-45373B1521FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83D50357-482E-497F-A731-45373B1521FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83D50357-482E-497F-A731-45373B1521FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A902D4-304B-4F17-9E66-0E58DA8713BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A902D4-304B-4F17-9E66-0E58DA8713BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A902D4-304B-4F17-9E66-0E58DA8713BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A902D4-304B-4F17-9E66-0E58DA8713BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ADA576B9-92C4-4C75-9605-06023D1026B2} = {EFB5135D-039A-4D92-8FDD-9EA5D070F991}
+		{5EFC1751-7CFC-47C3-A462-7316FF3AF497} = {C5272353-539E-4138-93FD-9DF437F6DA47}
+		{7DD74214-E31D-4E22-A869-AAE8373073E6} = {ADA576B9-92C4-4C75-9605-06023D1026B2}
+		{10E1BAD5-E97A-475E-BA07-C534ED55D600} = {ADA576B9-92C4-4C75-9605-06023D1026B2}
+		{CF0A161A-99BA-4F01-AF5E-16C6FCBC95AE} = {EFB5135D-039A-4D92-8FDD-9EA5D070F991}
+		{BA65A92B-FC92-4503-A597-54516134AE54} = {EFB5135D-039A-4D92-8FDD-9EA5D070F991}
+		{099B662C-C28F-4402-8C85-1FAEB91AEC9C} = {EFB5135D-039A-4D92-8FDD-9EA5D070F991}
+		{66A05B9E-4A5F-45B1-B30C-8AF4FE6ECAFC} = {EFB5135D-039A-4D92-8FDD-9EA5D070F991}
+		{4860071E-D67F-4801-88D1-CDD801FE632E} = {ADA576B9-92C4-4C75-9605-06023D1026B2}
+		{83D50357-482E-497F-A731-45373B1521FC} = {EFB5135D-039A-4D92-8FDD-9EA5D070F991}
+		{5E17C8E8-0BC8-4F7C-A022-C8104A415628} = {C5272353-539E-4138-93FD-9DF437F6DA47}
+		{94A902D4-304B-4F17-9E66-0E58DA8713BF} = {5EFC1751-7CFC-47C3-A462-7316FF3AF497}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D2F37C1D-32F0-4BF2-AAEB-46B9D8C07D23}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\UniversalBFF\UniversalBFF.projitems*{10e1bad5-e97a-475e-ba07-c534ed55d600}*SharedItemsImports = 5
+		src\UniversalBFF.CefHost\UniversalBFF.CefHost.projitems*{4860071e-d67f-4801-88d1-cdd801fe632e}*SharedItemsImports = 5
+		test\UniversalBFF.Tests\UniversalBFF.Tests.projitems*{5e17c8e8-0bc8-4f7c-a022-c8104a415628}*SharedItemsImports = 13
+		src\UniversalBFF.CefHost\UniversalBFF.CefHost.projitems*{66a05b9e-4a5f-45b1-b30c-8af4fe6ecafc}*SharedItemsImports = 13
+		src\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems*{7dd74214-e31d-4e22-a869-aae8373073e6}*SharedItemsImports = 5
+		test\UniversalBFF.Tests\UniversalBFF.Tests.projitems*{94a902d4-304b-4f17-9e66-0e58da8713bf}*SharedItemsImports = 5
+		src\UniversalBFF\UniversalBFF.projitems*{ba65a92b-fc92-4503-a597-54516134ae54}*SharedItemsImports = 13
+		src\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems*{cf0a161a-99ba-4f01-af5e-16c6fcbc95ae}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal
