@@ -52,6 +52,7 @@
     <PackageReference Include="Snowflake44" Version="3.1.0" />
     <PackageReference Include="UJMW.DynamicClient" Version="4.0.2" />
     <PackageReference Include="UShell.PortfolioDescription" Version="1.0.0" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>

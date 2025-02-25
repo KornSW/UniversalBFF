@@ -1,26 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Abstraction;
-using System.Text;
 using UShell;
+using UShell.ServerCommands;
 
 namespace UniversalBFF {
 
   public interface IModuleRegistrar {
 
-    public void RegisterModule(ModuleDescription moduleDescription) {
-
-
-    }
+    void RegisterModule(ModuleDescription moduleDescription);
 
     /// <summary>
     /// Registers an UShell Module Application
     /// </summary>
-    public void RegisterFrontendExtension(IAfsRepository staticFilesForHosting) {
-
-
-
-    }
+    void RegisterFrontendExtension(IAfsRepository staticFilesForHosting);
 
     /// <summary>
     /// Registers an Service-Endpoint (UJMW Dynamic-Controller) for the given Backend-Service
@@ -28,11 +20,9 @@ namespace UniversalBFF {
     /// <typeparam name="TServiceContract"></typeparam>
     /// <param name="factory"></param>
     /// <returns></returns>
-    public void RegisterBackendExtension<TServiceContract>(Func<TServiceContract> factory) {
+    void RegisterBackendExtension<TServiceContract>(Func<TServiceContract> factory);
 
-
-
-    }
+    void RegisterServerCommands(IServerCommandExecutor executor);
 
   }
 

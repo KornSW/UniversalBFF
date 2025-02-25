@@ -1,5 +1,0 @@
-http://localhost:55202/v1/DemoService.svc (UJMW.DemoWcfService.IDemoService) >> ONLINE @09:42:18
-http://localhost:55202/FileStore (UJMW.DemoWcfService.IDemoFileService) >> ONLINE @09:42:18
-http://localhost:55202/Repo/Foo (Demo.IGenericInterface_Demo.Foo_Int32) >> ONLINE @09:42:18
-http://localhost:55202/Repo/Bar (Demo.IGenericInterface_Demo.Bar_String) >> ONLINE @09:42:18
-http://localhost:55202/Announcement.svc (UJMW.AnnouncementTriggerEndpoint) >> ONLINE @09:42:18

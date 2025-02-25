@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4130D21C-FE8F-4925-93E7-217B4AF1B7D9}"
 	ProjectSection(SolutionItems) = preProject
-		..\vers\changelog.md = ..\vers\changelog.md
+		..\doc\changelog.md = ..\doc\changelog.md
 		..\readme.md = ..\readme.md
 		UniversalBFF.ModuleContract.nuspec = UniversalBFF.ModuleContract.nuspec
 	EndProjectSection

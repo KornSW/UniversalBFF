@@ -9,7 +9,17 @@ namespace UniversalBFF {
 
   public class ModuleLoader {
 
-    private ModuleRegistrar _Registrar = null;
+    private ModuleRegistrar _Registrar;
+
+    public ModuleRegistrar Registrar {  
+      get { 
+        return _Registrar;
+      } 
+    }
+
+    public ModuleLoader(string baseUrl) {
+      _Registrar = new ModuleRegistrar(baseUrl);
+    }
 
     private static AssemblyIndexer _AssemblyIndexer = new AssemblyIndexer(
       enableResolvePathsBinding: true,
@@ -20,8 +30,6 @@ namespace UniversalBFF {
 
     public void Load() {
       this.UnLoad();
-
-      _Registrar = new ModuleRegistrar();
 
       Type[] foundProvderTypes = _TypeIndexer.GetApplicableTypes<IModuleProvider>(true);
       foreach (Type t in foundProvderTypes) {

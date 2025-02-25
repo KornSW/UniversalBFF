@@ -82,6 +82,7 @@
     <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.1.61.808" />
     <PackageReference Include="UShell.PortfolioDescription" Version="1.0.0" />
     <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="1.0.0" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>

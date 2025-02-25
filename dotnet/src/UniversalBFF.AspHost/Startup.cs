@@ -16,8 +16,9 @@ using System.Reflection;
 using System.Text;
 using System.Web.UJMW;
 using System.Web.UJMW.SelfAnnouncement;
+using UShell;
 
-namespace Security {
+namespace UniversalBFF {
 
   public class Startup {
 
@@ -38,6 +39,8 @@ namespace Security {
       _ApiVersion = typeof(Startup).Assembly.GetName().Version;
 
       string outDir = AppDomain.CurrentDomain.BaseDirectory;
+
+      var baseUrl = _Configuration.GetValue<string>("BaseUrl");
       //string masterApiClientSecret = _Configuration.GetValue<string>("MasterApiClientSecret");
 
       //var apiService = new ApiService(
@@ -53,10 +56,15 @@ namespace Security {
 
       //services.AddSingleton<IOAuthService>(apiService);
 
-      /*services.AddSingleton<IEnvironmentAdministrationService>(apiService);
+
+      /*
+      
+      services.AddSingleton<IEnvironmentAdministrationService>(apiService);
       services.AddSingleton<IEnvironmentSetupService>(apiService);
       services.AddSingleton<IUserAdminstrationService>(apiService);
-      services.AddSingleton<IUserSelfAdministrationService>(apiService);*/
+      services.AddSingleton<IUserSelfAdministrationService>(apiService);
+          
+      */
 
       //services.AddCors(opt => {
       //  opt.AddPolicy(
@@ -69,87 +77,26 @@ namespace Security {
       //  );
       //});
 
-      //we are our own evaluator
-      //DefaultAccessTokenValidator.Instance = apiService;
-      //Security.AccessTokenHandling.OAuthServer.
-
       services.AddControllers();
 
-      AmbienceHub.DefineFlowingContract(
-        "tenant-identifiers",
-        (contract) => {
-          contract.IncludeExposedAmbientFieldInstances("currentTenant");
-        }
-      );
+      var loader = new ModuleLoader(baseUrl);
+      //loader.Load();
 
-      UjmwHostConfiguration.ConfigureRequestSidechannel(
-        (serviceType, sideChannel) => {
-          if (HasDataFlowSideChannelAttribute.TryReadFrom(serviceType, out string contractName)) {
+      services.AddSingleton<ModuleLoader>(loader);
+      services.AddSingleton<IPortfolioService>(loader.Registrar);
+      services.AddSingleton<IModuleRegistrar>(loader.Registrar);
 
-            sideChannel.AcceptHttpHeader("my-ambient-data");
-            sideChannel.AcceptUjmwUnderlineProperty();
+      services.AddControllerForUShellPortfolioService();
 
-            sideChannel.ProcessDataVia(
-              (incommingData) => AmbienceHub.RestoreValuesFrom(incommingData, contractName)
-            );
-          }
-          else {
-            sideChannel.AcceptNoChannelProvided();
-            //sideChannel.AcceptNoChannelProvided(
-            //  (ref IDictionary<string, string> defaultData) => {
-            //    defaultData["currentTenant"] = "(fallback)";
-            //  }
-            //);
-          }
-        }
-      );
-
-      UjmwHostConfiguration.ConfigureResponseSidechannel(
-        (serviceType, sideChannel) => {
-          if (HasDataFlowBackChannelAttribute.TryReadFrom(serviceType, out string contractName)) {
-
-            sideChannel.ProvideHttpHeader("my-ambient-data");
-            sideChannel.ProvideUjmwUnderlineProperty();
-
-            sideChannel.CaptureDataVia(
-              (snapshot) => AmbienceHub.CaptureCurrentValuesTo(snapshot, contractName)
-            );
-          }
-          else {
-            sideChannel.ProvideNoChannel();
-          }
-        }
-      );
-
+      UjmwHostConfiguration.AuthHeaderEvaluator = AccessTokenValidator.TryValidateHttpAuthHeader;
       AccessTokenValidator.ConfigureTokenValidation(
         new LocalJwtIntrospector("TheSignKey"),
         (cfg) => {
         }
       );
+      //TODO: das hier - anhand der konfig-struktur, welche aus der appsetings geladen werden soll
+      //AccessTokenValidator.ConfigureByConfig(loader);
 
-      UjmwHostConfiguration.AuthHeaderEvaluator = (
-        (string rawAuthHeader, Type contractType, MethodInfo targetContractMethod, string callingMachine, ref int httpReturnCode, ref string failedReason) => {
-          //in this demo - any auth header is ok - but there must be one ;-)
-          if (string.IsNullOrWhiteSpace(rawAuthHeader)) {
-            httpReturnCode = 403;
-            failedReason = "This demo requires at least ANY string as authheader!";
-            return false;
-          }
-          return true;
-        }
-      );
-      UjmwHostConfiguration.ArgumentPreEvaluator = (
-        Type contractType,
-        MethodInfo calledContractMethod,
-        object[] arguments
-      ) => {
-
-        contractType.ToString();
-      };
-
-      //var svc = new DemoService();
-      //services.AddSingleton<IDemoService>(svc);
-      //services.AddSingleton<IDemoFileService>(svc);
 
       services.AddDynamicUjmwControllers(r => {
 
@@ -300,6 +247,9 @@ namespace Security {
       
       app.UseRouting();
 
+
+
+
       //CORS: muss zwischen 'UseRouting' und 'UseEndpoints' liegen!
       app.UseCors(p =>
           p.AllowAnyOrigin()
@@ -313,6 +263,12 @@ namespace Security {
       app.UseEndpoints(endpoints => {
         endpoints.MapControllers();
       });
+
+      app.ConfigureUShellSpaHosting(
+        baseUrl + "portfolio",
+        "Universal BFF",
+        baseUrl + "app"
+      );
 
       SelfAnnouncementHelper.Configure(
         lifetimeEvents, app.ServerFeatures,
