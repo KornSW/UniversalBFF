@@ -39,13 +39,14 @@
   <Import Project="..\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems" Label="Shared" />
 
   <ItemGroup>
-    <PackageReference Include="KornSW.AbstractFileSystem.RepositoryContract" Version="2.1.0" />
+    <PackageReference Include="KornSW.AbstractFileSystem.RepositoryContract" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="0.3.8" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="3.0.1" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

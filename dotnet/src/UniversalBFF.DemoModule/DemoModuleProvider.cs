@@ -9,8 +9,12 @@ namespace UniversalBFF.Demo {
     public void RegisterModule(IModuleRegistrar registrar) {
 
       //registrar.RegisterModule(...);
-      //registrar.RegisterBackendExtension(...);
+
       //registrar.RegisterFrontendExtension(...);
+
+      registrar.RegisterBackendExtension<IDemoBackendService>(
+        () => new DemoBackendService()
+      );
 
     }
 

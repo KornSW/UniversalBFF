@@ -37,15 +37,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FUSE-fx.EfSupport" Version="0.4.7" />
+    <PackageReference Include="FUSE-fx.EfSupport" Version="0.4.13" />
     <PackageReference Include="FUSE-fx.ModelDescription" Version="2.0.14" />
-    <PackageReference Include="FUSE-fx.RepositoryContract" Version="0.4.7" />
+    <PackageReference Include="FUSE-fx.RepositoryContract" Version="0.4.13" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="0.3.8" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="3.0.1" />
+    <PackageReference Include="SmartStandards.Logging" Version="1.2.3" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,6 +56,10 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Frontend\" />
   </ItemGroup>
 
 
