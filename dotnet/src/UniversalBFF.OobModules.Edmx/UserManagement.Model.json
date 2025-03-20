@@ -1,0 +1,345 @@
+{
+  "DescriptionFormat": "v1.0",
+  "TimestampUtc": "2025-03-20T16:46:02.0000000Z",
+  "SemanticVersion": "1.0.0",
+  "Entities": [
+    {
+      "Name": "AllowedValue",
+      "NamePlural": "AllowedValues",
+      "InheritedEntityName": null,
+      "Summary": "",
+      "IsBlEntrypoint": false,
+      "PrimaryKeyIndexName": "PK_AllowedValues",
+      "Indices": [
+        {
+          "Name": "PK_AllowedValues",
+          "Unique": true,
+          "MemberFieldNames": [
+            "AttributeName",
+            "Value"
+          ]
+        },
+        {
+          "Name": "FK_AllowedValues__AttributeDescriptor",
+          "Unique": false,
+          "MemberFieldNames": [
+            "AttributeName"
+          ]
+        }
+      ],
+      "Fields": [
+        {
+          "Name": "AttributeName",
+          "Type": "String",
+          "MaxLength": 150,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "Value",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        }
+      ]
+    },
+    {
+      "Name": "AttributeDescriptor",
+      "NamePlural": "AttributeDescriptors",
+      "InheritedEntityName": null,
+      "Summary": "",
+      "IsBlEntrypoint": false,
+      "PrimaryKeyIndexName": "PK_AttributeDescriptors",
+      "Indices": [
+        {
+          "Name": "PK_AttributeDescriptors",
+          "Unique": true,
+          "MemberFieldNames": [
+            "AttributeName"
+          ]
+        }
+      ],
+      "Fields": [
+        {
+          "Name": "AttributeName",
+          "Type": "String",
+          "MaxLength": 150,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "AttributeType",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "RequiredOnCreation",
+          "Type": "Boolean",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "Updatable",
+          "Type": "Boolean",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "IsManagedValueRange",
+          "Type": "Boolean",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        }
+      ]
+    },
+    {
+      "Name": "FileAttribute",
+      "NamePlural": "FileAttributes",
+      "InheritedEntityName": null,
+      "Summary": "",
+      "IsBlEntrypoint": false,
+      "PrimaryKeyIndexName": "PK_FileAttributes",
+      "Indices": [
+        {
+          "Name": "PK_FileAttributes",
+          "Unique": true,
+          "MemberFieldNames": [
+            "FileId",
+            "AttributeName"
+          ]
+        },
+        {
+          "Name": "FK_FileAttributes__File",
+          "Unique": false,
+          "MemberFieldNames": [
+            "FileId"
+          ]
+        },
+        {
+          "Name": "FK_FileAttributes_AttributeDescriptors_AttributeDescriptor",
+          "Unique": false,
+          "MemberFieldNames": [
+            "AttributeName"
+          ]
+        }
+      ],
+      "Fields": [
+        {
+          "Name": "FileId",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "AttributeName",
+          "Type": "String",
+          "MaxLength": 150,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "AttributeValue",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        }
+      ]
+    },
+    {
+      "Name": "FileContentBlob",
+      "NamePlural": "FileContentBlobs",
+      "InheritedEntityName": null,
+      "Summary": "",
+      "IsBlEntrypoint": false,
+      "PrimaryKeyIndexName": "PK_FileContentBlobs",
+      "Indices": [
+        {
+          "Name": "PK_FileContentBlobs",
+          "Unique": true,
+          "MemberFieldNames": [
+            "FileId"
+          ]
+        }
+      ],
+      "Fields": [
+        {
+          "Name": "FileId",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 0,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": true
+        },
+        {
+          "Name": "RawContent",
+          "Type": "Binary",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": false,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "MimeType",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        }
+      ]
+    }
+  ],
+  "Relations": [
+    {
+      "Name": "MetadataFieldDescriptorAllowdValue",
+      "PrimaryEntityName": "AttributeDescriptor",
+      "ForeignEntityName": "AllowedValue",
+      "ForeignKeyIndexName": "FK_AllowedValues__AttributeDescriptor",
+      "IsLookupRelation": true,
+      "PrimaryEntityIsOptional": false,
+      "ForeignEntityIsMultiple": true,
+      "PrimaryNavigationName": "AllowedValues",
+      "ForeignNavigationName": "AttributeDescriptor",
+      "PrimaryNavigationSummary": "",
+      "ForeignNavigationSummary": "",
+      "CascadeDelete": false
+    },
+    {
+      "Name": "FileContentBlobMetadataField",
+      "PrimaryEntityName": "FileContentBlob",
+      "ForeignEntityName": "FileAttribute",
+      "ForeignKeyIndexName": "FK_FileAttributes__File",
+      "IsLookupRelation": true,
+      "PrimaryEntityIsOptional": false,
+      "ForeignEntityIsMultiple": true,
+      "PrimaryNavigationName": "Attributes",
+      "ForeignNavigationName": "File",
+      "PrimaryNavigationSummary": "",
+      "ForeignNavigationSummary": "",
+      "CascadeDelete": false
+    },
+    {
+      "Name": "MetadataFieldDescriptorMetadataFieldValue",
+      "PrimaryEntityName": "AttributeDescriptor",
+      "ForeignEntityName": "FileAttribute",
+      "ForeignKeyIndexName": "FK_FileAttributes_AttributeDescriptors_AttributeDescriptor",
+      "IsLookupRelation": true,
+      "PrimaryEntityIsOptional": false,
+      "ForeignEntityIsMultiple": true,
+      "PrimaryNavigationName": "",
+      "ForeignNavigationName": "AttributeDescriptor",
+      "PrimaryNavigationSummary": "",
+      "ForeignNavigationSummary": "",
+      "CascadeDelete": false
+    }
+  ]
+}
