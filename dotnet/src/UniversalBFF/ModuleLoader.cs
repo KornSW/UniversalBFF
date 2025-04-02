@@ -31,9 +31,9 @@ namespace UniversalBFF {
     public void Load() {
       this.UnLoad();
 
-      Type[] foundProvderTypes = _TypeIndexer.GetApplicableTypes<IModuleProvider>(true);
+      Type[] foundProvderTypes = _TypeIndexer.GetApplicableTypes<IFrontendModuleProvider>(true);
       foreach (Type t in foundProvderTypes) {
-        IModuleProvider provider = (IModuleProvider) Activator.CreateInstance(t);
+        IFrontendModuleProvider provider = (IFrontendModuleProvider) Activator.CreateInstance(t);
         provider.RegisterModule(_Registrar);
       }
 

@@ -6,9 +6,13 @@ using UShell.ServerCommands;
 
 namespace UniversalBFF.Demo {
 
-    public class DemoModuleProvider : IModuleProvider {
+    public class DemoModuleProvider : IFrontendModuleProvider, IBackendServiceProvider {
 
-    public void RegisterModule(IModuleRegistrar registrar) {
+    public void RegisterServices(IBackendServiceRegistrar registrar) {
+
+    }
+
+    public void RegisterModule(IFrontendModuleRegistrar registrar) {
 
       var module = ModuleDescription.Build("Demo");
 
@@ -23,33 +27,33 @@ namespace UniversalBFF.Demo {
       });
 
 
+      
 
 
+      ////registrar.RegisterModule(
+      ////  new UShell.ModuleDescription() {
+      ////     Commands = new List<UShell.CommandDescription> {
+      ////       new ServerCommandDescription
+      ////     }
 
-      registrar.RegisterModule(
-        new UShell.ModuleDescription() {
-           Commands = new List<UShell.CommandDescription> {
-             new ServerCommandDescription
-           }
 
+      ////  }
+      ////);
 
-        }
-      );
+      ////registrar.RegisterFrontendExtension(...);
 
-      //registrar.RegisterFrontendExtension(...);
+      //registrar.RegisterBackendExtension<IDemoBackendService>(
+      //  () => new DemoBackendService()
+      //);
 
-      registrar.RegisterBackendExtension<IDemoBackendService>(
-        () => new DemoBackendService()
-      );
+      //var commands = new CommandExecutor();
+      //commands.RegisterCommand(
+      //  "Foo",
+      //  () => {
 
-      var commands = new CommandExecutor();
-      commands.RegisterCommand(
-        "Foo",
-        () => {
-
-        }
-      );
-      registrar.RegisterServerCommands(commands);
+      //  }
+      //);
+      //registrar.RegisterServerCommands(commands);
 
 
       //fuse-repo registireren mit Filebased-db
@@ -57,13 +61,8 @@ namespace UniversalBFF.Demo {
 
       //ServerCommands mit extra überladung
 
-
-
-
-
-
-
     }
+
 
   }
 

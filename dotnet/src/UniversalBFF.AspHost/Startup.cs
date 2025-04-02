@@ -84,7 +84,7 @@ namespace UniversalBFF {
 
       services.AddSingleton<ModuleLoader>(loader);
       services.AddSingleton<IPortfolioService>(loader.Registrar);
-      services.AddSingleton<IModuleRegistrar>(loader.Registrar);
+      services.AddSingleton<IFrontendModuleRegistrar>(loader.Registrar);
 
       services.AddControllerForUShellPortfolioService();
 

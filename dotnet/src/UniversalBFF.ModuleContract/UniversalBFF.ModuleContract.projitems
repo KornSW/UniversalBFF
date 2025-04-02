@@ -9,11 +9,7 @@
     <Import_RootNamespace>UniversalBFF</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)CoreModule\CoreModuleProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IModuleProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IModuleRegistrar.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)CoreModule\" />
+    <Compile Include="..\UniversalBFF.ModuleContract\IFrontendModuleProvider.cs" />
+    <Compile Include="..\UniversalBFF.ModuleContract\IFrontendModuleRegistrar.cs" />
   </ItemGroup>
 </Project>

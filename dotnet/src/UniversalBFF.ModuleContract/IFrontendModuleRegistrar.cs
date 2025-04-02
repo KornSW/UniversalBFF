@@ -5,7 +5,7 @@ using UShell.ServerCommands;
 
 namespace UniversalBFF {
 
-  public interface IModuleRegistrar {
+  public interface IFrontendModuleRegistrar {
 
     void RegisterModule(ModuleDescription moduleDescription);
 
@@ -14,13 +14,21 @@ namespace UniversalBFF {
     /// </summary>
     void RegisterFrontendExtension(IAfsRepository staticFilesForHosting);
 
+  }
+
+  public interface IBackendServiceRegistrar {
+
     /// <summary>
     /// Registers an Service-Endpoint (UJMW Dynamic-Controller) for the given Backend-Service
     /// </summary>
     /// <typeparam name="TServiceContract"></typeparam>
     /// <param name="factory"></param>
     /// <returns></returns>
-    void RegisterBackendExtension<TServiceContract>(Func<TServiceContract> factory);
+    void RegisterUjmwServiceEndpoint<TServiceContract>(Func<TServiceContract> factory);
+
+    void RegisterUjmwProxy<TServiceContract>();
+
+    void RegisterHttpProxy(string providedSubRoute, string forwardingAddress);
 
     void RegisterServerCommands(IServerCommandExecutor executor);
 

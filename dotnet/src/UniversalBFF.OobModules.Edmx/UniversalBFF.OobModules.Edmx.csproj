@@ -54,29 +54,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModel.Designer.cs">
+    <Compile Include="UserManagement.Model.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.edmx</DependentUpon>
+      <DependentUpon>UserManagement.Model.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="DataModel.edmx">
+    <EntityDeploy Include="UserManagement.Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DataModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>UserManagement.Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="App.Config" />
-    <None Include="DataModel.json">
+    <None Include="UserManagement.Model.json">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.tt</DependentUpon>
+      <DependentUpon>UserManagement.Model.tt</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataModel.tt">
+    <Content Include="UserManagement.Model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DataModel.json</LastGenOutput>
+      <LastGenOutput>UserManagement.Model.json</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
