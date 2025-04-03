@@ -10,7 +10,7 @@ using UShell.ServerCommands;
 
 namespace UniversalBFF {
 
-  public class ModuleRegistrar : IModuleRegistrar, IPortfolioService {
+  public class ModuleRegistrar : IFrontendModuleRegistrar, IPortfolioService {
 
     private PortfolioDescription _Portfolio = null;
     private List< ModuleDescription> _Modules = new List<ModuleDescription>();
