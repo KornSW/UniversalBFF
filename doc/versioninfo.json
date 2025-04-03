@@ -1,0 +1,13 @@
+{
+  "currentVersion": "0.1.1",
+  "currentVersionWithSuffix": "0.1.1",
+  "releaseType": "",
+  "previousVersion": "0.1.0",
+  "changeGrade": "fix",
+  "currentMajor": 0,
+  "currentMinor": 1,
+  "currentPatch": 1,
+  "versionDateInfo": "2025-04-03",
+  "versionTimeInfo": "15:12:09",
+  "versionNotes": "- second poc\n"
+}

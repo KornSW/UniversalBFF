@@ -6,7 +6,13 @@
 
 ## Upcoming Changes
 
-* second poc
+*(none)*
+
+
+
+## v 0.1.1
+released **2025-04-03**, including:
+ - second poc
 
 
 
