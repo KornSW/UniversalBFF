@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>UniversalBFF.AspHost</id>
+    <version>999.0.0-localbuild</version>
+    <title>UniversalBFF.AspHost</title>
+    <authors>KornSW</authors>
+    <owners>(public domain)</owners>
+    <copyright>KornSW</copyright>
+    <description>UniversalBFF.AspHost</description>
+    <description>Provides binaries to host your UniversalBFF application module out-of-the-box via HTTP (F5 experience).</description>
+    <!-- https://spdx.org/licenses/ -->
+    <license type="expression">GPL-3.0-only</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <icon>PackageIcon.png</icon>
+    <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="UniversalBFF.ModuleContract" version="999.0.0-localbuild" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
+    <file src="PackageIcon.png" target="" />
+    <!-- .NET 6.0 --><!--
+    <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.dll" target="lib/net6.0" />
+    <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.xml" target="lib/net6.0" />
+    <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.pdb" target="lib/net6.0" />-->
+  </files>
+</package>
