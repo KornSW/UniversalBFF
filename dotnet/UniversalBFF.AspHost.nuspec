@@ -7,7 +7,6 @@
     <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>
     <copyright>KornSW and KeinIch</copyright>
-    <description>UniversalBFF.AspHost</description>
     <description>Provides binaries to host your UniversalBFF application module out-of-the-box via HTTP (F5 experience).</description>
     <!-- https://spdx.org/licenses/ -->
     <license type="expression">GPL-3.0-only</license>
