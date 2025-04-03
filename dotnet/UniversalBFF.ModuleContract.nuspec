@@ -7,13 +7,13 @@
     <authors>KornSW</authors>
     <owners>(public domain)</owners>
     <copyright>KornSW</copyright>
-    <description>UniversalBFF.ModuleContract</description>
-    <tags>BFF UShell SPA UJMW W3bstract AbstractFileSystem ASP CefSharp</tags>
+    <description>API Contract for authors of application-modules that can be hosted within the UniversalBFF</description>
+    <tags>BFF UShell SPA UJMW W3bstract</tags>
     <!-- https://spdx.org/licenses/ -->
     <license type="expression">GPL-3.0-only</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <icon>PackageIcon.png</icon>
-    <projectUrl>https://github.com/SmartStandards/UnifiedJsonMessageWrapper</projectUrl>
+    <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
     <dependencies>
       <group targetFramework="net6.0">
         <dependency id="Newtonsoft.Json" version="[13.0.3,13.9999]" />
