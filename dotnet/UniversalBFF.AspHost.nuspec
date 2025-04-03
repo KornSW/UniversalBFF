@@ -4,9 +4,9 @@
     <id>UniversalBFF.AspHost</id>
     <version>999.0.0-localbuild</version>
     <title>UniversalBFF.AspHost</title>
-    <authors>KornSW</authors>
+    <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>
-    <copyright>KornSW</copyright>
+    <copyright>KornSW and KeinIch</copyright>
     <description>UniversalBFF.AspHost</description>
     <description>Provides binaries to host your UniversalBFF application module out-of-the-box via HTTP (F5 experience).</description>
     <!-- https://spdx.org/licenses/ -->

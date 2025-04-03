@@ -4,9 +4,9 @@
     <id>UniversalBFF.ModuleContract</id>
     <version>999.0.0-localbuild</version>
     <title>UniversalBFF.ModuleContract</title>
-    <authors>KornSW</authors>
+    <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>
-    <copyright>KornSW</copyright>
+    <copyright>KornSW and KeinIch</copyright>
     <description>API Contract for authors of application-modules that can be hosted within the UniversalBFF</description>
     <tags>BFF UShell SPA UJMW W3bstract</tags>
     <!-- https://spdx.org/licenses/ -->

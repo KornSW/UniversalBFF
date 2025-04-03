@@ -58,9 +58,36 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
+  <!-- Pre-Build nur in der Debug-Konfiguration -->
+  <Target Name="PreBuild" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Debug'">
+    <ItemGroup>
+      <MyFiles Include="$(ProjectDir)..\..\..\js\UniversalBFF.OobModules.UserManagement\dist\**\*" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(MyFiles)" DestinationFolder="$(ProjectDir)Frontend\webapp-files\%(RecursiveDir)" />
+  </Target>
+  
   <ItemGroup>
-    <Folder Include="Frontend\" />
+  
+    <EmbeddedResource Include="Frontend\webapp-files\esm\**" />    
+    <EmbeddedResource Include="Frontend\webapp-files\*.js" /> 
+    <EmbeddedResource Include="Frontend\webapp-files\*.png" />  
+    <EmbeddedResource Include="Frontend\webapp-files\*.html" />  
+    
+    <!-- TEMP CONFIG-FILES FROM FRONTEND -->
+    <EmbeddedResource Remove="Frontend\webapp-files\*.json" />  
+    <Compile Remove="Frontend\webapp-files\*.json" />  
+    <None Remove="Frontend\webapp-files\*.json" />  
+    <Compile Remove="Frontend\webapp-files\modules\**" />
+    <Compile Remove="Frontend\webapp-files\portfolio\**" />
+    <EmbeddedResource Remove="Frontend\webapp-files\modules\**" />
+    <EmbeddedResource Remove="Frontend\webapp-files\portfolio\**" />
+    <None Remove="Frontend\webapp-files\modules\**" />
+    <None Remove="Frontend\webapp-files\portfolio\**" />      
+    <!-- NOT NEEDED -->
+    <Compile Remove="Frontend\webapp-files\*.LICENSE.txt" />
+    <EmbeddedResource Remove="Frontend\webapp-files\*.LICENSE.txt" />
+    <None Remove="Frontend\webapp-files\*.LICENSE.txt" />
   </ItemGroup>
-
-
+  
 </Project>

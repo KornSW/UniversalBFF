@@ -18,7 +18,7 @@ namespace UniversalBFF {
     }
 
     public ModuleLoader(string baseUrl) {
-      _Registrar = new ModuleRegistrar(baseUrl);
+     // _Registrar = new ModuleRegistrar(baseUrl);
     }
 
     private static AssemblyIndexer _AssemblyIndexer = new AssemblyIndexer(

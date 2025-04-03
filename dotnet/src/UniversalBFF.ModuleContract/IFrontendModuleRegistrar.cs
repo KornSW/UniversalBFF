@@ -12,23 +12,25 @@ namespace UniversalBFF {
     /// <summary>
     /// Registers an UShell Module Application
     /// </summary>
-    void RegisterFrontendExtension(IAfsRepository staticFilesForHosting);
+    void RegisterFrontendExtension(string endpointAlias, IAfsRepository staticFilesForHosting);
+
+    void RegisterFrontendExtension(string endpointAlias, string externalHostedUrl);
 
   }
 
   public interface IBackendServiceRegistrar {
 
-    /// <summary>
-    /// Registers an Service-Endpoint (UJMW Dynamic-Controller) for the given Backend-Service
-    /// </summary>
-    /// <typeparam name="TServiceContract"></typeparam>
-    /// <param name="factory"></param>
-    /// <returns></returns>
-    void RegisterUjmwServiceEndpoint<TServiceContract>(Func<TServiceContract> factory);
+    void RegisterUjmwServiceEndpoint<TServiceContract>(string endpointAlias, Func<TServiceContract> factory) 
+      where TServiceContract : class;
 
-    void RegisterUjmwProxy<TServiceContract>();
+    void RegisterUjmwServiceEndpoint(Type contractType, string endpointAlias, Func<object> factory);
 
-    void RegisterHttpProxy(string providedSubRoute, string forwardingAddress);
+    void RegisterUjmwProxy<TServiceContract>(string endpointAlias, Func<string> externalHostedUrlGetter = null)
+      where TServiceContract : class;
+
+    void RegisterUjmwProxy(Type contractType, string endpointAlias, Func<string> externalHostedUrlGetter = null);
+
+    void RegisterHttpProxy(string endpointAlias, string forwardingAddress);
 
     void RegisterServerCommands(IServerCommandExecutor executor);
 

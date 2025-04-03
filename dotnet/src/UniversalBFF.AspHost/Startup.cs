@@ -264,6 +264,16 @@ namespace UniversalBFF {
         endpoints.MapControllers();
       });
 
+
+      //ACHTUNG: Das muss zwingend VOR dem UseSpa aufgerufen werden!
+      //app.ConfigureCteModuleHosting("/ui/modulename/");
+
+      //app.ConfigureUShellSpaHosting(
+      //  baseUrl + "portfolio",
+      //  $"CTE ({_BffAssemblyVersion.ToString(3)})",
+      //  baseUrl
+      //);
+
       app.ConfigureUShellSpaHosting(
         baseUrl + "portfolio",
         "Universal BFF",

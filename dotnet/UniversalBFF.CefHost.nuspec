@@ -4,9 +4,9 @@
     <id>UniversalBFF.CefHost</id>
     <version>999.0.0-localbuild</version>
     <title>UniversalBFF.CefHost</title>
-    <authors>KornSW</authors>
+    <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>
-    <copyright>KornSW</copyright>
+    <copyright>KornSW and KeinIch</copyright>
     <description>Provides binaries to host your UniversalBFF application module out-of-the-box as Windows-EXE (F5 experience).</description>
     <tags>BFF UShell SPA UJMW W3bstract CefSharp</tags>
     <!-- https://spdx.org/licenses/ -->

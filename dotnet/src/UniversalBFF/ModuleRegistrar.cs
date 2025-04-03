@@ -10,7 +10,7 @@ using UShell.ServerCommands;
 
 namespace UniversalBFF {
 
-  public class ModuleRegistrar : IFrontendModuleRegistrar, IPortfolioService {
+  public abstract class ModuleRegistrar : IFrontendModuleRegistrar, IBackendServiceRegistrar, IPortfolioService {
 
     private PortfolioDescription _Portfolio = null;
     private List< ModuleDescription> _Modules = new List<ModuleDescription>();
@@ -18,19 +18,6 @@ namespace UniversalBFF {
 
     public ModuleRegistrar(string baseUrl) {
       _BaseUrl = baseUrl;
-    }
-
-    public void RegisterModule(ModuleDescription moduleDescription) {
-      this.EnsurePortfolioIsInitialized();
-      if (string.IsNullOrWhiteSpace(moduleDescription.ModuleUid)) {
-        moduleDescription.ModuleUid = Snowflake44.Generate().ToString();
-      }
-      lock (_Modules) {
-        _Modules.Add(moduleDescription);
-      }
-      var urls = _Portfolio.ModuleDescriptionUrls.ToList();
-      urls.Add(moduleDescription.ModuleUid);
-      _Portfolio.ModuleDescriptionUrls = urls.ToArray();  
     }
 
     private void EnsurePortfolioIsInitialized() {
@@ -68,6 +55,22 @@ namespace UniversalBFF {
 
 
       }
+    }
+
+
+
+
+    public void RegisterModule(ModuleDescription moduleDescription) {
+      this.EnsurePortfolioIsInitialized();
+      if (string.IsNullOrWhiteSpace(moduleDescription.ModuleUid)) {
+        moduleDescription.ModuleUid = Snowflake44.Generate().ToString();
+      }
+      lock (_Modules) {
+        _Modules.Add(moduleDescription);
+      }
+      var urls = _Portfolio.ModuleDescriptionUrls.ToList();
+      urls.Add(moduleDescription.ModuleUid);
+      _Portfolio.ModuleDescriptionUrls = urls.ToArray();
     }
 
     /// <summary>
@@ -118,6 +121,62 @@ namespace UniversalBFF {
 
 
 
+    }
+
+    private Dictionary<string, string> _FrontendExtensionUrlsByAlias = new Dictionary<string, string>();
+
+
+    public virtual void RegisterFrontendExtension(string endpointAlias, IAfsRepository staticFilesForHosting) {
+      string relativeApplicationRoute = $"/ui/{endpointAlias}/";
+      lock (_FrontendExtensionUrlsByAlias) {
+        _FrontendExtensionUrlsByAlias[endpointAlias] = relativeApplicationRoute;
+      }
+    }
+
+    public void RegisterFrontendExtension(string endpointAlias, string externalHostedUrl) {
+      lock (_FrontendExtensionUrlsByAlias) {
+        _FrontendExtensionUrlsByAlias[endpointAlias] = externalHostedUrl;
+      }
+    }
+
+    public abstract void RegisterHttpProxy(string endpointAlias, string forwardingAddress);
+
+    public void RegisterUjmwServiceEndpoint<TServiceContract>(string endpointAlias, Func<TServiceContract> factory) where TServiceContract : class {
+      this.RegisterUjmwServiceEndpoint(typeof(TServiceContract), endpointAlias, () => factory.Invoke());
+    }
+
+    public abstract void RegisterUjmwServiceEndpoint(Type contractType, string endpointAlias, Func<object> factory);
+
+    public void RegisterUjmwProxy<TServiceContract>(string endpointAlias, Func<string> externalHostedUrlGetter = null) where TServiceContract : class {
+      this.RegisterUjmwServiceEndpoint<TServiceContract>(
+        endpointAlias,
+        () => {
+          if(externalHostedUrlGetter == null) {
+            return System.Web.UJMW.DynamicClientFactory.CreateInstance<TServiceContract>();
+          }
+          else {
+            return System.Web.UJMW.DynamicClientFactory.CreateInstance<TServiceContract>(
+              externalHostedUrlGetter, null
+            );
+          }
+        }
+      );
+    }
+
+    public void RegisterUjmwProxy(Type contractType, string endpointAlias, Func<string> externalHostedUrlGetter = null) {
+      this.RegisterUjmwServiceEndpoint(
+        contractType, endpointAlias,
+        () => {
+          if (externalHostedUrlGetter == null) {
+            return System.Web.UJMW.DynamicClientFactory.CreateInstance(contractType);
+          }
+          else {
+            return System.Web.UJMW.DynamicClientFactory.CreateInstance(
+              contractType, externalHostedUrlGetter, null
+            );
+          }
+        }
+      );
     }
 
     #endregion
