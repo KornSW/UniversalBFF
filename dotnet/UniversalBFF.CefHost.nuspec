@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>UniversalBFF.CefHost</id>
-    <version>999.0.0-localbuild</version>
+    <version>0.2.0</version>
     <title>UniversalBFF.CefHost</title>
     <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>
@@ -16,10 +16,10 @@
     <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
     <dependencies>
       <group targetFramework="net6.0">
-        <dependency id="UniversalBFF.ModuleContract" version="999.0.0-localbuild" />    
+        <dependency id="UniversalBFF.ModuleContract" version="[0.2.0]" />    
       </group>
       <group targetFramework="net8.0">
-        <dependency id="UniversalBFF.ModuleContract" version="999.0.0-localbuild" />
+        <dependency id="UniversalBFF.ModuleContract" version="[0.2.0]" />
       </group>
     </dependencies>
   </metadata>

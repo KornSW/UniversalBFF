@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>UShell.PortfolioDescription</id>
+    <version>1.0.0</version>
+    <title>UShell.PortfolioDescription</title>
+    <authors>SmartStandards</authors>
+    <owners>SmartStandards</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">GPL-3.0-only</license>
+    <licenseUrl>https://licenses.nuget.org/GPL-3.0-only</licenseUrl>
+    <icon>PackageIcon.png</icon>
+    <projectUrl>https://github.com/ProjectUShell/UShell.PortfolioDescription.git</projectUrl>
+    <description>UShell.PortfolioDescription</description>
+    <copyright>SmartStandards</copyright>
+    <tags>PortfolioDescription</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.6">
+        <dependency id="SmartStandards.AuthTokenHandling" version="3.0.0" />
+      </group>
+      <group targetFramework="net6.0">
+        <dependency id="SmartStandards.AuthTokenHandling" version="3.0.0" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

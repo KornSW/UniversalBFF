@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>UJMW.DynamicController</id>
+    <version>4.0.2</version>
+    <title>UJMW.DynamicController (for ASP core WebApi)</title>
+    <authors>SmartStandards</authors>
+    <owners>(public domain)</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">GPL-3.0-only</license>
+    <licenseUrl>https://licenses.nuget.org/GPL-3.0-only</licenseUrl>
+    <icon>PackageIcon.png</icon>
+    <projectUrl>https://github.com/SmartStandards/UnifiedJsonMessageWrapper</projectUrl>
+    <description>A dynamic Service-Facade (Controller) for ASP core WebApi, using the 'Unified JSON Message Wrapper' standard</description>
+    <copyright>SmartStandards</copyright>
+    <tags>UJMW REST JSON ASP.NET MVC WebApi</tags>
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="Newtonsoft.Json" version="[13.0.3, 13.9999.0]" />
+        <dependency id="Microsoft.AspNetCore" version="2.2.0" />
+        <dependency id="Microsoft.AspNetCore.Mvc" version="2.2.0" />
+        <dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.2.5" />
+        <dependency id="System.Text.Encodings.Web" version="6.0.0" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
