@@ -48,20 +48,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CefSharp.Wrapped" Version="0.1.2" />
-    <PackageReference Include="KornSW.AbstractFileSystem.WinFormsClient" Version="2.1.1" />
+    <PackageReference Include="CefSharp.Wrapped" Version="0.1.4" />
+    <PackageReference Include="KornSW.AbstractFileSystem.WinFormsClient" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="3.0.1" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling.WinFormsClient" Version="3.0.1" />
-    <PackageReference Include="SmartStandards.Logging" Version="1.2.3" />
-    <PackageReference Include="UJMW.DynamicClient" Version="4.0.2" />
-    <PackageReference Include="UShell.FrontendBundle" Version="3.1.61.808" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="1.0.0" />
-    <PackageReference Include="UShell.ServerCommands.Contract" Version="0.1.0" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="3.0.4" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.WinFormsClient" Version="3.0.4" />
+    <PackageReference Include="SmartStandards.Logging" Version="2.10.1" />
+    <PackageReference Include="UJMW.DynamicClient" Version="4.1.4" />
+    <PackageReference Include="UShell.FrontendBundle" Version="3.2.14.1174" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="1.1.0" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="0.1.1" />
   </ItemGroup>
 
   <ItemGroup>

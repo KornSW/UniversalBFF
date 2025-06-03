@@ -28,13 +28,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ComponentDiscovery" Version="4.10.1" />
+    <PackageReference Include="ComponentDiscovery" Version="4.10.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
     <PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="3.0.1" />
-    <PackageReference Include="SmartStandards.Logging" Version="1.2.3" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="3.0.4" />
+    <PackageReference Include="SmartStandards.Logging" Version="2.10.1" />
     <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
   </ItemGroup>
 
