@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>UniversalBFF.AspHost</AssemblyName>
     <RootNamespace>UniversalBFF</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -94,8 +94,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UniversalBFF.ModuleContract.net6.0\UniversalBFF.ModuleContract.net6.0.csproj" />
-    <ProjectReference Include="..\UniversalBFF.net6.0\UniversalBFF.net6.0.csproj" />
+    <ProjectReference Include="..\UniversalBFF.ModuleContract.net8.0\UniversalBFF.ModuleContract.net8.0.csproj" />
+    <ProjectReference Include="..\UniversalBFF.net8.0\UniversalBFF.net8.0.csproj" />
   </ItemGroup>
 
 </Project>

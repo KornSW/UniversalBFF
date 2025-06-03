@@ -17,6 +17,9 @@
       <group targetFramework="net6.0">
         <dependency id="UniversalBFF.ModuleContract" version="999.0.0-localbuild" />
       </group>
+      <group targetFramework="net8.0">
+        <dependency id="UniversalBFF.ModuleContract" version="999.0.0-localbuild" />
+      </group>
     </dependencies>
   </metadata>
   <files>
@@ -26,5 +29,10 @@
     <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.dll" target="lib/net6.0" />
     <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.xml" target="lib/net6.0" />
     <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.pdb" target="lib/net6.0" />-->
+    <!-- .NET 8.0 -->
+    <!--
+    <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.dll" target="lib/net8.0" />
+    <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.xml" target="lib/net8.0" />
+    <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.pdb" target="lib/net8.0" />-->
   </files>
 </package>

@@ -6,7 +6,7 @@
 
 ## Upcoming Changes
 
-*(none)*
+* **new Feature**: Removed .NET 46 and enabled .NET 8.0 Target
 
 
 

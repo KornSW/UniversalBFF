@@ -1,27 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <AssemblyName>UniversalBFF.OobModules.Diagnostics</AssemblyName>
-    <RootNamespace>UniversalBFF.OobModules.Diagnostics</RootNamespace>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>Launcher</AssemblyName>
+    <RootNamespace>UniversalBFF</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
   
   <PropertyGroup>
-    <PackageId>UniversalBFF.OobModules.Diagnostics</PackageId>
-    <Description></Description>
+    <PackageId>UniversalBFF.CefHost</PackageId>
+    <Description>UniversalBFF.CefHost</Description>
     <Product>UniversalBFF</Product>
     <Company>(public domain)</Company>
-    <Copyright>KornSW + KeinIch</Copyright>
+    <Copyright>KornSW</Copyright>
     <Version>1.0.0</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <Authors>KornSW + KeinIch</Authors>
+    <Authors>KornSW</Authors>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageTags></PackageTags>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>UniversalBFF.BffApplication</StartupObject>
+    <ApplicationIcon>window_earth.ico</ApplicationIcon>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.OobModules.Diagnostics.xml</DocumentationFile>
+    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.CefHost.xml</DocumentationFile>
     <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
@@ -30,37 +35,42 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
-    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.OobModules.Diagnostics.xml</DocumentationFile>
+    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.CefHost.xml</DocumentationFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
     <DefineConstants>TRACE;NET5</DefineConstants>
   </PropertyGroup>
 
+  <Import Project="..\UniversalBFF.CefHost\UniversalBFF.CefHost.projitems" Label="Shared" />
+
   <ItemGroup>
-    <PackageReference Include="FUSE-fx.EfSupport" Version="0.4.13" />
-    <PackageReference Include="FUSE-fx.ModelDescription" Version="2.0.14" />
-    <PackageReference Include="FUSE-fx.RepositoryContract" Version="0.4.13" />
+    <Content Include="window_earth.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CefSharp.Wrapped" Version="0.1.2" />
+    <PackageReference Include="KornSW.AbstractFileSystem.WinFormsClient" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="3.0.1" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.WinFormsClient" Version="3.0.1" />
     <PackageReference Include="SmartStandards.Logging" Version="1.2.3" />
+    <PackageReference Include="UJMW.DynamicClient" Version="4.0.2" />
+    <PackageReference Include="UShell.FrontendBundle" Version="3.1.61.808" />
     <PackageReference Include="UShell.PortfolioDescription" Version="1.0.0" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\UniversalBFF.ModuleContract.net8.0\UniversalBFF.ModuleContract.net8.0.csproj" />
+    <ProjectReference Include="..\UniversalBFF.net8.0\UniversalBFF.net8.0.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Frontend\" />
-  </ItemGroup>
-
 
 </Project>

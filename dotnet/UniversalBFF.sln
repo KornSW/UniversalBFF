@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EFB5135D-039
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C5272353-539E-4138-93FD-9DF437F6DA47}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{ADA576B9-92C4-4C75-9605-06023D1026B2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{ADA576B9-92C4-4C75-9605-06023D1026B2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{5EFC1751-7CFC-47C3-A462-7316FF3AF497}"
 EndProject
@@ -49,6 +49,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(Modeling)", "(Modeling)", "{F245AE81-551C-4910-ACDE-CE03505E7BAA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalBFF.OobModules.Edmx", "src\UniversalBFF.OobModules.Edmx\UniversalBFF.OobModules.Edmx.csproj", "{827BDD27-C32B-4BB4-B6E4-6914C953AE2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalBFF.ModuleContract.net8.0", "src\UniversalBFF.ModuleContract.net8.0\UniversalBFF.ModuleContract.net8.0.csproj", "{4E58D428-2324-AE10-8D50-1AB0EF463F96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalBFF.net8.0", "src\UniversalBFF.net8.0\UniversalBFF.net8.0.csproj", "{C413C20D-2A22-6433-9722-68315D5F16A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalBFF.CefHost.net8.0", "src\UniversalBFF.CefHost.net8.0\UniversalBFF.CefHost.net8.0.csproj", "{532352E7-ABA5-66FE-4BA1-50629222E379}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +96,18 @@ Global
 		{BFF817C4-479E-4C77-9AED-D64F90F41C4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{827BDD27-C32B-4BB4-B6E4-6914C953AE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{827BDD27-C32B-4BB4-B6E4-6914C953AE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E58D428-2324-AE10-8D50-1AB0EF463F96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E58D428-2324-AE10-8D50-1AB0EF463F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E58D428-2324-AE10-8D50-1AB0EF463F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E58D428-2324-AE10-8D50-1AB0EF463F96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C413C20D-2A22-6433-9722-68315D5F16A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C413C20D-2A22-6433-9722-68315D5F16A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C413C20D-2A22-6433-9722-68315D5F16A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C413C20D-2A22-6433-9722-68315D5F16A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{532352E7-ABA5-66FE-4BA1-50629222E379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{532352E7-ABA5-66FE-4BA1-50629222E379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{532352E7-ABA5-66FE-4BA1-50629222E379}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{532352E7-ABA5-66FE-4BA1-50629222E379}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +129,9 @@ Global
 		{BFF817C4-479E-4C77-9AED-D64F90F41C4B} = {138991C3-1724-4FAA-B3D3-80181B087F67}
 		{F245AE81-551C-4910-ACDE-CE03505E7BAA} = {138991C3-1724-4FAA-B3D3-80181B087F67}
 		{827BDD27-C32B-4BB4-B6E4-6914C953AE2D} = {F245AE81-551C-4910-ACDE-CE03505E7BAA}
+		{4E58D428-2324-AE10-8D50-1AB0EF463F96} = {ADA576B9-92C4-4C75-9605-06023D1026B2}
+		{C413C20D-2A22-6433-9722-68315D5F16A9} = {ADA576B9-92C4-4C75-9605-06023D1026B2}
+		{532352E7-ABA5-66FE-4BA1-50629222E379} = {ADA576B9-92C4-4C75-9605-06023D1026B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D2F37C1D-32F0-4BF2-AAEB-46B9D8C07D23}
@@ -118,11 +139,14 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\UniversalBFF\UniversalBFF.projitems*{10e1bad5-e97a-475e-ba07-c534ed55d600}*SharedItemsImports = 5
 		src\UniversalBFF.CefHost\UniversalBFF.CefHost.projitems*{4860071e-d67f-4801-88d1-cdd801fe632e}*SharedItemsImports = 5
+		src\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems*{4e58d428-2324-ae10-8d50-1ab0ef463f96}*SharedItemsImports = 5
+		src\UniversalBFF.CefHost\UniversalBFF.CefHost.projitems*{532352e7-aba5-66fe-4ba1-50629222e379}*SharedItemsImports = 5
 		test\UniversalBFF.Tests\UniversalBFF.Tests.projitems*{5e17c8e8-0bc8-4f7c-a022-c8104a415628}*SharedItemsImports = 13
 		src\UniversalBFF.CefHost\UniversalBFF.CefHost.projitems*{66a05b9e-4a5f-45b1-b30c-8af4fe6ecafc}*SharedItemsImports = 13
 		src\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems*{7dd74214-e31d-4e22-a869-aae8373073e6}*SharedItemsImports = 5
 		test\UniversalBFF.Tests\UniversalBFF.Tests.projitems*{94a902d4-304b-4f17-9e66-0e58da8713bf}*SharedItemsImports = 5
 		src\UniversalBFF\UniversalBFF.projitems*{ba65a92b-fc92-4503-a597-54516134ae54}*SharedItemsImports = 13
+		src\UniversalBFF\UniversalBFF.projitems*{c413c20d-2a22-6433-9722-68315d5f16a9}*SharedItemsImports = 5
 		src\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems*{cf0a161a-99ba-4f01-af5e-16c6fcbc95ae}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
