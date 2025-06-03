@@ -10,6 +10,12 @@
 
 
 
+## v 0.2.1
+released **2025-06-03**, including:
+ - new revision without significant changes
+
+
+
 ## v 0.2.0
 released **2025-06-03**, including:
  - **new Feature**: Removed .NET 46 and enabled .NET 8.0 Target

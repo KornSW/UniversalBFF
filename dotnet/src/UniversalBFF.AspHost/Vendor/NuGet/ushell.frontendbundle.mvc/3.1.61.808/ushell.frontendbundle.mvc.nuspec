@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>UShell.FrontendBundle.Mvc</id>
-    <version>3.1.61.808</version>
+    <version>0.2.1</version>
     <title>UShell.FrontendBundle.Mvc</title>
     <authors>SmartStandards</authors>
     <owners>(public domain)</owners>

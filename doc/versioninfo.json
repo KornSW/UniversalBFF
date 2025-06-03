@@ -1,13 +1,13 @@
 {
-  "currentVersion": "0.2.0",
-  "currentVersionWithSuffix": "0.2.0",
+  "currentVersion": "0.2.1",
+  "currentVersionWithSuffix": "0.2.1",
   "releaseType": "",
-  "previousVersion": "0.1.2",
-  "changeGrade": "minor",
+  "previousVersion": "0.2.0",
+  "changeGrade": "fix",
   "currentMajor": 0,
   "currentMinor": 2,
-  "currentPatch": 0,
+  "currentPatch": 1,
   "versionDateInfo": "2025-06-03",
-  "versionTimeInfo": "10:40:09",
-  "versionNotes": "- new Feature: Removed .NET 46 and enabled .NET 8.0 Target\n"
+  "versionTimeInfo": "14:16:13",
+  "versionNotes": "- new revision without significant changes\n"
 }
