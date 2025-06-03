@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>SmartAmbience.MvcSupport</id>
+    <version>2.4.0</version>
+    <title>SmartAmbience</title>
+    <authors>SmartStandards</authors>
+    <owners>(public domain)</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">GPL-3.0-only</license>
+    <licenseUrl>https://licenses.nuget.org/GPL-3.0-only</licenseUrl>
+    <icon>PackageIcon.png</icon>
+    <projectUrl>https://github.com/SmartStandards/SmartAmbience</projectUrl>
+    <description>base functionality for ambient framework design</description>
+    <copyright>SmartStandards</copyright>
+    <tags>Ambience AsyncLocal AmbientFields Context Scopes Flowing</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.6">
+        <dependency id="SmartAmbience" version="2.4.0" />
+        <dependency id="Microsoft.AspNetCore.Http" version="[2.2.2, 2.999.0]" />
+        <dependency id="Microsoft.AspNetCore.Mvc.Core" version="[2.2.2, 2.999.0]" />
+        <dependency id="Newtonsoft.Json" version="[13.0.3, 13.999.0]" />
+      </group>
+      <group targetFramework=".NETFramework4.8">
+        <dependency id="SmartAmbience" version="2.4.0" />
+        <dependency id="Microsoft.AspNetCore.Http" version="[2.2.2, 2.999.0]" />
+        <dependency id="Microsoft.AspNetCore.Mvc.Core" version="[2.2.2, 2.999.0]" />
+        <dependency id="Newtonsoft.Json" version="[13.0.3, 13.999.0]" />
+      </group>
+      <group targetFramework="net6.0">
+        <dependency id="SmartAmbience" version="2.4.0" />
+        <dependency id="Microsoft.AspNetCore.Http" version="[2.2.2, 2.999.0]" />
+        <dependency id="Microsoft.AspNetCore.Mvc.Core" version="[2.2.2, 2.999.0]" />
+        <dependency id="Newtonsoft.Json" version="[13.0.3, 13.999.0]" />
+      </group>
+      <group targetFramework="net8.0">
+        <dependency id="SmartAmbience" version="2.4.0" />
+        <dependency id="Microsoft.AspNetCore.Http" version="[2.2.2, 2.999.0]" />
+        <dependency id="Microsoft.AspNetCore.Mvc.Core" version="[2.2.2, 2.999.0]" />
+        <dependency id="Newtonsoft.Json" version="[13.0.3, 13.999.0]" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

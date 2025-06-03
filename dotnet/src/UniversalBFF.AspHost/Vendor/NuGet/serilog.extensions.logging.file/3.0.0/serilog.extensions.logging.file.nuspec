@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Serilog.Extensions.Logging.File</id>
+    <version>3.0.0</version>
+    <authors>Serilog Contributors</authors>
+    <license type="file">LICENSE</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>serilog-extension-nuget.png</icon>
+    <projectUrl>https://github.com/serilog/serilog-extensions-logging-file</projectUrl>
+    <description>Add file logging to ASP.NET Core apps with one line of code.</description>
+    <tags>asp.net core logging file</tags>
+    <repository type="git" url="https://github.com/serilog/serilog-extensions-logging-file" />
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="3.1.22" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.Binder" version="3.1.22" exclude="Build,Analyzers" />
+        <dependency id="Serilog" version="2.10.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Extensions.Logging" version="3.1.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Formatting.Compact" version="1.1.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.Async" version="1.5.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.RollingFile" version="3.3.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net5.0">
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.Binder" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog" version="2.10.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Extensions.Logging" version="3.1.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Formatting.Compact" version="1.1.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.Async" version="1.5.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.RollingFile" version="3.3.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0">
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.Binder" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog" version="2.10.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Extensions.Logging" version="3.1.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Formatting.Compact" version="1.1.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.Async" version="1.5.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.RollingFile" version="3.3.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.Binder" version="2.2.4" exclude="Build,Analyzers" />
+        <dependency id="Serilog" version="2.10.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Extensions.Logging" version="3.1.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Formatting.Compact" version="1.1.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.Async" version="1.5.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.RollingFile" version="3.3.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.AspNetCore.StaticFiles</id>
+    <version>2.2.0</version>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://raw.githubusercontent.com/aspnet/AspNetCore/2.0.0/LICENSE.txt</licenseUrl>
+    <projectUrl>https://asp.net/</projectUrl>
+    <iconUrl>https://go.microsoft.com/fwlink/?LinkID=288859</iconUrl>
+    <description>ASP.NET Core static files middleware. Includes middleware for serving static files, directory browsing, and default files.
+
+This package was built from the source code at https://github.com/aspnet/StaticFiles/tree/a5fcd9dd8724eb71f0642340f68aeb85b0473374</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>aspnetcore staticfiles</tags>
+    <serviceable>true</serviceable>
+    <repository type="git" url="https://github.com/aspnet/StaticFiles" commit="a5fcd9dd8724eb71f0642340f68aeb85b0473374" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.AspNetCore.Hosting.Abstractions" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.FileProviders.Abstractions" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.WebEncoders" version="2.2.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

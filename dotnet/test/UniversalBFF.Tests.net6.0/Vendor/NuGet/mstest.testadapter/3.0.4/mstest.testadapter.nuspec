@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MSTest.TestAdapter</id>
+    <version>3.0.4</version>
+    <title>MSTest.TestAdapter</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>Icon.png</icon>
+    <projectUrl>https://github.com/microsoft/testfx</projectUrl>
+    <iconUrl>http://go.microsoft.com/fwlink/?LinkID=288859</iconUrl>
+    <description>The adapter to discover and execute MSTest Framework based tests.
+
+      Supported platforms:
+      - .NET 4.6.2+
+      - .NET Core 3.1+ (Universal Windows Apps 10+)
+      - .NET 6.0
+      - .NET 6.0 Windows.18362+
+      - ASP.NET Core 1.0+</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>MSTest TestFramework TestAdapter VisualStudio Unittest MSTestV2 Microsoft</tags>
+    <repository type="git" url="https://github.com/microsoft/testfx" branch="rel/3.0.4" commit="29f69aa2d772b9fd09cc557c2fae82fe2bcfdfbf" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+      <group targetFramework=".NETFramework4.6.2" />
+      <group targetFramework="UAP10.0" />
+      <group targetFramework=".NETCoreApp3.1" />
+      <group targetFramework="net6.0" />
+    </dependencies>
+  </metadata>
+</package>

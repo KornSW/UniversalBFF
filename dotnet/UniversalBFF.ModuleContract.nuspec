@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>UniversalBFF.ModuleContract</id>
-    <version>999.0.0-localbuild</version>
+    <version>0.2.0</version>
     <title>UniversalBFF.ModuleContract</title>
     <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>

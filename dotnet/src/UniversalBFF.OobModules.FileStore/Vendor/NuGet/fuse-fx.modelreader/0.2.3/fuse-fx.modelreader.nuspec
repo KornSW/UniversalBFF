@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>FUSE-fx.ModelReader</id>
+    <version>0.2.3</version>
+    <title>FUSE-fx.ModelReader</title>
+    <authors>SmartStandards</authors>
+    <owners>(public domain)</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">GPL-3.0-only</license>
+    <licenseUrl>https://licenses.nuget.org/GPL-3.0-only</licenseUrl>
+    <icon>PackageIcon.png</icon>
+    <projectUrl>https://github.com/SmartStandards/FUSE-fx.ModelReader</projectUrl>
+    <description>reads 'EntityAnnotations' into a 'ModelDescription' structure for FUSE (Framework for Unified Storage and Entity)</description>
+    <copyright>SmartStandards</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.6">
+        <dependency id="FUSE-fx.EntityAnnotations" version="[4.0.3, 5.0.0)" />
+        <dependency id="FUSE-fx.ModelDescription" version="[2.0.12, 3.0.0)" />
+      </group>
+      <group targetFramework="net5.0">
+        <dependency id="FUSE-fx.EntityAnnotations" version="[4.0.1, 5.0.0)" />
+        <dependency id="FUSE-fx.ModelDescription" version="[2.0.6, 3.0.0)" />
+      </group>
+      <group targetFramework="net6.0">
+        <dependency id="FUSE-fx.EntityAnnotations" version="[4.0.3, 5.0.0)" />
+        <dependency id="FUSE-fx.ModelDescription" version="[2.0.12, 3.0.0)" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>UJMW.DynamicClient</id>
+    <version>4.0.1</version>
+    <title>UJMW.DynamicClient</title>
+    <authors>SmartStandards</authors>
+    <owners>(public domain)</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">GPL-3.0-only</license>
+    <licenseUrl>https://licenses.nuget.org/GPL-3.0-only</licenseUrl>
+    <icon>PackageIcon.png</icon>
+    <projectUrl>https://github.com/SmartStandards/UnifiedJsonMessageWrapper</projectUrl>
+    <description>A dynamic web api client, using the 'Unified JSON Message Wrapper' standard</description>
+    <copyright>SmartStandards</copyright>
+    <tags>UJMW REST JSON RPC WebService</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.6">
+        <dependency id="Newtonsoft.Json" version="[13.0.3, 13.9999.0]" />
+      </group>
+      <group targetFramework="net6.0">
+        <dependency id="Newtonsoft.Json" version="[13.0.3, 13.9999.0]" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
