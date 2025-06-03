@@ -201,7 +201,8 @@ namespace UniversalBFF {
       Directory.CreateDirectory(logDir);
       loggerfactory.AddFile(logFileFullName);
 
-      SmartStandardsTraceLogPipe.InitializeAsLoggerInput();
+      //SmartStandardsTraceLogPipe.InitializeAsLoggerInput();
+
       //DevLogger.LogMethod = loggerfactory.CreateLogger<DevLogger>();
 
       //required for the www-root

@@ -7,7 +7,7 @@ namespace UniversalBFF.Demo {
 
     public void Test() {
 
-      DevLogger.LogInformation(0, "DemoBackendService says Test!");
+      DevLogger.LogInformation("DemoBackendService says Test!");
 
     }
 
