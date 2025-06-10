@@ -7,7 +7,7 @@
     <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>
     <copyright>KornSW and KeinIch</copyright>
-    <description></description>
+    <description>UserManagement (OOB Module)</description>
     <tags>BFF UShell SPA UJMW W3bstract</tags>
     <!-- https://spdx.org/licenses/ -->
     <license type="expression">GPL-3.0-only</license>
