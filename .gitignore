@@ -338,7 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-/dotnet/dist
-/dotnet/vendor/nuget
-/dotnet/test/UJMW.DemoWebService/_AnnouncementInfo.txt
+/**/dist
+/**/vendor/nuget
+/**/_AnnouncementInfo.txt
 /dotnet/**/webapp-files
