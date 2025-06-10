@@ -10,6 +10,12 @@
 
 
 
+## v 0.2.2
+released **2025-06-10**, including:
+ - new revision without significant changes
+
+
+
 ## v 0.2.1
 released **2025-06-03**, including:
  - new revision without significant changes

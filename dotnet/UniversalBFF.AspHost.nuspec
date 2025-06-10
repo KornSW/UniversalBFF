@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>UniversalBFF.AspHost</id>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
     <title>UniversalBFF.AspHost</title>
     <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>
@@ -15,10 +15,10 @@
     <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
     <dependencies>
       <group targetFramework="net6.0">
-        <dependency id="UniversalBFF.ModuleContract" version="[0.2.1]" />
+        <dependency id="UniversalBFF.ModuleContract" version="[0.2.2]" />
       </group>
       <group targetFramework="net8.0">
-        <dependency id="UniversalBFF.ModuleContract" version="[0.2.1]" />
+        <dependency id="UniversalBFF.ModuleContract" version="[0.2.2]" />
       </group>
     </dependencies>
   </metadata>
