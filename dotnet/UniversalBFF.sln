@@ -10,6 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		UniversalBFF.AspHost.nuspec = UniversalBFF.AspHost.nuspec
 		UniversalBFF.CefHost.nuspec = UniversalBFF.CefHost.nuspec
 		UniversalBFF.ModuleContract.nuspec = UniversalBFF.ModuleContract.nuspec
+		UniversalBFF.OobModules.Diagnostics.nuspec = UniversalBFF.OobModules.Diagnostics.nuspec
+		UniversalBFF.OobModules.FileStore.nuspec = UniversalBFF.OobModules.FileStore.nuspec
+		UniversalBFF.OobModules.UserManagement.nuspec = UniversalBFF.OobModules.UserManagement.nuspec
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EFB5135D-039A-4D92-8FDD-9EA5D070F991}"

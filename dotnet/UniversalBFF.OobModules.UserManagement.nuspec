@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>UniversalBFF.OobModules.UserManagement</id>
+    <version>0.2.1</version>
+    <title>UniversalBFF.OobModules.UserManagement</title>
+    <authors>KornSW and KeinIch</authors>
+    <owners>(public domain)</owners>
+    <copyright>KornSW and KeinIch</copyright>
+    <description></description>
+    <tags>BFF UShell SPA UJMW W3bstract</tags>
+    <!-- https://spdx.org/licenses/ -->
+    <license type="expression">GPL-3.0-only</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <icon>PackageIcon.png</icon>
+    <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="UniversalBFF.ModuleContract" version="[0.2.1]" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
+    <file src="PackageIcon.png" target="" />
+    <!-- .NET 8.0 -->
+    <file src="dist\bin-net8.0\UniversalBFF.OobModules.UserManagement.dll" target="lib/net8.0" />
+    <file src="dist\bin-net8.0\UniversalBFF.OobModules.UserManagement.xml" target="lib/net8.0" />
+    <file src="dist\bin-net8.0\UniversalBFF.OobModules.UserManagement.pdb" target="lib/net8.0" />
+  </files>
+</package>
