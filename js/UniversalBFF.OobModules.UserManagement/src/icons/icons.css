@@ -1,0 +1,12 @@
+.loadIcon {
+    animation: rotateMe 2s;
+  }
+  
+  @keyframes rotateMe {
+    0% {
+      transform: rotate(360deg);
+    }
+    100% {
+      transform: rotate(0);
+    }
+  }
