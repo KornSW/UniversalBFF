@@ -3,11 +3,14 @@
 //using System.Text;
 //using UShell;
 //using UShell.ServerCommands;
+using System.Reflection;
+
+[assembly: AssemblyMetadata("SourceContext", "FileStoreModule")]
 
 //namespace UniversalBFF.Demo {
 
 //  public class DemoModuleProvider : IFrontendModuleProvider, IBackendServiceProvider {
-   
+
 //    public void RegisterServices(IBackendServiceRegistrar registrar) {
 
 //    }

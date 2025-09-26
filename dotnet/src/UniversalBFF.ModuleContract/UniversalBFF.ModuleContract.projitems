@@ -9,6 +9,11 @@
     <Import_RootNamespace>UniversalBFF</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)IApplicationScopeProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IStaticHostingRegistrar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ITenancyProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IProductDefinitionProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IPortfolioSecurityProvider.cs" />
     <Compile Include="..\UniversalBFF.ModuleContract\IFrontendModuleProvider.cs" />
     <Compile Include="..\UniversalBFF.ModuleContract\IFrontendModuleRegistrar.cs" />
   </ItemGroup>

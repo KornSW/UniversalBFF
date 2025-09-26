@@ -1,5 +1,10 @@
+using ComponentDiscovery;
+using Composition.InstanceDiscovery;
 using DistributedDataFlow;
 using Logging.SmartStandards;
+using Logging.SmartStandards;
+using Logging.SmartStandards.AspSupport;
+using Logging.SmartStandards.Configuration;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,10 +18,14 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime;
 using System.Text;
 using System.Web.UJMW;
 using System.Web.UJMW.SelfAnnouncement;
+using UniversalBFF.AspSupport;
 using UShell;
+
+[assembly: AssemblyMetadata("SourceContext", "UniversalBFF-Core")]
 
 namespace UniversalBFF {
 
@@ -29,62 +38,51 @@ namespace UniversalBFF {
     private static IConfiguration _Configuration = null;
     public static IConfiguration Configuration { get { return _Configuration; } }
 
-    const string _ApiTitle = "UJMW Demo";
+    string _ApiTitle = "UniversalBFF-Demo";
     Version _ApiVersion = null;
 
     public void ConfigureServices(IServiceCollection services) {
 
-      services.AddLogging();
+      services.AddSmartStandardsLogging(_Configuration);
+
+      var baseUrl = _Configuration.GetValue<string>("BaseUrl");
+      string outDir = AppDomain.CurrentDomain.BaseDirectory;
+
+      DevLogger.LogInformation("BFF IS INITIALIZING... (Base-URL: '{baseUrl}', Workdir: '{Workdir}')", baseUrl, outDir);
 
       _ApiVersion = typeof(Startup).Assembly.GetName().Version;
 
-      string outDir = AppDomain.CurrentDomain.BaseDirectory;
+      IPortfolioSecurityProvider psp = InstanceDiscoveryContext.Current.GetInstance<IPortfolioSecurityProvider>(false);
+      if (psp == null) {
+        SecLogger.LogCritical(0, 0, $"Could not discover any available implementation of '{nameof(IPortfolioSecurityProvider)}' (via InstanceDiscovery)! Only Anonymous parts will work!");
+      }
 
-      var baseUrl = _Configuration.GetValue<string>("BaseUrl");
-      //string masterApiClientSecret = _Configuration.GetValue<string>("MasterApiClientSecret");
-
-      //var apiService = new ApiService(
-      //  _Configuration.GetValue<string>("MasterApiClientSecret"),
-      //  _Configuration.GetValue<string>("MasterApiClientId"),
-      //  _Configuration.GetValue<string>("MasterJwtIssuer"),
-      //  _Configuration.GetValue<string>("MasterJwtAudience")
-      //);
-
-      //services.AddSingleton<IAccessTokenValidator>(apiService);
-      //services.AddSingleton<IOAuth>(apiService);
-      //services.AddSingleton<IAccessTokenIntrospector>(apiService);
-
-      //services.AddSingleton<IOAuthService>(apiService);
-
-
-      /*
-      
-      services.AddSingleton<IEnvironmentAdministrationService>(apiService);
-      services.AddSingleton<IEnvironmentSetupService>(apiService);
-      services.AddSingleton<IUserAdminstrationService>(apiService);
-      services.AddSingleton<IUserSelfAdministrationService>(apiService);
-          
-      */
-
-      //services.AddCors(opt => {
-      //  opt.AddPolicy(
-      //    "MyCustomCorsPolicy",
-      //    c => c
-      //      .AllowAnyOrigin()
-      //      .AllowAnyHeader()
-      //      .AllowAnyMethod()
-      //      .DisallowCredentials()
-      //  );
-      //});
+      ITenancyProvider tp = InstanceDiscoveryContext.Current.GetInstance<ITenancyProvider>(false);
+      if (psp == null) {
+        DevLogger.LogInformation(0, 0, $"Could not discover any available implementation of '{nameof(ITenancyProvider)}' (via InstanceDiscovery)!");
+      }
 
       services.AddControllers();
 
-      var loader = new ModuleLoader(baseUrl);
-      //loader.Load();
+      IProductDefinitionProvider pdp = InstanceDiscoveryContext.Current.GetInstance<IProductDefinitionProvider>(false);
+      if (psp == null) {
+        DevLogger.LogInformation(0, 0, $"Could not discover any available implementation of '{nameof(IProductDefinitionProvider)}' (via InstanceDiscovery)! Switching to fallback 'FileBasedProductDefinitionProvider'...");
+        pdp = new FileBasedProductDefinitionProvider(outDir); 
+      }
+
+      ModuleRegistrar registrar = new AspModuleRegistrar(baseUrl, psp, tp, pdp, true);
+      ModuleLoader loader = new ModuleLoader(registrar);
 
       services.AddSingleton<ModuleLoader>(loader);
-      services.AddSingleton<IPortfolioService>(loader.Registrar);
-      services.AddSingleton<IFrontendModuleRegistrar>(loader.Registrar);
+
+      services.AddSingleton<IPortfolioSecurityProvider>(psp);
+      services.AddSingleton<ITenancyProvider>(tp);
+      services.AddSingleton<IProductDefinitionProvider>(pdp);
+      services.AddSingleton<IPortfolioService>(registrar);
+      services.AddSingleton<IFrontendModuleRegistrar>(registrar);
+      services.AddSingleton<ModuleRegistrar>(registrar);
+
+      loader.Load();
 
       services.AddControllerForUShellPortfolioService();
 
@@ -193,17 +191,8 @@ namespace UniversalBFF {
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(
       IApplicationBuilder app, IWebHostEnvironment env,
-      ILoggerFactory loggerfactory, IHostApplicationLifetime lifetimeEvents
+      ILoggerFactory loggerfactory, IHostApplicationLifetime lifetimeEvents, ModuleRegistrar moduleRegistrar
     ) {
-
-      var logFileFullName = _Configuration.GetValue<string>("LogFileName");
-      var logDir = Path.GetFullPath(Path.GetDirectoryName(logFileFullName));
-      Directory.CreateDirectory(logDir);
-      loggerfactory.AddFile(logFileFullName);
-
-      //SmartStandardsTraceLogPipe.InitializeAsLoggerInput();
-
-      //DevLogger.LogMethod = loggerfactory.CreateLogger<DevLogger>();
 
       //required for the www-root
       app.UseStaticFiles();
@@ -248,9 +237,6 @@ namespace UniversalBFF {
       
       app.UseRouting();
 
-
-
-
       //CORS: muss zwischen 'UseRouting' und 'UseEndpoints' liegen!
       app.UseCors(p =>
           p.AllowAnyOrigin()
@@ -275,11 +261,27 @@ namespace UniversalBFF {
       //  baseUrl
       //);
 
-      app.ConfigureUShellSpaHosting(
-        baseUrl + "portfolio",
-        "Universal BFF",
-        baseUrl + "app"
-      );
+      app.SetupSpaMultiHosting((IStaticHostingRegistrarForAsp registrar) => {
+
+        UShellBundleFileProvider uShellFiles = new UShellBundleFileProvider(
+          new UShellHostingOptions {
+            BaseUrl = baseUrl,
+            HtmlPageTitle = "Universal BFF",
+            PortfolioUrl = baseUrl + "portfolio"
+          }
+        );
+        registrar.Register(baseUrl + "app", uShellFiles);
+        registrar.SetDefaultDoc(baseUrl + "app", "index.html", true);
+
+        moduleRegistrar.CollectAndRegisterFrontendExtensionsTo(registrar);
+
+      });
+
+      //app.ConfigureUShellSpaHosting(
+      //  baseUrl + "portfolio",
+      //  "Universal BFF",
+      //  baseUrl + "app"
+      //);
 
       SelfAnnouncementHelper.Configure(
         lifetimeEvents, app.ServerFeatures,

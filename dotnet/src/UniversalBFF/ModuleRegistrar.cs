@@ -1,76 +1,76 @@
-﻿using Security.AccessTokenHandling;
+﻿using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Security.AccessTokenHandling;
 using System;
 using System.Collections.Generic;
 using System.IO.Abstraction;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Reflection;
 using System.SmartStandards;
 using System.Text;
+using System.Web;
 using UShell;
 using UShell.ServerCommands;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace UniversalBFF {
 
-  public abstract class ModuleRegistrar : IFrontendModuleRegistrar, IBackendServiceRegistrar, IPortfolioService {
+  public abstract partial class ModuleRegistrar : IFrontendModuleRegistrar, IBackendServiceRegistrar, IPortfolioService {
 
-    private PortfolioDescription _Portfolio = null;
-    private List< ModuleDescription> _Modules = new List<ModuleDescription>();
+    private IPortfolioSecurityProvider _SecurityProvider;
+    private ITenancyProvider _TenancyProvider;    //not related to securtiy!!!
+    private IProductDefinitionProvider _ProductDefinitionProvider;
+
+
+    //TODO: IProductDefinitionProvider auch als IApplicationScopeProvider adden, wenn er einer ist!
+    //TODO: ITenancyProvider auch als IApplicationScopeProvider  adden, wenn er einer ist!
+    //TODO: IPortfolioSecurityProvider auch als IApplicationScopeProvider  adden, wenn er einer ist!
+    private IApplicationScopeProvider[] _ApplicationScopeProviders;
+
+
+    private Dictionary<string, PortfolioDescription> _PortfoliosPerName = null;
+    private List<PortfolioEntry> _PortfolioEntries = new List<PortfolioEntry>();
+
+    private List<ModuleDescription> _RegisteredModules = new List<ModuleDescription>();
     private string _BaseUrl;
+    
+    private bool _AutoCreateChooserPortfolio;
 
-    public ModuleRegistrar(string baseUrl) {
+    public ModuleRegistrar(
+      string baseUrl,
+      IPortfolioSecurityProvider securityProvider,
+      ITenancyProvider tenancyProvider,
+      IProductDefinitionProvider productDefinitionProvider,
+      bool autoCreateChooserPortfolio
+    ) {
+
       _BaseUrl = baseUrl;
+      _SecurityProvider = securityProvider;
+      _TenancyProvider = tenancyProvider;
+      _ProductDefinitionProvider = productDefinitionProvider;
+      _AutoCreateChooserPortfolio = autoCreateChooserPortfolio;
+      //_ApplicationScopeProviders         via compoenntdiscovery
+
+
+      //umgekehrt gibt es für security einfach rivate fallback-provider!
+
+      //TODO: initialisierung durch Knowninterfaces an den providern!!!
+      //if appicationscopeoprovider is ITenancyProvider
+      //vllt auch - if appicationscopeoprovider is securtyrovider
+
     }
-
-    private void EnsurePortfolioIsInitialized() {
-      if(_Portfolio == null) {
-
-        _Portfolio = new PortfolioDescription();
-        _Portfolio.ApplicationTitle = "UniversalBFF";
-
-        // ##### AUTH ############################################################
-
-        string authTokenSourceUid = Guid.NewGuid().ToString().ToLower();
-
-        _Portfolio.AnonymousAccess = new AnonymousAccessDescription();
-        _Portfolio.AnonymousAccess.AuthIndependentWorkspaces = new string[] {};
-        _Portfolio.AnonymousAccess.AuthIndependentCommands = new string[] {};
-        _Portfolio.AnonymousAccess.AuthIndependentUsecases = new string[] {};
-
-        _Portfolio.AuthenticatedAccess = new AuthenticatedAccessDescription();
-        _Portfolio.AuthenticatedAccess.PrimaryUiTokenSources = new string[] {
-          authTokenSourceUid
-        };
-
-        _Portfolio.AuthTokenConfigs = new Dictionary<string, AuthTokenConfig>();
-        _Portfolio.AuthTokenConfigs.Add(authTokenSourceUid, new AuthTokenConfig() {
-          IssueMode = "OAUTH_CIBA_CODEGRAND",
-          AuthEndpointRejectsIframe = false,
-          AuthEndpointUrl = _BaseUrl + "oauth",
-          RetrieveEndpointUrl = _BaseUrl + "oauth",
-          ValidationEndpointUrl = _BaseUrl + "oauth"
-        });
-
-        // #######################################################################
-
-
-
-
-      }
-    }
-
-
-
 
     public void RegisterModule(ModuleDescription moduleDescription) {
       this.EnsurePortfolioIsInitialized();
       if (string.IsNullOrWhiteSpace(moduleDescription.ModuleUid)) {
         moduleDescription.ModuleUid = Snowflake44.Generate().ToString();
       }
-      lock (_Modules) {
-        _Modules.Add(moduleDescription);
+      lock (_RegisteredModules) {
+        _RegisteredModules.Add(moduleDescription);
       }
-      var urls = _Portfolio.ModuleDescriptionUrls.ToList();
-      urls.Add(moduleDescription.ModuleUid);
-      _Portfolio.ModuleDescriptionUrls = urls.ToArray();
+      //var urls = newPortfolio.ModuleDescriptionUrls.ToList();
+      //urls.Add(moduleDescription.ModuleUid);
+      //newPortfolio.ModuleDescriptionUrls = urls.ToArray();
     }
 
     /// <summary>
@@ -79,7 +79,49 @@ namespace UniversalBFF {
     public void RegisterFrontendExtension(IAfsRepository staticFilesForHosting) {
       this.EnsurePortfolioIsInitialized();
 
+      throw new NotImplementedException();
+
     }
+
+    #region " Frontend-Extensions "
+
+    //must be collected and executed later, because were under inversion of control here!
+    private List<Action<IStaticHostingRegistrar>> _ModuleFileRegistrationMethods = new List<Action<IStaticHostingRegistrar>>();
+
+    /// <summary></summary>
+    /// <param name="endpointAlias">MUST BE URL-COMPATIBLE!</param>
+    /// <param name="assemblyWithEmbeddedFiles"></param>
+    /// <param name="embeddedFilesNamespace">
+    /// WARNING: Errors here are very hard to track, because simply no file is returned!
+    ///  * basically {DefaultNamespaceOfTheProject}.{Folder}
+    ///  * Folder separators are dots (.)
+    ///  * Case-Sensitive
+    ///  * Replace from '-' to '_', ' ' to '_'
+    /// </param>
+    /// <param name="defaultDoc"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void RegisterFrontendExtension(string endpointAlias, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace, string defaultDoc = "index.html") {
+      string aliasUrl = $"ui/{HttpUtility.UrlEncode(endpointAlias)}/";
+      lock (_ModuleFileRegistrationMethods) {
+        _ModuleFileRegistrationMethods.Add(
+          (r) => {
+            r.Register(aliasUrl, assemblyWithEmbeddedFiles, embeddedFilesNamespace);
+            r.SetDefaultDoc(aliasUrl, defaultDoc, true);
+          }
+        );
+      }
+    }
+
+    public void CollectAndRegisterFrontendExtensionsTo(IStaticHostingRegistrar registrar) {
+      //now is the right time to execute the registrations
+      lock (_ModuleFileRegistrationMethods) {
+        foreach(Action<IStaticHostingRegistrar> moduleFileRegistrationMethod in _ModuleFileRegistrationMethods) {
+          moduleFileRegistrationMethod(registrar);
+        }
+      }
+    }
+
+    #endregion
 
     /// <summary>
     /// Registers an Service-Endpoint (UJMW Dynamic-Controller) for the given Backend-Service
@@ -97,22 +139,24 @@ namespace UniversalBFF {
 
     PortfolioEntry[] IPortfolioService.GetPortfolioIndex() {
       this.EnsurePortfolioIsInitialized();
+
       return new PortfolioEntry[] {
         new PortfolioEntry() {
-          Label =_Portfolio.ApplicationTitle,
+          Label = "Default",//TODO: reicht nicht
           PortfolioUrl = "default.portfolio.json"
         }
       };
+
     }
 
     PortfolioDescription IPortfolioService.GetPortfolioDescription(string nameInUrl) {
       this.EnsurePortfolioIsInitialized();
-      return _Portfolio;
+      return _PortfoliosPerName["default"]; //TODO: reicht nicht
     }
 
     ModuleDescription IPortfolioService.GetModuleDescription(string nameInUrl) {
-      lock (_Modules) {
-        return _Modules.Where((m)=>m.ModuleUid == nameInUrl).FirstOrDefault();
+      lock (_RegisteredModules) {
+        return _RegisteredModules.Where((m)=>m.ModuleUid == nameInUrl).FirstOrDefault();
       }
     }
 

@@ -40,9 +40,13 @@
   </Target>
 
   <ItemGroup>
+    <Compile Remove="Logs\**" />
     <Compile Remove="Util\**" />
+    <Content Remove="Logs\**" />
     <Content Remove="Util\**" />
+    <EmbeddedResource Remove="Logs\**" />
     <EmbeddedResource Remove="Util\**" />
+    <None Remove="Logs\**" />
     <None Remove="Util\**" />
   </ItemGroup>
 
@@ -54,34 +58,34 @@
 
   <ItemGroup>
     <PackageReference Include="jose-jwt" Version="4.1.0" />
-    <PackageReference Include="kGEN.Generator" Version="1.5.0.853" />
     <PackageReference Include="KornSW.AbstractFileSystem.MvcSupport" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.16">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
-    <PackageReference Include="SmartAmbience" Version="2.4.4" />
-    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.4" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="3.0.4" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="3.0.4" />
-    <PackageReference Include="SmartStandards.Logging" Version="2.10.1" />
+    <PackageReference Include="SmartAmbience" Version="2.4.7" />
+    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.7" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.0" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.0.0" />
+    <PackageReference Include="SmartStandards.Logging" Version="3.3.1" />
+    <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.3.1" />
+    <PackageReference Include="SmartStandards.Logging.Centralized" Version="3.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="4.6.0" />
-    <PackageReference Include="UJMW.DynamicClient" Version="4.1.4" />
-    <PackageReference Include="UJMW.DynamicController" Version="4.1.4" />
-    <PackageReference Include="UShell.FrontendBundle" Version="3.2.14.1174" />
-    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.14.1174" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="1.1.0" />
-    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="1.1.0" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.0.2" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.0.2" />
+    <PackageReference Include="UShell.FrontendBundle" Version="3.2.19.1240" />
+    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.19.1240" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="3.0.0" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="3.0.0" />
     <PackageReference Include="UShell.ServerCommands.Contract" Version="0.1.1" />
   </ItemGroup>
 

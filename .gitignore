@@ -338,7 +338,13 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
 /**/dist
 /**/vendor/nuget
 /**/_AnnouncementInfo.txt
-/dotnet/**/webapp-files
+
+/dotnet/**/webapp-files/*
+!/dotnet/**/webapp-files/favicon.ico
+!/dotnet/**/webapp-files/index.html
+!/dotnet/**/webapp-files/logo.png
+

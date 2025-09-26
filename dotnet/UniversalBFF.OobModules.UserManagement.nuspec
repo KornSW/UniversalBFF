@@ -17,6 +17,7 @@
     <dependencies>
       <group targetFramework="net8.0">
         <dependency id="UniversalBFF.ModuleContract" version="[0.2.2]" />
+        <dependency id="SmartStandards.AuthTokenHandling" version="[5.0.0,6.0)" />
       </group>
     </dependencies>
   </metadata>

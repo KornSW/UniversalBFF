@@ -1,99 +1,34 @@
 {
   "DescriptionFormat": "v1.0",
-  "TimestampUtc": "2025-03-20T16:46:02.0000000Z",
+  "TimestampUtc": "2025-09-23T14:27:58.0000000Z",
   "SemanticVersion": "1.0.0",
   "Entities": [
     {
-      "Name": "AllowedValue",
-      "NamePlural": "AllowedValues",
+      "Name": "ActiveRefreshToken",
+      "NamePlural": "ActiveRefreshTokens",
       "InheritedEntityName": null,
       "Summary": "",
       "IsBlEntrypoint": false,
-      "PrimaryKeyIndexName": "PK_AllowedValues",
+      "PrimaryKeyIndexName": "PK_ActiveRefreshTokens",
       "Indices": [
         {
-          "Name": "PK_AllowedValues",
+          "Name": "PK_ActiveRefreshTokens",
           "Unique": true,
           "MemberFieldNames": [
-            "AttributeName",
-            "Value"
+            "Token"
           ]
         },
         {
-          "Name": "FK_AllowedValues__AttributeDescriptor",
+          "Name": "FK_ActiveRefreshTokens__LocalCredential",
           "Unique": false,
           "MemberFieldNames": [
-            "AttributeName"
+            "SubjectId"
           ]
         }
       ],
       "Fields": [
         {
-          "Name": "AttributeName",
-          "Type": "String",
-          "MaxLength": 150,
-          "Summary": "",
-          "SystemInternal": false,
-          "FixedAfterCreation": false,
-          "SetabilityFlags": 7,
-          "ContentConcern": null,
-          "IdentityLabel": false,
-          "Filterable": 2,
-          "Required": true,
-          "DefaultValue": null,
-          "DbGeneratedIdentity": false
-        },
-        {
-          "Name": "Value",
-          "Type": "String",
-          "MaxLength": 0,
-          "Summary": "",
-          "SystemInternal": false,
-          "FixedAfterCreation": false,
-          "SetabilityFlags": 7,
-          "ContentConcern": null,
-          "IdentityLabel": false,
-          "Filterable": 2,
-          "Required": true,
-          "DefaultValue": null,
-          "DbGeneratedIdentity": false
-        }
-      ]
-    },
-    {
-      "Name": "AttributeDescriptor",
-      "NamePlural": "AttributeDescriptors",
-      "InheritedEntityName": null,
-      "Summary": "",
-      "IsBlEntrypoint": false,
-      "PrimaryKeyIndexName": "PK_AttributeDescriptors",
-      "Indices": [
-        {
-          "Name": "PK_AttributeDescriptors",
-          "Unique": true,
-          "MemberFieldNames": [
-            "AttributeName"
-          ]
-        }
-      ],
-      "Fields": [
-        {
-          "Name": "AttributeName",
-          "Type": "String",
-          "MaxLength": 150,
-          "Summary": "",
-          "SystemInternal": false,
-          "FixedAfterCreation": false,
-          "SetabilityFlags": 7,
-          "ContentConcern": null,
-          "IdentityLabel": false,
-          "Filterable": 2,
-          "Required": true,
-          "DefaultValue": null,
-          "DbGeneratedIdentity": false
-        },
-        {
-          "Name": "AttributeType",
+          "Name": "Token",
           "Type": "String",
           "MaxLength": 0,
           "Summary": "",
@@ -108,86 +43,7 @@
           "DbGeneratedIdentity": false
         },
         {
-          "Name": "RequiredOnCreation",
-          "Type": "Boolean",
-          "MaxLength": 0,
-          "Summary": "",
-          "SystemInternal": false,
-          "FixedAfterCreation": false,
-          "SetabilityFlags": 7,
-          "ContentConcern": null,
-          "IdentityLabel": false,
-          "Filterable": 1,
-          "Required": true,
-          "DefaultValue": null,
-          "DbGeneratedIdentity": false
-        },
-        {
-          "Name": "Updatable",
-          "Type": "Boolean",
-          "MaxLength": 0,
-          "Summary": "",
-          "SystemInternal": false,
-          "FixedAfterCreation": false,
-          "SetabilityFlags": 7,
-          "ContentConcern": null,
-          "IdentityLabel": false,
-          "Filterable": 1,
-          "Required": true,
-          "DefaultValue": null,
-          "DbGeneratedIdentity": false
-        },
-        {
-          "Name": "IsManagedValueRange",
-          "Type": "Boolean",
-          "MaxLength": 0,
-          "Summary": "",
-          "SystemInternal": false,
-          "FixedAfterCreation": false,
-          "SetabilityFlags": 7,
-          "ContentConcern": null,
-          "IdentityLabel": false,
-          "Filterable": 1,
-          "Required": true,
-          "DefaultValue": null,
-          "DbGeneratedIdentity": false
-        }
-      ]
-    },
-    {
-      "Name": "FileAttribute",
-      "NamePlural": "FileAttributes",
-      "InheritedEntityName": null,
-      "Summary": "",
-      "IsBlEntrypoint": false,
-      "PrimaryKeyIndexName": "PK_FileAttributes",
-      "Indices": [
-        {
-          "Name": "PK_FileAttributes",
-          "Unique": true,
-          "MemberFieldNames": [
-            "FileId",
-            "AttributeName"
-          ]
-        },
-        {
-          "Name": "FK_FileAttributes__File",
-          "Unique": false,
-          "MemberFieldNames": [
-            "FileId"
-          ]
-        },
-        {
-          "Name": "FK_FileAttributes_AttributeDescriptors_AttributeDescriptor",
-          "Unique": false,
-          "MemberFieldNames": [
-            "AttributeName"
-          ]
-        }
-      ],
-      "Fields": [
-        {
-          "Name": "FileId",
+          "Name": "SubjectId",
           "Type": "Int64",
           "MaxLength": 0,
           "Summary": "",
@@ -202,23 +58,8 @@
           "DbGeneratedIdentity": false
         },
         {
-          "Name": "AttributeName",
-          "Type": "String",
-          "MaxLength": 150,
-          "Summary": "",
-          "SystemInternal": false,
-          "FixedAfterCreation": false,
-          "SetabilityFlags": 7,
-          "ContentConcern": null,
-          "IdentityLabel": false,
-          "Filterable": 2,
-          "Required": true,
-          "DefaultValue": null,
-          "DbGeneratedIdentity": false
-        },
-        {
-          "Name": "AttributeValue",
-          "Type": "String",
+          "Name": "ValidUntil",
+          "Type": "DateTime",
           "MaxLength": 0,
           "Summary": "",
           "SystemInternal": false,
@@ -226,7 +67,22 @@
           "SetabilityFlags": 7,
           "ContentConcern": null,
           "IdentityLabel": false,
-          "Filterable": 2,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "FollowUpNumber",
+          "Type": "Int32",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
           "Required": true,
           "DefaultValue": null,
           "DbGeneratedIdentity": false
@@ -234,39 +90,347 @@
       ]
     },
     {
-      "Name": "FileContentBlob",
-      "NamePlural": "FileContentBlobs",
+      "Name": "LocalCredential",
+      "NamePlural": "LocalCredentials",
       "InheritedEntityName": null,
       "Summary": "",
       "IsBlEntrypoint": false,
-      "PrimaryKeyIndexName": "PK_FileContentBlobs",
+      "PrimaryKeyIndexName": "PK_LocalCredentials",
       "Indices": [
         {
-          "Name": "PK_FileContentBlobs",
+          "Name": "PK_LocalCredentials",
           "Unique": true,
           "MemberFieldNames": [
-            "FileId"
+            "SubjectId"
           ]
         }
       ],
       "Fields": [
         {
-          "Name": "FileId",
+          "Name": "SubjectId",
           "Type": "Int64",
           "MaxLength": 0,
           "Summary": "",
           "SystemInternal": false,
           "FixedAfterCreation": false,
-          "SetabilityFlags": 0,
+          "SetabilityFlags": 7,
           "ContentConcern": null,
           "IdentityLabel": false,
           "Filterable": 1,
           "Required": true,
           "DefaultValue": null,
-          "DbGeneratedIdentity": true
+          "DbGeneratedIdentity": false
         },
         {
-          "Name": "RawContent",
+          "Name": "EmailAddress",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "DisplayName",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "IsValidated",
+          "Type": "Boolean",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "CreationDate",
+          "Type": "DateTime",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "WrongPasswordCount",
+          "Type": "Int32",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "LockedUntil",
+          "Type": "DateTime",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": false,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "PasswordHash",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 0,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "LastLogonDate",
+          "Type": "DateTime",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": false,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        }
+      ]
+    },
+    {
+      "Name": "ApiOAuthClient",
+      "NamePlural": "ApiOAuthClients",
+      "InheritedEntityName": null,
+      "Summary": "ClientCredentialFlow ONLY (non-interactive)",
+      "IsBlEntrypoint": false,
+      "PrimaryKeyIndexName": "PK_ApiOAuthClients",
+      "Indices": [
+        {
+          "Name": "PK_ApiOAuthClients",
+          "Unique": true,
+          "MemberFieldNames": [
+            "ClientId"
+          ]
+        },
+        {
+          "Name": "FK_ApiOAuthClients_LocalCredentials_",
+          "Unique": false,
+          "MemberFieldNames": [
+            "MappedSubjectId"
+          ]
+        }
+      ],
+      "Fields": [
+        {
+          "Name": "ClientId",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "ClientSecret",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "MappedSubjectId",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "The Identity, which REPRESENTS the external Actor!",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "RedirectUrl",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "ValidUntil",
+          "Type": "DateTime",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": false,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        }
+      ]
+    },
+    {
+      "Name": "CachedUserIdentity",
+      "NamePlural": "CachedUserIdentities",
+      "InheritedEntityName": null,
+      "Summary": "",
+      "IsBlEntrypoint": false,
+      "PrimaryKeyIndexName": "PK_CachedUserIdentities",
+      "Indices": [
+        {
+          "Name": "PK_CachedUserIdentities",
+          "Unique": true,
+          "MemberFieldNames": [
+            "OriginUid",
+            "OriginSpecificSubjectId"
+          ]
+        },
+        {
+          "Name": "FK_CachedUserIdentities__Origin",
+          "Unique": false,
+          "MemberFieldNames": [
+            "OriginUid"
+          ]
+        }
+      ],
+      "Fields": [
+        {
+          "Name": "OriginUid",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "OriginSpecificSubjectId",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "CachedEmailAddress",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "CachedDisplayName",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "CachedImage",
           "Type": "Binary",
           "MaxLength": 0,
           "Summary": "",
@@ -281,10 +445,540 @@
           "DbGeneratedIdentity": false
         },
         {
-          "Name": "MimeType",
+          "Name": "PermittedScopes",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "special socped like ABL:Admin",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "Disabled",
+          "Type": "Boolean",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "CreationDate",
+          "Type": "DateTime",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "LastLogonDate",
+          "Type": "DateTime",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        }
+      ]
+    },
+    {
+      "Name": "OAuthProxyTarget",
+      "NamePlural": "OAuthProxyTargets",
+      "InheritedEntityName": null,
+      "Summary": "",
+      "IsBlEntrypoint": false,
+      "PrimaryKeyIndexName": "PK_OAuthProxyTargets",
+      "Indices": [
+        {
+          "Name": "PK_OAuthProxyTargets",
+          "Unique": true,
+          "MemberFieldNames": [
+            "Uid"
+          ]
+        },
+        {
+          "Name": "FK_OAuthProxyTargets__TenantScope",
+          "Unique": false,
+          "MemberFieldNames": [
+            "TenantUid"
+          ]
+        }
+      ],
+      "Fields": [
+        {
+          "Name": "Uid",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "will be used as 'TokenSourceUid'",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "ClientId",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "'LocalCredential'",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "ClientSecret",
           "Type": "String",
           "MaxLength": 0,
           "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "AuthUrl",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "Can Contain additional defaul-query-params",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "RetrivalUrl",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "Can Contain additional defaul-query-params",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "TenantUid",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "Optional: represents the implizit assignment (filterability) for cached tenants",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "AdditionalParamsJson",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "ProviderClassName",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "IntrospectorParamsJson",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "DisplayLabel",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "DisplayIconUrl",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "PNG 64x64 (also data:URL possible!)",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "IframeSupported",
+          "Type": "Boolean",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        }
+      ]
+    },
+    {
+      "Name": "KnownUserLegitimation",
+      "NamePlural": "KnownUserLegitimations",
+      "InheritedEntityName": null,
+      "Summary": "",
+      "IsBlEntrypoint": false,
+      "PrimaryKeyIndexName": "PK_KnownUserLegitimations",
+      "Indices": [
+        {
+          "Name": "PK_KnownUserLegitimations",
+          "Unique": true,
+          "MemberFieldNames": [
+            "OriginUid",
+            "OriginSpecificSubjectId",
+            "RoleName",
+            "TenantUid"
+          ]
+        },
+        {
+          "Name": "FK_KnownUserLegitimations_CachedUserIdentities_CachedUserIdentity",
+          "Unique": false,
+          "MemberFieldNames": [
+            "OriginUid",
+            "OriginSpecificSubjectId"
+          ]
+        },
+        {
+          "Name": "FK_KnownUserLegitimations__Role",
+          "Unique": false,
+          "MemberFieldNames": [
+            "RoleName",
+            "TenantUid"
+          ]
+        }
+      ],
+      "Fields": [
+        {
+          "Name": "OriginUid",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "OriginSpecificSubjectId",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "RoleName",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "TenantUid",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        }
+      ]
+    },
+    {
+      "Name": "Role",
+      "NamePlural": "Roles",
+      "InheritedEntityName": null,
+      "Summary": "",
+      "IsBlEntrypoint": false,
+      "PrimaryKeyIndexName": "PK_Roles",
+      "Indices": [
+        {
+          "Name": "PK_Roles",
+          "Unique": true,
+          "MemberFieldNames": [
+            "RoleName",
+            "TenantUid"
+          ]
+        },
+        {
+          "Name": "FK_Roles__TenantScope",
+          "Unique": false,
+          "MemberFieldNames": [
+            "TenantUid"
+          ]
+        }
+      ],
+      "Fields": [
+        {
+          "Name": "RoleName",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "TenantUid",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "RoleDescriptiveLabel",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "PermittedScopes",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "Role:{RoleName} ABL:XXX",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "IsDefaultRoleForNewUsers",
+          "Type": "Boolean",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        }
+      ]
+    },
+    {
+      "Name": "TenantScope",
+      "NamePlural": "TenantScopes",
+      "InheritedEntityName": null,
+      "Summary": "",
+      "IsBlEntrypoint": false,
+      "PrimaryKeyIndexName": "PK_TenantScopes",
+      "Indices": [
+        {
+          "Name": "PK_TenantScopes",
+          "Unique": true,
+          "MemberFieldNames": [
+            "TenantUid"
+          ]
+        }
+      ],
+      "Fields": [
+        {
+          "Name": "TenantUid",
+          "Type": "Int64",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 1,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "DisplayLabel",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "PermittedScopes",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "Tenant:{TenantUid}",
+          "SystemInternal": false,
+          "FixedAfterCreation": false,
+          "SetabilityFlags": 7,
+          "ContentConcern": null,
+          "IdentityLabel": false,
+          "Filterable": 2,
+          "Required": true,
+          "DefaultValue": null,
+          "DbGeneratedIdentity": false
+        },
+        {
+          "Name": "AvailablePortfolios",
+          "Type": "String",
+          "MaxLength": 0,
+          "Summary": "Semicolon-sep. List of Portfolio-IDs",
           "SystemInternal": false,
           "FixedAfterCreation": false,
           "SetabilityFlags": 7,
@@ -300,43 +994,99 @@
   ],
   "Relations": [
     {
-      "Name": "MetadataFieldDescriptorAllowdValue",
-      "PrimaryEntityName": "AttributeDescriptor",
-      "ForeignEntityName": "AllowedValue",
-      "ForeignKeyIndexName": "FK_AllowedValues__AttributeDescriptor",
+      "Name": "LocalCredentialActiveRefreshToken",
+      "PrimaryEntityName": "LocalCredential",
+      "ForeignEntityName": "ActiveRefreshToken",
+      "ForeignKeyIndexName": "FK_ActiveRefreshTokens__LocalCredential",
       "IsLookupRelation": true,
       "PrimaryEntityIsOptional": false,
       "ForeignEntityIsMultiple": true,
-      "PrimaryNavigationName": "AllowedValues",
-      "ForeignNavigationName": "AttributeDescriptor",
+      "PrimaryNavigationName": "ActiveRefreshTokens",
+      "ForeignNavigationName": "LocalCredential",
       "PrimaryNavigationSummary": "",
       "ForeignNavigationSummary": "",
       "CascadeDelete": false
     },
     {
-      "Name": "FileContentBlobMetadataField",
-      "PrimaryEntityName": "FileContentBlob",
-      "ForeignEntityName": "FileAttribute",
-      "ForeignKeyIndexName": "FK_FileAttributes__File",
-      "IsLookupRelation": true,
+      "Name": "OAuthProxyTargetUserIdentity",
+      "PrimaryEntityName": "OAuthProxyTarget",
+      "ForeignEntityName": "CachedUserIdentity",
+      "ForeignKeyIndexName": "FK_CachedUserIdentities__Origin",
+      "IsLookupRelation": false,
       "PrimaryEntityIsOptional": false,
       "ForeignEntityIsMultiple": true,
-      "PrimaryNavigationName": "Attributes",
-      "ForeignNavigationName": "File",
+      "PrimaryNavigationName": "",
+      "ForeignNavigationName": "Origin",
       "PrimaryNavigationSummary": "",
       "ForeignNavigationSummary": "",
-      "CascadeDelete": false
+      "CascadeDelete": true
     },
     {
-      "Name": "MetadataFieldDescriptorMetadataFieldValue",
-      "PrimaryEntityName": "AttributeDescriptor",
-      "ForeignEntityName": "FileAttribute",
-      "ForeignKeyIndexName": "FK_FileAttributes_AttributeDescriptors_AttributeDescriptor",
+      "Name": "CachedUserIdentityKnownUserLegitimation",
+      "PrimaryEntityName": "CachedUserIdentity",
+      "ForeignEntityName": "KnownUserLegitimation",
+      "ForeignKeyIndexName": "FK_KnownUserLegitimations_CachedUserIdentities_CachedUserIdentity",
       "IsLookupRelation": true,
       "PrimaryEntityIsOptional": false,
       "ForeignEntityIsMultiple": true,
       "PrimaryNavigationName": "",
-      "ForeignNavigationName": "AttributeDescriptor",
+      "ForeignNavigationName": "CachedUserIdentity",
+      "PrimaryNavigationSummary": "",
+      "ForeignNavigationSummary": "",
+      "CascadeDelete": false
+    },
+    {
+      "Name": "RoleKnownUserLegitimation",
+      "PrimaryEntityName": "Role",
+      "ForeignEntityName": "KnownUserLegitimation",
+      "ForeignKeyIndexName": "FK_KnownUserLegitimations__Role",
+      "IsLookupRelation": false,
+      "PrimaryEntityIsOptional": false,
+      "ForeignEntityIsMultiple": true,
+      "PrimaryNavigationName": "Users",
+      "ForeignNavigationName": "Role",
+      "PrimaryNavigationSummary": "",
+      "ForeignNavigationSummary": "",
+      "CascadeDelete": true
+    },
+    {
+      "Name": "LocalCredentialInboundOAuthClient",
+      "PrimaryEntityName": "LocalCredential",
+      "ForeignEntityName": "ApiOAuthClient",
+      "ForeignKeyIndexName": "FK_ApiOAuthClients_LocalCredentials_",
+      "IsLookupRelation": true,
+      "PrimaryEntityIsOptional": false,
+      "ForeignEntityIsMultiple": true,
+      "PrimaryNavigationName": "OAuthClients",
+      "ForeignNavigationName": "",
+      "PrimaryNavigationSummary": "",
+      "ForeignNavigationSummary": "",
+      "CascadeDelete": false
+    },
+    {
+      "Name": "TenantScopeOAuthProxyTarget",
+      "PrimaryEntityName": "TenantScope",
+      "ForeignEntityName": "OAuthProxyTarget",
+      "ForeignKeyIndexName": "FK_OAuthProxyTargets__TenantScope",
+      "IsLookupRelation": true,
+      "PrimaryEntityIsOptional": false,
+      "ForeignEntityIsMultiple": true,
+      "PrimaryNavigationName": "",
+      "ForeignNavigationName": "TenantScope",
+      "PrimaryNavigationSummary": "",
+      "ForeignNavigationSummary": "",
+      "CascadeDelete": false
+    },
+    {
+      "Name": "TenantScopeRole",
+      "PrimaryEntityName": "TenantScope",
+      "ForeignEntityName": "Role",
+      "ForeignKeyIndexName": "FK_Roles__TenantScope",
+      "IsLookupRelation": true,
+      "PrimaryEntityIsOptional": false,
+      "ForeignEntityIsMultiple": true,
+      "PrimaryNavigationName": "Roles",
+      "ForeignNavigationName": "TenantScope",
       "PrimaryNavigationSummary": "",
       "ForeignNavigationSummary": "",
       "CascadeDelete": false

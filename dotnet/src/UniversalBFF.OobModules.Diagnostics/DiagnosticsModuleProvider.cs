@@ -3,6 +3,9 @@
 //using System.Text;
 //using UShell;
 //using UShell.ServerCommands;
+using System.Reflection;
+
+[assembly: AssemblyMetadata("SourceContext", "DiagnosticsModule")]
 
 //namespace UniversalBFF.Demo {
 
@@ -27,7 +30,7 @@
 //      });
 
 
-      
+
 
 
 //      ////registrar.RegisterModule(

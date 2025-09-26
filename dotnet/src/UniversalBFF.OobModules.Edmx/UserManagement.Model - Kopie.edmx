@@ -67,11 +67,6 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="KnownUserLegitimation" EntitySet="KnownUserLegitimations" />
           </AssociationSet>
-          <EntitySet Name="ActiveRefreshTokens" EntityType="DomainModel.ActiveRefreshToken" />
-          <AssociationSet Name="LocalCredentialActiveRefreshToken" Association="DomainModel.LocalCredentialActiveRefreshToken">
-            <End Role="LocalCredential" EntitySet="LocalCredentials" />
-            <End Role="ActiveRefreshToken" EntitySet="ActiveRefreshTokens" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="LocalCredential">
           <Key>
@@ -87,7 +82,6 @@
           <Property Name="PasswordHash" Type="String" Nullable="false" />
           <NavigationProperty Name="OAuthClients" Relationship="DomainModel.LocalCredentialInboundOAuthClient" FromRole="LocalCredential" ToRole="InboundOAuthClient" />
           <Property Name="LastLogonDate" Type="DateTime" Nullable="true" />
-          <NavigationProperty Name="ActiveRefreshTokens" Relationship="DomainModel.LocalCredentialActiveRefreshToken" FromRole="LocalCredential" ToRole="ActiveRefreshToken" />
         </EntityType>
         <EntityType Name="CachedUserIdentity">
           <Key>
@@ -130,43 +124,22 @@
           <Key>
             <PropertyRef Name="Uid" />
           </Key>
-          <Property Name="Uid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="None" >
-            <Documentation>
-              <Summary>will be used as 'TokenSourceUid'</Summary>
-            </Documentation>
-          </Property>
-          <Property Name="ClientId" Type="String" Nullable="false" >
+          <Property Name="Uid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="ProviderClassName" Type="String" Nullable="false" >
             <Documentation>
               <Summary>'LocalCredential'</Summary>
             </Documentation>
           </Property>
+          <Property Name="ClientId" Type="String" Nullable="false" />
           <Property Name="ClientSecret" Type="String" Nullable="false" />
-          <Property Name="AuthUrl" Type="String" Nullable="false" >
-            <Documentation>
-              <Summary>Can Contain additional defaul-query-params</Summary>
-            </Documentation>
-          </Property>
-          <Property Name="RetrivalUrl" Type="String" Nullable="false" >
-            <Documentation>
-              <Summary>Can Contain additional defaul-query-params</Summary>
-            </Documentation>
-          </Property>
+          <Property Name="Flow" Type="String" Nullable="false" />
           <NavigationProperty Name="TenantScope" Relationship="DomainModel.TenantScopeOAuthProxyTarget" FromRole="OAuthProxyTarget" ToRole="TenantScope" />
           <Property Name="TenantUid" Type="Int64" Nullable="false" >
             <Documentation>
               <Summary>Optional: represents the implizit assignment (filterability) for cached tenants</Summary>
             </Documentation>
           </Property>
-          <Property Name="AdditionalParamsJson" Type="String" Nullable="false" />
-          <Property Name="ProviderClassName" Type="String" Nullable="false" />
-          <Property Name="IntrospectorParamsJson" Type="String" Nullable="false" />
-          <Property Name="DisplayLabel" Type="String" Nullable="false" DefaultValue="Authentication" />
-          <Property Name="DisplayIconUrl" Type="String" Nullable="false" >
-            <Documentation>
-              <Summary>PNG 64x64 (also data:URL possible!)</Summary>
-            </Documentation>
-          </Property>
-          <Property Name="IframeSupported" Type="Boolean" Nullable="false" />
+          <Property Name="ProviderConfigJson" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="OAuthProxyTargetUserIdentity">
           <End Type="DomainModel.OAuthProxyTarget" Role="OAuthProxyTarget" Multiplicity="1" >
@@ -205,11 +178,6 @@
           <Property Name="PermittedScopes" Type="String" Nullable="false" >
             <Documentation>
               <Summary>Tenant:{TenantUid}</Summary>
-            </Documentation>
-          </Property>
-          <Property Name="AvailablePortfolios" Type="String" Nullable="false" DefaultValue="" >
-            <Documentation>
-              <Summary>Semicolon-sep. List of Portfolio-IDs</Summary>
             </Documentation>
           </Property>
         </EntityType>
@@ -271,16 +239,6 @@
         <Association Name="CachedUserIdentityKnownUserLegitimation">
           <End Type="DomainModel.CachedUserIdentity" Role="CachedUserIdentity" Multiplicity="1" />
           <End Type="DomainModel.KnownUserLegitimation" Role="KnownUserLegitimation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CachedUserIdentity">
-              <PropertyRef Name="OriginUid" />
-              <PropertyRef Name="OriginSpecificSubjectId" />
-            </Principal>
-            <Dependent Role="KnownUserLegitimation">
-              <PropertyRef Name="OriginUid" />
-              <PropertyRef Name="OriginSpecificSubjectId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <Association Name="RoleKnownUserLegitimation">
           <End Type="DomainModel.Role" Role="Role" Multiplicity="1" >
@@ -295,28 +253,6 @@
             <Dependent Role="KnownUserLegitimation">
               <PropertyRef Name="RoleName" />
               <PropertyRef Name="TenantUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="ActiveRefreshToken">
-          <Key>
-            <PropertyRef Name="Token" />
-          </Key>
-          <Property Name="Token" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <NavigationProperty Name="LocalCredential" Relationship="DomainModel.LocalCredentialActiveRefreshToken" FromRole="ActiveRefreshToken" ToRole="LocalCredential" />
-          <Property Name="SubjectId" Type="Int64" Nullable="false" />
-          <Property Name="ValidUntil" Type="DateTime" Nullable="false" />
-          <Property Name="FollowUpNumber" Type="Int32" Nullable="false" />
-        </EntityType>
-        <Association Name="LocalCredentialActiveRefreshToken">
-          <End Type="DomainModel.LocalCredential" Role="LocalCredential" Multiplicity="1" />
-          <End Type="DomainModel.ActiveRefreshToken" Role="ActiveRefreshToken" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LocalCredential">
-              <PropertyRef Name="SubjectId" />
-            </Principal>
-            <Dependent Role="ActiveRefreshToken">
-              <PropertyRef Name="SubjectId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -351,22 +287,20 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1e673f0774584ac2be5350aef5de4487" Name="Schema" ZoomLevel="90">
-        <EntityTypeShape EntityType="DomainModel.LocalCredential" Width="2" PointX="7.75" PointY="0.75" FillColor="Gray" />
-        <EntityTypeShape EntityType="DomainModel.CachedUserIdentity" Width="2" PointX="0.875" PointY="4.875" />
-        <EntityTypeShape EntityType="DomainModel.ApiOAuthClient" Width="2" PointX="10.625" PointY="2.75" FillColor="192, 255, 192" />
-        <EntityTypeShape EntityType="DomainModel.OAuthProxyTarget" Width="2" PointX="0.875" PointY="0.75" />
+      <Diagram DiagramId="1e673f0774584ac2be5350aef5de4487" Name="Schema" ZoomLevel="92">
+        <EntityTypeShape EntityType="DomainModel.LocalCredential" Width="2" PointX="0.75" PointY="0.625" FillColor="Gray" />
+        <EntityTypeShape EntityType="DomainModel.CachedUserIdentity" Width="2" PointX="4.25" PointY="3.875" />
+        <EntityTypeShape EntityType="DomainModel.ApiOAuthClient" Width="2" PointX="0.75" PointY="4.125" FillColor="192, 255, 192" />
+        <EntityTypeShape EntityType="DomainModel.OAuthProxyTarget" Width="2" PointX="4.25" PointY="0.625" />
         <AssociationConnector Association="DomainModel.OAuthProxyTargetUserIdentity" />
         <AssociationConnector Association="DomainModel.LocalCredentialInboundOAuthClient" />
-        <EntityTypeShape EntityType="DomainModel.TenantScope" Width="2" PointX="4.375" PointY="1.25" FillColor="192, 255, 255" />
+        <EntityTypeShape EntityType="DomainModel.TenantScope" Width="2" PointX="7.75" PointY="0.625" FillColor="192, 255, 255" />
         <AssociationConnector Association="DomainModel.TenantScopeOAuthProxyTarget" />
-        <EntityTypeShape EntityType="DomainModel.Role" Width="2" PointX="4.375" PointY="3.75" FillColor="192, 255, 255" />
+        <EntityTypeShape EntityType="DomainModel.Role" Width="2" PointX="7.75" PointY="3" FillColor="192, 255, 255" />
         <AssociationConnector Association="DomainModel.TenantScopeRole" />
-        <EntityTypeShape EntityType="DomainModel.KnownUserLegitimation" Width="2" PointX="3.625" PointY="6.625" FillColor="192, 192, 255" />
+        <EntityTypeShape EntityType="DomainModel.KnownUserLegitimation" Width="2" PointX="7" PointY="6" FillColor="192, 192, 255" />
         <AssociationConnector Association="DomainModel.CachedUserIdentityKnownUserLegitimation" />
         <AssociationConnector Association="DomainModel.RoleKnownUserLegitimation" />
-        <EntityTypeShape EntityType="DomainModel.ActiveRefreshToken" Width="2" PointX="7.75" PointY="4.625" FillColor="Silver" />
-        <AssociationConnector Association="DomainModel.LocalCredentialActiveRefreshToken" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

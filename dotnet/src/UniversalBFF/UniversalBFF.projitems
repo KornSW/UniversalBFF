@@ -9,7 +9,13 @@
     <Import_RootNamespace>UniversalBFF</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BffApplication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DefaultProviders\FileBasedProductDefinitionProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModuleRegistrar.Init.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleRegistrar.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)DefaultProviders\" />
   </ItemGroup>
 </Project>

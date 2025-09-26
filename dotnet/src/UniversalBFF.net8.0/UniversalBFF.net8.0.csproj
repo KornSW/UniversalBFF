@@ -39,7 +39,7 @@
   <Import Project="..\UniversalBFF\UniversalBFF.projitems" Label="Shared" />
 
   <ItemGroup>
-    <PackageReference Include="ComponentDiscovery" Version="4.10.2" />
+    <PackageReference Include="ComponentDiscovery" Version="4.10.3" />
     <PackageReference Include="KornSW.AbstractFileSystem.Common" Version="2.2.0" />
     <PackageReference Include="KornSW.AbstractFileSystem.RepositoryContract" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
@@ -47,11 +47,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="3.0.4" />
-    <PackageReference Include="SmartStandards.Logging" Version="2.10.1" />
-    <PackageReference Include="Snowflake44" Version="3.3.3" />
-    <PackageReference Include="UJMW.DynamicClient" Version="4.1.4" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="1.1.0" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.0" />
+    <PackageReference Include="SmartStandards.Logging" Version="3.3.1" />
+    <PackageReference Include="Snowflake44" Version="3.4.0" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.0.2" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="3.0.0" />
     <PackageReference Include="UShell.ServerCommands.Contract" Version="0.1.1" />
   </ItemGroup>
 

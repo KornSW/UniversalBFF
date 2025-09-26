@@ -4,6 +4,9 @@ using System.IO.Abstraction;
 using System.Text;
 using UShell;
 using ComponentDiscovery;
+using System.Reflection;
+
+[assembly: AssemblyMetadata("SourceContext", "UniversalBFF-Core")]
 
 namespace UniversalBFF {
 
@@ -17,21 +20,14 @@ namespace UniversalBFF {
       } 
     }
 
-    public ModuleLoader(string baseUrl) {
-     // _Registrar = new ModuleRegistrar(baseUrl);
+    public ModuleLoader(ModuleRegistrar registrar) {
+       _Registrar = registrar;
     }
-
-    private static AssemblyIndexer _AssemblyIndexer = new AssemblyIndexer(
-      enableResolvePathsBinding: true,
-      enableAppDomainBinding: true
-    );
-
-    private static TypeIndexer _TypeIndexer = new TypeIndexer(_AssemblyIndexer);
 
     public void Load() {
       this.UnLoad();
 
-      Type[] foundProvderTypes = _TypeIndexer.GetApplicableTypes<IFrontendModuleProvider>(true);
+      Type[] foundProvderTypes = BffApplication.Current.TypeIndexer.GetApplicableTypes<IFrontendModuleProvider>(true);
       foreach (Type t in foundProvderTypes) {
         IFrontendModuleProvider provider = (IFrontendModuleProvider) Activator.CreateInstance(t);
         provider.RegisterModule(_Registrar);

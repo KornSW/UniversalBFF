@@ -14,25 +14,23 @@
     <icon>PackageIcon.png</icon>
     <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
     <dependencies>
-      <group targetFramework="net6.0">
-        <dependency id="UniversalBFF.ModuleContract" version="[0.2.2]" />
-      </group>
       <group targetFramework="net8.0">
         <dependency id="UniversalBFF.ModuleContract" version="[0.2.2]" />
+        <dependency id="SmartStandards.AuthTokenHandling" version="[5.0.0,6.0)" />
       </group>
     </dependencies>
   </metadata>
   <files>
     <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
     <file src="PackageIcon.png" target="" />
-    <!-- .NET 6.0 --><!--
-    <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.dll" target="lib/net6.0" />
-    <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.xml" target="lib/net6.0" />
-    <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.pdb" target="lib/net6.0" />-->
-    <!-- .NET 8.0 -->
-    <!--
-    <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.dll" target="lib/net8.0" />
-    <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.xml" target="lib/net8.0" />
-    <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.pdb" target="lib/net8.0" />-->
+    
+    <file src="dist\bin-net8.0\UniversalBFF.dll" target="lib/net8.0" />
+    <file src="dist\bin-net8.0\UniversalBFF.xml" target="lib/net8.0" />
+    <file src="dist\bin-net8.0\UniversalBFF.pdb" target="lib/net8.0" />    
+    
+    <file src="src\UniversalBFF.AspHost\bin\UniversalBFF.AspHost.dll" target="lib/net8.0" />
+    <file src="src\UniversalBFF.AspHost\bin\UniversalBFF.AspHost.xml" target="lib/net8.0" />
+    <file src="src\UniversalBFF.AspHost\bin\UniversalBFF.AspHost.pdb" target="lib/net8.0" />
+    
   </files>
 </package>

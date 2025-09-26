@@ -1,15 +1,27 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
+using UniversalBFF.OobModules.UserManagement.Frontend.Contract;
 using UShell;
 using UShell.ServerCommands;
 
-namespace UniversalBFF.Demo {
+[assembly: AssemblyMetadata("SourceContext", "UserManagementModule")]
 
-    public class DemoModuleProvider : IFrontendModuleProvider, IBackendServiceProvider {
+namespace UniversalBFF.OobModules.UserManagement {
+
+    public class UserManagementModuleProvider : IFrontendModuleProvider, IBackendServiceProvider {
 
     public void RegisterServices(IBackendServiceRegistrar registrar) {
 
+      //OAuth ist ja in der basis da, das einlinken der custom BL aus diesem modul, welche
+      //während des logins benutzt wird wird über andere hooks eingehangen...
+
+      //es folgen nur die "Management" services, welche z.B. user anlegen, rollen zuweisen etc können
+
+      registrar.RegisterUjmwServiceEndpoint<IUserManagementService>("oob-usrmgmt", () => new UserManagementService());
+ 
     }
 
     public void RegisterModule(IFrontendModuleRegistrar registrar) {
@@ -65,7 +77,17 @@ namespace UniversalBFF.Demo {
 
 
 
+      //////////////////////// CUSTOM-FRONTEND-APPLICATION (SPA) ////////////////////////
 
+      //Folderstructure within Project, where EMBEDDED files are located ('-' will be '_')
+      const string subNamespaceOfEmbeddedSpaFiles = "Frontend.webapp_files";
+      const string defaultNamespace = "UniversalBFF.OobModules.UserManagement";
+      registrar.RegisterFrontendExtension(
+        "oob-usrmgmt",
+        Assembly.GetExecutingAssembly(),
+        $"{defaultNamespace}.{subNamespaceOfEmbeddedSpaFiles}",
+        "index.html"
+      );
 
     }
 

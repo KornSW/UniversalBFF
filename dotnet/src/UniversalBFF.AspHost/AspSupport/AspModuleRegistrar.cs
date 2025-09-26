@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO.Abstraction;
 using System.Linq;
+using System.Reflection;
 using System.SmartStandards;
 using System.Text;
 using UShell;
@@ -12,7 +13,12 @@ namespace UniversalBFF {
 
   internal class AspModuleRegistrar : ModuleRegistrar {
 
-    public AspModuleRegistrar(string baseUrl) : base(baseUrl) {
+    public AspModuleRegistrar(string baseUrl,
+      IPortfolioSecurityProvider securityProvider,
+      ITenancyProvider tenancyProvider,
+      IProductDefinitionProvider productDefinitionProvider,
+      bool autoCreateChooserPortfolio
+    ) : base(baseUrl, securityProvider, tenancyProvider, productDefinitionProvider, autoCreateChooserPortfolio) {
     }
 
     public override void RegisterFrontendExtension(string endpointAlias, IAfsRepository staticFilesForHosting) {
@@ -21,6 +27,7 @@ namespace UniversalBFF {
       //TODO: hier AFS in MS-FileProvider wrappen!
 
     }
+
     public override void RegisterHttpProxy(string endpointAlias, string forwardingAddress) {
 
       throw new NotImplementedException("RegisterHttpProxy is comming soon...");
