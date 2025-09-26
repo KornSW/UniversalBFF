@@ -13,10 +13,10 @@
     <Product>UniversalBFF</Product>
     <Company>(public domain)</Company>
     <Copyright>KornSW</Copyright>
-    <Version>0.2.2</Version>
-    <AssemblyVersion>0.2.2</AssemblyVersion>
+    <Version>0.2.3</Version>
+    <AssemblyVersion>0.2.3</AssemblyVersion>
     <Authors>KornSW</Authors>
-    <FileVersion>0.2.2</FileVersion>
+    <FileVersion>0.2.3</FileVersion>
     <PackageTags></PackageTags>
   </PropertyGroup>
   

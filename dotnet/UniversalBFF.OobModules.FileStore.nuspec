@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>UniversalBFF.OobModules.FileStore</id>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
     <title>UniversalBFF.OobModules.FileStore</title>
     <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>
@@ -16,7 +16,7 @@
     <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
     <dependencies>
       <group targetFramework="net8.0">
-        <dependency id="UniversalBFF.ModuleContract" version="[0.2.2]" />
+        <dependency id="UniversalBFF.ModuleContract" version="[0.2.3]" />
       </group>
     </dependencies>
   </metadata>
