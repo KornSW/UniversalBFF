@@ -26,7 +26,7 @@
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.CefHost.xml</DocumentationFile>
+    <DocumentationFile>..\..\dist\bin-net8.0\Launcher.xml</DocumentationFile>
     <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
@@ -35,7 +35,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
-    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.CefHost.xml</DocumentationFile>
+    <DocumentationFile>..\..\dist\bin-net8.0\Launcher.xml</DocumentationFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
     <DefineConstants>TRACE;NET5</DefineConstants>
