@@ -1,7 +1,6 @@
 ﻿using Security.AccessTokenHandling;
 using System;
 using System.Collections.Generic;
-using System.IO.Abstraction;
 using System.Linq;
 using System.Reflection;
 using System.SmartStandards;
@@ -13,19 +12,18 @@ namespace UniversalBFF {
 
   internal class AspModuleRegistrar : ModuleRegistrar {
 
+    /// <summary></summary>
+    /// <param name="baseUrl">  usually just '/' (first and last char must be a slash!) </param>
+    /// <param name="securityProvider"></param>
+    /// <param name="tenancyProvider"></param>
+    /// <param name="productDefinitionProvider"></param>
+    /// <param name="autoCreateChooserPortfolio"></param>
     public AspModuleRegistrar(string baseUrl,
       IPortfolioSecurityProvider securityProvider,
       ITenancyProvider tenancyProvider,
       IProductDefinitionProvider productDefinitionProvider,
       bool autoCreateChooserPortfolio
     ) : base(baseUrl, securityProvider, tenancyProvider, productDefinitionProvider, autoCreateChooserPortfolio) {
-    }
-
-    public override void RegisterFrontendExtension(string endpointAlias, IAfsRepository staticFilesForHosting) {
-      base.RegisterFrontendExtension(endpointAlias, staticFilesForHosting);
-      
-      //TODO: hier AFS in MS-FileProvider wrappen!
-
     }
 
     public override void RegisterHttpProxy(string endpointAlias, string forwardingAddress) {

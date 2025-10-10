@@ -2,7 +2,6 @@
 using Security.AccessTokenHandling;
 using System;
 using System.Collections.Generic;
-using System.IO.Abstraction;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -32,10 +31,20 @@ namespace UniversalBFF {
     private List<PortfolioEntry> _PortfolioEntries = new List<PortfolioEntry>();
 
     private List<ModuleDescription> _RegisteredModules = new List<ModuleDescription>();
+
+    /// <summary>
+    /// APPLICATION-Base! -> usually just '/' (first and last char must be a slash!)
+    /// </summary>
     private string _BaseUrl;
     
     private bool _AutoCreateChooserPortfolio;
 
+    /// <summary></summary>
+    /// <param name="baseUrl">  usually just '/' (first and last char must be a slash!) </param>
+    /// <param name="securityProvider"></param>
+    /// <param name="tenancyProvider"></param>
+    /// <param name="productDefinitionProvider"></param>
+    /// <param name="autoCreateChooserPortfolio"></param>
     public ModuleRegistrar(
       string baseUrl,
       IPortfolioSecurityProvider securityProvider,
@@ -73,16 +82,6 @@ namespace UniversalBFF {
       //newPortfolio.ModuleDescriptionUrls = urls.ToArray();
     }
 
-    /// <summary>
-    /// Registers an UShell Module Application
-    /// </summary>
-    public void RegisterFrontendExtension(IAfsRepository staticFilesForHosting) {
-      this.EnsurePortfolioIsInitialized();
-
-      throw new NotImplementedException();
-
-    }
-
     #region " Frontend-Extensions "
 
     //must be collected and executed later, because were under inversion of control here!
@@ -105,7 +104,7 @@ namespace UniversalBFF {
       lock (_ModuleFileRegistrationMethods) {
         _ModuleFileRegistrationMethods.Add(
           (r) => {
-            r.Register(aliasUrl, assemblyWithEmbeddedFiles, embeddedFilesNamespace);
+            r.Register(_BaseUrl, aliasUrl, assemblyWithEmbeddedFiles, embeddedFilesNamespace);
             r.SetDefaultDoc(aliasUrl, defaultDoc, true);
           }
         );
@@ -170,12 +169,12 @@ namespace UniversalBFF {
     private Dictionary<string, string> _FrontendExtensionUrlsByAlias = new Dictionary<string, string>();
 
 
-    public virtual void RegisterFrontendExtension(string endpointAlias, IAfsRepository staticFilesForHosting) {
-      string relativeApplicationRoute = $"/ui/{endpointAlias}/";
-      lock (_FrontendExtensionUrlsByAlias) {
-        _FrontendExtensionUrlsByAlias[endpointAlias] = relativeApplicationRoute;
-      }
-    }
+    //public virtual void RegisterFrontendExtension(string endpointAlias, IAfsRepository staticFilesForHosting) {
+    //  string relativeApplicationRoute = $"/ui/{endpointAlias}/";
+    //  lock (_FrontendExtensionUrlsByAlias) {
+    //    _FrontendExtensionUrlsByAlias[endpointAlias] = relativeApplicationRoute;
+    //  }
+    //}
 
     public void RegisterFrontendExtension(string endpointAlias, string externalHostedUrl) {
       lock (_FrontendExtensionUrlsByAlias) {

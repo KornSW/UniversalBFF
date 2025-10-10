@@ -39,7 +39,6 @@
   <Import Project="..\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems" Label="Shared" />
 
   <ItemGroup>
-    <PackageReference Include="KornSW.AbstractFileSystem.RepositoryContract" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />

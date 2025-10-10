@@ -9,7 +9,8 @@ namespace UniversalBFF {
   public interface IStaticHostingRegistrar {
 
     /// <summary></summary>
-    /// <param name="requestPath"></param>
+    /// <param name="applicationBase"> usually just '/' (first and last char must be a slash!)</param>
+    /// <param name="mountPointPathRelativeToApplicationBase"> for example 'ui/spaX/' </param>
     /// <param name="assemblyWithEmbeddedFiles"></param>
     /// <param name="embeddedFilesNamespace">
     /// WARNING: Errors here are very hard to track, because simply no file is returned!
@@ -19,12 +20,15 @@ namespace UniversalBFF {
     ///  * Replace from '-' to '_', ' ' to '_'
     /// </param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void Register(string requestPath, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace);
+    public void Register(
+      string applicationBase, string mountPointPathRelativeToApplicationBase, 
+      Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace
+    );
 
     /// <summary>
     /// Set the default document for a mount and whether it is a SPA (deep-link fallback).
     /// </summary>
-    void SetDefaultDoc(string requestPath, string defaultDocument, bool spa);
+    void SetDefaultDoc(string requestPathRelativeToApplicationBase, string defaultDocument, bool spa);
 
   }
 

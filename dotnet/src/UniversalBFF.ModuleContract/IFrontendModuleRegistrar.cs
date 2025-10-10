@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO.Abstraction;
+//using System.IO.Abstraction;
 using System.Reflection;
 using UShell;
 using UShell.ServerCommands;
@@ -26,10 +26,10 @@ namespace UniversalBFF {
 
     void RegisterFrontendExtension(string endpointAlias, string externalHostedUrl);
 
-    /// <summary>
-    /// Registers an UShell Module Application
-    /// </summary>
-    void RegisterFrontendExtension(string endpointAlias, IAfsRepository staticFilesForHosting);
+    ///// <summary>
+    ///// Registers an UShell Module Application
+    ///// </summary>
+    //void RegisterFrontendExtension(string endpointAlias, IAfsRepository staticFilesForHosting);
 
   }
 

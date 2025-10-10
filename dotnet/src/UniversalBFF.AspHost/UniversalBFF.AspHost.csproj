@@ -58,7 +58,6 @@
 
   <ItemGroup>
     <PackageReference Include="jose-jwt" Version="4.1.0" />
-    <PackageReference Include="KornSW.AbstractFileSystem.MvcSupport" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />

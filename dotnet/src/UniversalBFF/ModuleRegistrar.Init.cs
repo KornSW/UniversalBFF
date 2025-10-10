@@ -1,7 +1,6 @@
 ﻿using Security.AccessTokenHandling;
 using System;
 using System.Collections.Generic;
-using System.IO.Abstraction;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.SmartStandards;

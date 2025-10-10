@@ -270,8 +270,8 @@ namespace UniversalBFF {
             PortfolioUrl = baseUrl + "portfolio"
           }
         );
-        registrar.Register(baseUrl + "app", uShellFiles);
-        registrar.SetDefaultDoc(baseUrl + "app", "index.html", true);
+        registrar.Register(baseUrl, "app", uShellFiles);
+        registrar.SetDefaultDoc("app", "index.html", true);
 
         moduleRegistrar.CollectAndRegisterFrontendExtensionsTo(registrar);
 

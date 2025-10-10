@@ -1,7 +1,6 @@
 ﻿using Logging.SmartStandards;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
@@ -24,7 +23,10 @@ namespace UniversalBFF.AspSupport {
     /// Register a mount under the given request path with a file provider.
     /// Example: "app-1/" or "/app-1/".
     /// </summary>
-    void Register(string requestPath, IFileProvider fileProvider);
+    /// <param name="applicationBase"> usually just '/' (first and last char must be a slash!)</param>
+    /// <param name="mountPointPathRelativeToApplicationBase"> for example 'ui/spaX/' </param>
+    /// <param name="fileProvider"></param>
+    void Register(string applicationBase, string mountPointPathRelativeToApplicationBase, IFileProvider fileProvider);
 
   }
 
@@ -69,27 +71,27 @@ namespace UniversalBFF.AspSupport {
   /// </summary>
   internal sealed class MountRegistration {
 
-    private string _RequestPath;
+    private string _RequestPathRelativeToApplicationBase;
     private IFileProvider _FileProvider;
 
-    public MountRegistration(string requestPath, IFileProvider fileProvider) {
-      if (string.IsNullOrWhiteSpace(requestPath)) {
-        throw new ArgumentException("requestPath must not be null or empty.", nameof(requestPath));
+    public MountRegistration(string requestPathRelativeToApplicationBase, IFileProvider fileProvider) {
+      if (string.IsNullOrWhiteSpace(requestPathRelativeToApplicationBase)) {
+        throw new ArgumentException("requestPath must not be null or empty.", nameof(requestPathRelativeToApplicationBase));
       }
       if (fileProvider == null) {
         throw new ArgumentNullException(nameof(fileProvider));
       }
 
-      _RequestPath = requestPath;
+      _RequestPathRelativeToApplicationBase = requestPathRelativeToApplicationBase;
       _FileProvider = fileProvider;
     }
 
     /// <summary>
     /// Normalized virtual mount path (e.g., "/app-1").
     /// </summary>
-    public string RequestPath {
-      get { return _RequestPath; }
-      set { _RequestPath = value; }
+    public string RequestPathRelativeToApplicationBase {
+      get { return _RequestPathRelativeToApplicationBase; }
+      set { _RequestPathRelativeToApplicationBase = value; }
     }
 
     /// <summary>
@@ -105,26 +107,26 @@ namespace UniversalBFF.AspSupport {
   /// Default document and SPA flag bound to a mount.
   /// </summary>
   internal sealed class DefaultDocumentConfig {
-    private string _RequestPath;
+    private string _RequestPathRelativeToApplicationBase;
     private string _DefaultDocument;
     private bool _IsSpa;
 
-    public DefaultDocumentConfig(string requestPath, string defaultDocument, bool isSpa) {
-      if (string.IsNullOrWhiteSpace(requestPath)) {
-        throw new ArgumentException("requestPath must not be null or empty.", nameof(requestPath));
+    public DefaultDocumentConfig(string requestPathRelativeToApplicationBase, string defaultDocument, bool isSpa) {
+      if (string.IsNullOrWhiteSpace(requestPathRelativeToApplicationBase)) {
+        throw new ArgumentException("requestPath must not be null or empty.", nameof(requestPathRelativeToApplicationBase));
       }
       if (string.IsNullOrWhiteSpace(defaultDocument)) {
         throw new ArgumentException("defaultDocument must not be null or empty.", nameof(defaultDocument));
       }
 
-      _RequestPath = requestPath;
+      _RequestPathRelativeToApplicationBase = requestPathRelativeToApplicationBase;
       _DefaultDocument = defaultDocument;
       _IsSpa = isSpa;
     }
 
-    public string RequestPath {
-      get { return _RequestPath; }
-      set { _RequestPath = value; }
+    public string RequestPathRelativeToApplicationBase {
+      get { return _RequestPathRelativeToApplicationBase; }
+      set { _RequestPathRelativeToApplicationBase = value; }
     }
 
     public string DefaultDocument {
@@ -158,7 +160,8 @@ namespace UniversalBFF.AspSupport {
     }
 
     /// <summary></summary>
-    /// <param name="requestPath"></param>
+    /// <param name="applicationBase"> usually just '/' (first and last char must be a slash!)</param>
+    /// <param name="mountPointPathRelativeToApplicationBase"> for example 'ui/spaX/' </param>
     /// <param name="assemblyWithEmbeddedFiles"></param>
     /// <param name="embeddedFilesNamespace">
     /// WARNING: Errors here are very hard to track, because simply no file is returned!
@@ -168,60 +171,71 @@ namespace UniversalBFF.AspSupport {
     ///  * Replace from '-' to '_', ' ' to '_'
     /// </param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void Register(string requestPath, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace) {
-      string normalized = NormalizeMount(requestPath);
+    public void Register(string applicationBase, string mountPointPathRelativeToApplicationBase, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace) {
+      string normalizedMountPointUrl = NormalizeMount(mountPointPathRelativeToApplicationBase);
 
       // Prevent duplicate mount registration of same path; last write wins behavior could be confusing.
       // We choose to throw to keep configuration deterministic.
-      if (ContainsMount(normalized)) {
-        throw new InvalidOperationException("Duplicate mount registration for path: " + normalized);
+      if (ContainsMount(normalizedMountPointUrl)) {
+        throw new InvalidOperationException("Duplicate mount registration for path: " + normalizedMountPointUrl);
       }
 
-      EmbeddedBundleFileProvider fileProvider = new EmbeddedBundleFileProvider(normalized + "/", assemblyWithEmbeddedFiles, embeddedFilesNamespace);
-      MountRegistration reg = new MountRegistration(normalized, fileProvider);
+      //IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/app/)
+      string webAppBaseUrl = (applicationBase + mountPointPathRelativeToApplicationBase + "/").Replace("//","").Replace("//", "");
+
+      EmbeddedBundleFileProvider fileProvider = new EmbeddedBundleFileProvider(
+        webAppBaseUrl, assemblyWithEmbeddedFiles, embeddedFilesNamespace
+      );
+
+      MountRegistration reg = new MountRegistration(normalizedMountPointUrl, fileProvider);
       _Mounts.Add(reg);
 
-      DevLogger.LogTrace(0, 99999, "Registered mount " + normalized);
+      DevLogger.LogTrace(0, 77051, "Registered SPA mount point " + normalizedMountPointUrl);
     }
+
 
     /// <summary>
     /// Register a mount under a given path with a specific file provider.
     /// </summary>
-    public void Register(string requestPath, IFileProvider fileProvider) {
-      string normalized = NormalizeMount(requestPath);
+    /// <param name="applicationBase"> usually just '/' (first and last char must be a slash!)</param>
+    /// <param name="mountPointPathRelativeToApplicationBase"> for example 'ui/spaX/' </param>
+    /// <param name="fileProvider"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void Register(string applicationBase, string mountPointPathRelativeToApplicationBase, IFileProvider fileProvider) {
+      string normalizedMountPointUrl = NormalizeMount(mountPointPathRelativeToApplicationBase);
 
       // Prevent duplicate mount registration of same path; last write wins behavior could be confusing.
       // We choose to throw to keep configuration deterministic.
-      if (ContainsMount(normalized)) {
-        throw new InvalidOperationException("Duplicate mount registration for path: " + normalized);
+      if (ContainsMount(normalizedMountPointUrl)) {
+        throw new InvalidOperationException("Duplicate mount registration for path: " + normalizedMountPointUrl);
       }
 
-      MountRegistration reg = new MountRegistration(normalized, fileProvider);
+      MountRegistration reg = new MountRegistration(normalizedMountPointUrl, fileProvider);
       _Mounts.Add(reg);
 
-      DevLogger.LogTrace(0, 99999, "Registered mount " + normalized);
+      DevLogger.LogTrace(0, 77051, "Registered SPA mount point " + normalizedMountPointUrl);
     }
 
     /// <summary>
     /// Set default document (and optionally SPA fallback) for a mount.
     /// </summary>
-    public void SetDefaultDoc(string requestPath, string defaultDocument, bool spa) {
-      string normalized = NormalizeMount(requestPath);
+    public void SetDefaultDoc(string requestPathRelativeToApplicationBase, string defaultDocument, bool spa) {
+      string normalizedMountPointUrl = NormalizeMount(requestPathRelativeToApplicationBase);
 
-      DefaultDocumentConfig existing = FindDefault(normalized);
+      DefaultDocumentConfig existing = FindDefault(normalizedMountPointUrl);
       if (existing != null) {
         // Keep it simple and strict: do not allow multiple defaults for same mount.
-        throw new InvalidOperationException("Default already configured for mount: " + normalized);
+        throw new InvalidOperationException("Default already configured for mount: " + normalizedMountPointUrl);
       }
 
-      DefaultDocumentConfig cfg = new DefaultDocumentConfig(normalized, defaultDocument, spa);
+      DefaultDocumentConfig cfg = new DefaultDocumentConfig(normalizedMountPointUrl, defaultDocument, spa);
       _Defaults.Add(cfg);
 
       string spaFlagText = "false";
       if (spa) {
         spaFlagText = "true";
       }
-      DevLogger.LogTrace(0, 99999, "Configured default for " + normalized + " (spa=" + spaFlagText + ")");
+      DevLogger.LogTrace(0, 77052, "Configured default-doc for " + normalizedMountPointUrl + " (spa=" + spaFlagText + ")");
     }
 
     /// <summary>
@@ -233,7 +247,7 @@ namespace UniversalBFF.AspSupport {
       try {
         // 1) Default files and static files per mount.
         foreach (MountRegistration reg in _Mounts) {
-          DefaultDocumentConfig cfg = FindDefault(reg.RequestPath);
+          DefaultDocumentConfig cfg = FindDefault(reg.RequestPathRelativeToApplicationBase);
 
           if (cfg != null) {
             DefaultFilesOptions dfo = BuildDefaultFilesOptions(reg, cfg);
@@ -255,12 +269,12 @@ namespace UniversalBFF.AspSupport {
               if (cfg.IsSpa) {
                 // OLD (remove): endpoints.MapFallbackToFile(pattern, file);
                 // NEW: map a catch-all under the mount and serve the default doc from the correct provider
-                string pattern = cfg.RequestPath + "/{*path}";
+                string pattern = cfg.RequestPathRelativeToApplicationBase + "/{*path}";
 
                 endpoints.Map(pattern, (Microsoft.AspNetCore.Http.RequestDelegate)((Microsoft.AspNetCore.Http.HttpContext ctx) => {
                   try {
                     // Find the mount to get its FileProvider.
-                    MountRegistration reg = FindMount(cfg.RequestPath);
+                    MountRegistration reg = FindMount(cfg.RequestPathRelativeToApplicationBase);
                     if (reg == null) {
                       ctx.Response.StatusCode = 404;
                       return System.Threading.Tasks.Task.CompletedTask;
@@ -318,7 +332,7 @@ namespace UniversalBFF.AspSupport {
     // Helper to find a mount by normalized path.
     private MountRegistration FindMount(string normalizedMount) {
       foreach (MountRegistration m in _Mounts) {
-        if (string.Equals(m.RequestPath, normalizedMount, StringComparison.Ordinal)) {
+        if (string.Equals(m.RequestPathRelativeToApplicationBase, normalizedMount, StringComparison.Ordinal)) {
           return m;
         }
       }
@@ -330,7 +344,7 @@ namespace UniversalBFF.AspSupport {
     /// </summary>
     private StaticFileOptions BuildStaticFileOptions(MountRegistration reg) {
       StaticFileOptions options = new StaticFileOptions();
-      options.RequestPath = reg.RequestPath;
+      options.RequestPath = reg.RequestPathRelativeToApplicationBase;
       options.FileProvider = reg.FileProvider;
       return options;
     }
@@ -340,7 +354,7 @@ namespace UniversalBFF.AspSupport {
     /// </summary>
     private DefaultFilesOptions BuildDefaultFilesOptions(MountRegistration reg, DefaultDocumentConfig cfg) {
       DefaultFilesOptions options = new DefaultFilesOptions();
-      options.RequestPath = reg.RequestPath;
+      options.RequestPath = reg.RequestPathRelativeToApplicationBase;
       options.FileProvider = reg.FileProvider;
       options.DefaultFileNames.Clear();
       options.DefaultFileNames.Add(cfg.DefaultDocument);
@@ -364,7 +378,7 @@ namespace UniversalBFF.AspSupport {
     /// </summary>
     private DefaultDocumentConfig FindDefault(string normalizedMount) {
       foreach (DefaultDocumentConfig cfg in _Defaults) {
-        if (string.Equals(cfg.RequestPath, normalizedMount, StringComparison.Ordinal)) {
+        if (string.Equals(cfg.RequestPathRelativeToApplicationBase, normalizedMount, StringComparison.Ordinal)) {
           return cfg;
         }
       }
@@ -376,7 +390,7 @@ namespace UniversalBFF.AspSupport {
     /// </summary>
     private bool ContainsMount(string normalizedMount) {
       foreach (MountRegistration m in _Mounts) {
-        if (string.Equals(m.RequestPath, normalizedMount, StringComparison.Ordinal)) {
+        if (string.Equals(m.RequestPathRelativeToApplicationBase, normalizedMount, StringComparison.Ordinal)) {
           return true;
         }
       }
@@ -412,12 +426,18 @@ namespace UniversalBFF.AspSupport {
 
   public class EmbeddedBundleFileProvider : IFileProvider {
 
+    /// <summary>
+    /// IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/app/)
+    /// </summary>
     private string _WebAppBaseUrl;
+
     private string _SourceInfoString;
     private EmbeddedFileProvider _InnerProvider;
 
     /// <summary></summary>
-    /// <param name="webAppBaseUrl"></param>
+    /// <param name="webAppBaseUrl">
+    /// IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/app/) 
+    /// </param>
     /// <param name="assemblyWithEmbeddedFiles"></param>
     /// <param name="embeddedFilesNamespace">
     /// WARNING: Errors here are very hard to track, because simply no file is returned!
@@ -470,10 +490,28 @@ namespace UniversalBFF.AspSupport {
       private string _WebAppBaseUrl;
       private string _SourceInfoString;
 
+      private Func<string, bool> _FileNameFilter = (string fileName)=> fileName.EndsWith(".html");
+      private Action<string, StringBuilder> _ReplacementHook = null;
+
+      /// <summary> </summary>
+      /// <param name="innerFileInfo"></param>
+      /// <param name="webAppBaseUrl">
+      /// IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/app/)
+      /// </param>
+      /// <param name="sourceInfoString"></param>
       public WrappedFileInfo(IFileInfo innerFileInfo, string webAppBaseUrl, string sourceInfoString) {
         _InnerFileInfo = innerFileInfo;
         _WebAppBaseUrl = webAppBaseUrl;
         _SourceInfoString = sourceInfoString;
+      }
+
+
+      /// <summary> </summary>
+      /// <param name="fileNameFilter"></param>
+      /// <param name="replacementHook">will be called for every relevant file passing (p1) again the filename and (p2) a StringBuilder already containing the whole file-content</param>
+      public void EnableContentReplacement(Func<string, bool> fileNameFilter, Action<string, StringBuilder> replacementHook) {
+        _FileNameFilter = fileNameFilter;
+        _ReplacementHook = replacementHook;
       }
 
       public bool Exists => _InnerFileInfo.Exists;
@@ -484,7 +522,7 @@ namespace UniversalBFF.AspSupport {
 
       public long Length {
         get {
-          if (this.Name.EndsWith(".html")) {
+          if(_FileNameFilter != null && _FileNameFilter.Invoke(this.Name)) {
             return this.GetModifiedContent().Length;
           }
           return _InnerFileInfo.Length;
@@ -493,7 +531,7 @@ namespace UniversalBFF.AspSupport {
 
       public Stream CreateReadStream() {
 
-        if (this.Name.EndsWith(".html")) {
+        if (_FileNameFilter != null && _FileNameFilter.Invoke(this.Name)) {
 
           MemoryStream ms = new MemoryStream(Convert.ToInt32(this.Length));
           StreamWriter sw = new StreamWriter(ms);
@@ -531,6 +569,10 @@ namespace UniversalBFF.AspSupport {
             _ModifiedContent.Replace("<base href=\"/\" />", $"<base href=\"{_WebAppBaseUrl}\" />");
             _ModifiedContent.Replace("<base href=\"/\"/>", $"<base href=\"{_WebAppBaseUrl}\"/>");
 
+            if (_ReplacementHook != null) {
+              _ReplacementHook.Invoke(this.Name, _ModifiedContent); 
+            }
+ 
           }
 
         }
