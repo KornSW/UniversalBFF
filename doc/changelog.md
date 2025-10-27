@@ -6,7 +6,7 @@
 
 ## Upcoming Changes
 
-*(none)*
+* Fix: Placeholder '_PUBLIC_PATH_' within embedded js-Files will now correctly be replaced on-demand while serving the filestream
 
 
 

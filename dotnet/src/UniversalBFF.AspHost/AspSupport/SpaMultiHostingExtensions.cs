@@ -490,7 +490,7 @@ namespace UniversalBFF.AspSupport {
       private string _WebAppBaseUrl;
       private string _SourceInfoString;
 
-      private Func<string, bool> _FileNameFilter = (string fileName)=> fileName.EndsWith(".html");
+      private Func<string, bool> _FileNameFilter = (string fileName)=> fileName.EndsWith(".html") || fileName.EndsWith(".js");
       private Action<string, StringBuilder> _ReplacementHook = null;
 
       /// <summary> </summary>
@@ -568,6 +568,8 @@ namespace UniversalBFF.AspSupport {
             _ModifiedContent.Replace("<html>", $"<html>\n  <!-- from '{_SourceInfoString}' -->");
             _ModifiedContent.Replace("<base href=\"/\" />", $"<base href=\"{_WebAppBaseUrl}\" />");
             _ModifiedContent.Replace("<base href=\"/\"/>", $"<base href=\"{_WebAppBaseUrl}\"/>");
+
+            _ModifiedContent.Replace("_PUBLIC_PATH_", _WebAppBaseUrl);
 
             if (_ReplacementHook != null) {
               _ReplacementHook.Invoke(this.Name, _ModifiedContent); 
