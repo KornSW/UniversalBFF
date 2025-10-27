@@ -6,7 +6,13 @@
 
 ## Upcoming Changes
 
-* Fix: Placeholder '_PUBLIC_PATH_' within embedded js-Files will now correctly be replaced on-demand while serving the filestream
+*(none)*
+
+
+
+## v 0.2.5
+released **2025-10-27**, including:
+ - Fix: Placeholder '_PUBLIC_PATH_' within embedded js-Files will now correctly be replaced on-demand while serving the filestream
 
 
 

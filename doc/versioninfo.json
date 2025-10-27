@@ -1,13 +1,13 @@
 {
-  "currentVersion": "0.2.4",
-  "currentVersionWithSuffix": "0.2.4",
+  "currentVersion": "0.2.5",
+  "currentVersionWithSuffix": "0.2.5",
   "releaseType": "",
-  "previousVersion": "0.2.3",
+  "previousVersion": "0.2.4",
   "changeGrade": "fix",
   "currentMajor": 0,
   "currentMinor": 2,
-  "currentPatch": 4,
-  "versionDateInfo": "2025-10-10",
-  "versionTimeInfo": "12:19:13",
-  "versionNotes": "- new revision without significant changes\n"
+  "currentPatch": 5,
+  "versionDateInfo": "2025-10-27",
+  "versionTimeInfo": "12:04:10",
+  "versionNotes": "- Fix: Placeholder '_PUBLIC_PATH_' within embedded js-Files will now correctly be replaced on-demand while serving the filestream\n"
 }
