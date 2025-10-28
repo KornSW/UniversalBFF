@@ -52,35 +52,42 @@ namespace UniversalBFF {
 
       _ApiVersion = typeof(Startup).Assembly.GetName().Version;
 
-      IPortfolioSecurityProvider psp = InstanceDiscoveryContext.Current.GetInstance<IPortfolioSecurityProvider>(false);
+     // InstanceDiscoveryContext sharedContext = new InstanceDiscoveryContext();
+     // InstanceDiscoveryContext.HookAmbienceManagment(() => sharedContext, (c) => { }, (c) => { });
+
+      IPortfolioSecurityProvider psp = null;// InstanceDiscoveryContext.Current?.GetInstance<IPortfolioSecurityProvider>(false);
       if (psp == null) {
         SecLogger.LogCritical(0, 0, $"Could not discover any available implementation of '{nameof(IPortfolioSecurityProvider)}' (via InstanceDiscovery)! Only Anonymous parts will work!");
       }
-
-      ITenancyProvider tp = InstanceDiscoveryContext.Current.GetInstance<ITenancyProvider>(false);
-      if (psp == null) {
-        DevLogger.LogInformation(0, 0, $"Could not discover any available implementation of '{nameof(ITenancyProvider)}' (via InstanceDiscovery)!");
+      else {
+        services.AddSingleton<IPortfolioSecurityProvider>(psp);
       }
 
-      services.AddControllers();
+        ITenancyProvider tp = null;//InstanceDiscoveryContext.Current.GetInstance<ITenancyProvider>(false);
+      if (tp == null) {
+        DevLogger.LogInformation(0, 0, $"Could not discover any available implementation of '{nameof(ITenancyProvider)}' (via InstanceDiscovery)!");
+      }
+      else {
+        services.AddSingleton<ITenancyProvider>(tp);
+      }
 
-      IProductDefinitionProvider pdp = InstanceDiscoveryContext.Current.GetInstance<IProductDefinitionProvider>(false);
-      if (psp == null) {
+
+      IProductDefinitionProvider pdp = null;//InstanceDiscoveryContext.Current.GetInstance<IProductDefinitionProvider>(false);
+      if (pdp == null) {
         DevLogger.LogInformation(0, 0, $"Could not discover any available implementation of '{nameof(IProductDefinitionProvider)}' (via InstanceDiscovery)! Switching to fallback 'FileBasedProductDefinitionProvider'...");
         pdp = new FileBasedProductDefinitionProvider(outDir); 
       }
+      services.AddSingleton<IProductDefinitionProvider>(pdp);
 
       ModuleRegistrar registrar = new AspModuleRegistrar(baseUrl, psp, tp, pdp, true);
       ModuleLoader loader = new ModuleLoader(registrar);
 
       services.AddSingleton<ModuleLoader>(loader);
-
-      services.AddSingleton<IPortfolioSecurityProvider>(psp);
-      services.AddSingleton<ITenancyProvider>(tp);
-      services.AddSingleton<IProductDefinitionProvider>(pdp);
       services.AddSingleton<IPortfolioService>(registrar);
       services.AddSingleton<IFrontendModuleRegistrar>(registrar);
       services.AddSingleton<ModuleRegistrar>(registrar);
+
+      services.AddControllers();
 
       loader.Load();
 
