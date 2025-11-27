@@ -5,22 +5,79 @@ using Security.AccessTokenHandling.OAuth.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversalBFF.OobModules.UserManagement.Frontend.Contract {
+namespace UniversalBFF.OobModules.UserManagement {
 
   public class LocalCredentialService :
-    IOAuthOperationsProvider, IAccessTokenIntrospector, IAccessTokenIssuer
+    IOAuthOperationsProvider, IAccessTokenIntrospector, IAccessTokenIssuer, ILocalCredentialManagementService
   {
-    public Dictionary<string, string> Configuration => throw new NotImplementedException();
 
-    public string ProviderInvariantName => throw new NotImplementedException();
+    #region " Matadata & Config "
 
-    public string ProviderDisplayTitle => throw new NotImplementedException();
+    private const string _DefaultIconUrl = "data:image/png;base64,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";
 
-    public string ProviderIconUrl => throw new NotImplementedException();
+    private Dictionary<string, string> Configuration { get; } = new Dictionary<string, string>();
+
+    public void SetConfigurationValue(string key, string value) {
+      if (value == null) {
+        value = string.Empty;
+      }
+      this.Configuration[key] = value;
+    }
+    public bool TryGetConfigurationValue(string key, out string value) {
+      return this.Configuration.TryGetValue(key, out value);
+    }
+
+    public string ProviderInvariantName {
+      get {
+        return "ubff-local";
+      }
+    }
+
+    public string ProviderDisplayTitle {
+      get {
+        return "uBFF User Management (self-contained)";
+      }
+    }
+
+    public string ProviderIconUrl {
+      get {
+        string configured;
+        if (this.Configuration.TryGetValue("provider_icon_url", out configured) && !String.IsNullOrWhiteSpace(configured)) {
+          return configured;
+        }
+        return _DefaultIconUrl;
+      }
+    }
+
+    /// <summary></summary>
+    /// <param name="capabilityName">
+    /// Wellknown capabilities are:
+    ///   "introspection"
+    ///   "refresh_token"
+    ///   "id_token"
+    ///   "darkmode_url_param"
+    ///   "iframe_allowed"
+    /// </param>
+    public bool HasCapability(string capabilityName) {
+      return _SupportedCapabilities.Contains(capabilityName);
+    }
+    private static string[] _SupportedCapabilities = {
+      "introspection", "id_token"
+    };
+
+    #endregion
+
+    #region " HttpClient (Lazy) "
+
+    //DUMMY (needed by interface)
+    public Func<IOAuthOperationsProvider, HttpClient> HttpClientFactory { get; set; }
+
+    #endregion
 
     internal bool TryAuthenticate(
       string login, string password, out string message
@@ -140,9 +197,6 @@ namespace UniversalBFF.OobModules.UserManagement.Frontend.Contract {
       throw new NotImplementedException();
     }
 
-
-    #region " IOAuthOperationsProvider "
-
     // Der LocalCredentialService ist nicht nur "Server", sondern wird intern auch wie ein Client benutzt...
     // Nur deshlab implementiert er auch IOAuthOperationsProvider, denn der BffUserService entscheidet im
     // Rahmen seiner Proxy-Funktio, ob er weiterleitet an Google und Co. oder eben, an den den LocalCredentialService,
@@ -190,8 +244,11 @@ namespace UniversalBFF.OobModules.UserManagement.Frontend.Contract {
       throw new NotImplementedException();
     }
 
-    public bool HasCapability(string capabilityName) {
-      throw new NotImplementedException();
+    #region " ILocalCredentialManagementService "
+
+    public void LocalCredentialTest() {
+     
+
     }
 
     #endregion

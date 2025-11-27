@@ -2,24 +2,32 @@ using ComponentDiscovery;
 using Composition.InstanceDiscovery;
 using DistributedDataFlow;
 using Logging.SmartStandards;
-using Logging.SmartStandards;
 using Logging.SmartStandards.AspSupport;
 using Logging.SmartStandards.Configuration;
 using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Negotiate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Security.AccessTokenHandling;
+using Security.AccessTokenHandling.OAuth.Server;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime;
+using System.Security.Claims;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using System.Web.UJMW;
 using System.Web.UJMW.SelfAnnouncement;
 using UniversalBFF.AspSupport;
@@ -41,6 +49,8 @@ namespace UniversalBFF {
     string _ApiTitle = "UniversalBFF-Demo";
     Version _ApiVersion = null;
 
+    private static InstanceDiscoveryContext _InstanceDiscoveryContext =  new InstanceDiscoveryContext(); 
+
     public void ConfigureServices(IServiceCollection services) {
 
       services.AddSmartStandardsLogging(_Configuration);
@@ -48,27 +58,70 @@ namespace UniversalBFF {
       var baseUrl = _Configuration.GetValue<string>("BaseUrl");
       string outDir = AppDomain.CurrentDomain.BaseDirectory;
 
+      var pluginDir = _Configuration.GetValue<string>("PluginDir");
+      if (!string.IsNullOrWhiteSpace(pluginDir)) {
+        AssemblyResolving.AddResolvePath(pluginDir);
+      }
+
       DevLogger.LogInformation("BFF IS INITIALIZING... (Base-URL: '{baseUrl}', Workdir: '{Workdir}')", baseUrl, outDir);
 
       _ApiVersion = typeof(Startup).Assembly.GetName().Version;
 
-     // InstanceDiscoveryContext sharedContext = new InstanceDiscoveryContext();
-     // InstanceDiscoveryContext.HookAmbienceManagment(() => sharedContext, (c) => { }, (c) => { });
+      // InstanceDiscoveryContext sharedContext = new InstanceDiscoveryContext();
+      // InstanceDiscoveryContext.HookAmbienceManagment(() => sharedContext, (c) => { }, (c) => { });
 
-      IPortfolioSecurityProvider psp = null;// InstanceDiscoveryContext.Current?.GetInstance<IPortfolioSecurityProvider>(false);
+      //TODO: es muss im InstanceDiscovery der default sein, dass es einfach ein singleton ist
+      //und der clore-basierte verwenden muss dann im setup per opt-in kommen!
+      InstanceDiscoveryContext.HookAmbienceManagment(
+        () => _InstanceDiscoveryContext,
+        (c) => { /* no action after create */ }, (c) => { /* no action after dispose */ }
+      );
+
+      services.LinkToInstanceDiscovery();
+
+
+      IPortfolioSecurityProvider psp = _InstanceDiscoveryContext.GetInstance<IPortfolioSecurityProvider>(false);
+
+
+
+      //IPortfolioSecurityProvider psp = InstanceDiscoveryContext.Current?.
+      //  GetInstance<IPortfolioSecurityProvider>(false);
+
+
+
+
+
       if (psp == null) {
         SecLogger.LogCritical(0, 0, $"Could not discover any available implementation of '{nameof(IPortfolioSecurityProvider)}' (via InstanceDiscovery)! Only Anonymous parts will work!");
       }
       else {
         services.AddSingleton<IPortfolioSecurityProvider>(psp);
+        SecLogger.LogInformation(0, 0, $"Discovered and added '{psp.GetType().FullName}' as implementation of '{nameof(IPortfolioSecurityProvider)}'!");
+
+        if (psp is IOAuthService) {
+          services.AddSingleton<IOAuthService>((IOAuthService)psp);
+          SecLogger.LogInformation(0, 0, $"Discovered and added '{psp.GetType().FullName}' as implementation of '{nameof(IOAuthService)}'!");
+
+          if (psp is IAuthPageBuilder) {
+            services.AddSingleton<IAuthPageBuilder>((IAuthPageBuilder)psp);
+          }
+          else {
+            services.AddSingleton<IAuthPageBuilder>(new DefaultAuthPageBuilder("Logon","",""));
+          }
+
+          services.AddOAuthServerController();
+          SecLogger.LogInformation(0, 0, $"Enabled OAuth2 Controller as Facade over '{psp.GetType().FullName}'!");
+
+        }
       }
 
-        ITenancyProvider tp = null;//InstanceDiscoveryContext.Current.GetInstance<ITenancyProvider>(false);
+      ITenancyProvider tp = null;//InstanceDiscoveryContext.Current.GetInstance<ITenancyProvider>(false);
       if (tp == null) {
         DevLogger.LogInformation(0, 0, $"Could not discover any available implementation of '{nameof(ITenancyProvider)}' (via InstanceDiscovery)!");
       }
       else {
         services.AddSingleton<ITenancyProvider>(tp);
+        DevLogger.LogInformation(0, 0, $"Discovered and added '{tp.GetType().FullName}' as implementation of '{nameof(ITenancyProvider)}'!");
       }
 
 
@@ -79,7 +132,7 @@ namespace UniversalBFF {
       }
       services.AddSingleton<IProductDefinitionProvider>(pdp);
 
-      ModuleRegistrar registrar = new AspModuleRegistrar(baseUrl, psp, tp, pdp, true);
+      ModuleRegistrar registrar = new AspModuleRegistrar(baseUrl, services, psp, tp, pdp, true);
       ModuleLoader loader = new ModuleLoader(registrar);
 
       services.AddSingleton<ModuleLoader>(loader);
@@ -89,9 +142,8 @@ namespace UniversalBFF {
 
       services.AddControllers();
 
-      loader.Load();
 
-      services.AddControllerForUShellPortfolioService();
+      loader.Load();
 
       UjmwHostConfiguration.AuthHeaderEvaluator = AccessTokenValidator.TryValidateHttpAuthHeader;
       AccessTokenValidator.ConfigureTokenValidation(
@@ -99,11 +151,13 @@ namespace UniversalBFF {
         (cfg) => {
         }
       );
+
       //TODO: das hier - anhand der konfig-struktur, welche aus der appsetings geladen werden soll
       //AccessTokenValidator.ConfigureByConfig(loader);
 
-
       services.AddDynamicUjmwControllers(r => {
+
+        //r.AddControllerFor<FooToInstanciate>();
 
         ////NOTE: the '.svc' suffix is only to have the same url as in the WCF-Demo
         //r.AddControllerFor<IDemoService>(new DynamicUjmwControllerOptions {
@@ -129,77 +183,30 @@ namespace UniversalBFF {
 
       });
 
-      services.AddSwaggerGen(c => {
+      bool useWinAuth = false;
 
-        c.ResolveConflictingActions(apiDescriptions => {
-          return apiDescriptions.First();
-        });
-        c.EnableAnnotations(true, true);
+      services.AddUjmwStandardSwaggerGen("OAuth");
 
-        //c.IncludeXmlComments(outDir + ".......Contract.xml", true);
-        //c.IncludeXmlComments(outDir + "........Service.xml", true);
-        //c.IncludeXmlComments(outDir + "........WebAPI.xml", true);
-
-        #region bearer
-
-        string getLinkMd = "";
-        //if (!string.IsNullOrWhiteSpace(masterApiClientSecret)) {
-        //  getLinkMd = " [get one...](../oauth?state=myState&client_id=master&login_hint=API-CLIENT&redirect_uri=/oauth/display)";
-        //}
-
-        //https://www.thecodebuzz.com/jwt-authorization-token-swagger-open-api-asp-net-core-3-0/
-        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
-          Name = "Authorization",
-          Type = SecuritySchemeType.ApiKey,
-          Scheme = "Bearer",
-          BearerFormat = "JWT",
-          In = ParameterLocation.Header,
-          Description = "API-TOKEN" + getLinkMd
-        });
-
-        c.AddSecurityRequirement(new OpenApiSecurityRequirement
-          {
-              {
-                    new OpenApiSecurityScheme
-                      {
-                          Reference = new OpenApiReference
-                          {
-                              Type = ReferenceType.SecurityScheme,
-                              Id = "Bearer"
-                          }
-                      },
-                      new string[] {}
-
-              }
-          });
-
-        #endregion
-
-        c.UseInlineDefinitionsForEnums();
-
-        c.SwaggerDoc(
-          "ApiV3",
-          new OpenApiInfo {
-            Title = _ApiTitle + " - API",
-            Version = _ApiVersion.ToString(3),
-            Description = "NOTE: This is not intended be a 'RESTful' api, as it is NOT located on the persistence layer and is therefore NOT focused on doing CRUD operations! This HTTP-based API uses a 'call-based' approach to known BL operations. IN-, OUT- and return-arguments are transmitted using request-/response- wrappers (see [UJMW](https://github.com/SmartStandards/UnifiedJsonMessageWrapper)), which are very lightweight and are a compromise for broad support and adaptability in REST-inspired technologies as well as soap-inspired technologies!",
-            //Contact = new OpenApiContact {
-            //  Name = "",
-            //  Email = "",
-            //  Url = new Uri("")
-            //},
-          }
-        );
-
-      });
+      if (useWinAuth) {
+        services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
+      }
+      else {
+        //dummy ist nötig, damit die controller mit Authorize-Attribut überhaupt angesteurt werden können
+        //sonst schreit die asp-eigene middleware...
+        services.AddAuthentication("dummy").AddScheme<                      // vvv liegt noch hier im proejkt...
+          AuthenticationSchemeOptions, Security.AccessTokenHandling.AspNetCore.AllowAllAuthHandler
+        >("dummy", null);
+      }
 
     }
-    
+
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(
       IApplicationBuilder app, IWebHostEnvironment env,
       ILoggerFactory loggerfactory, IHostApplicationLifetime lifetimeEvents, ModuleRegistrar moduleRegistrar
     ) {
+
+      string baseUrl = _Configuration.GetValue<string>("BaseUrl");
 
       //required for the www-root
       app.UseStaticFiles();
@@ -208,36 +215,6 @@ namespace UniversalBFF {
 
       if (!_Configuration.GetValue<bool>("ProdMode")) {
         app.UseDeveloperExceptionPage();
-      }
-
-      var baseUrl = _Configuration.GetValue<string>("BaseUrl");
-      if (_Configuration.GetValue<bool>("EnableSwaggerUi")) {
-
-        app.UseSwagger(o => {
-          //warning: needs subfolder! jsons cant be within same dir as swaggerui (below)
-          o.RouteTemplate = "docs/schema/{documentName}.{json|yaml}";
-          //o.SerializeAsV2 = true;
-        });
-
-        app.UseSwaggerUI(c => {
-
-          c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.List);
-          c.DefaultModelExpandDepth(2);
-          c.DefaultModelsExpandDepth(2);
-          //c.ConfigObject.DefaultModelExpandDepth = 2;
-
-          c.DocumentTitle = _ApiTitle + " - OpenAPI Definition(s)";
-
-          //represents the sorting in SwaggerUI combo-box
-          c.SwaggerEndpoint("schema/ApiV3.json", _ApiTitle + " - API v" + _ApiVersion.ToString(3));
-
-          c.RoutePrefix = "docs";
-
-          //requires MVC app.UseStaticFiles();
-          c.InjectStylesheet(baseUrl + "swagger-ui/custom.css");
-
-        });
-
       }
 
       app.UseHttpsRedirection();
@@ -253,11 +230,12 @@ namespace UniversalBFF {
 
       app.UseAuthentication(); //<< WINDOWS-AUTH
       app.UseAuthorization();
-
+      
       app.UseEndpoints(endpoints => {
         endpoints.MapControllers();
       });
 
+      app.UseUjmwStandardSwagger(_Configuration, "OAuth");
 
       //ACHTUNG: Das muss zwingend VOR dem UseSpa aufgerufen werden!
       //app.ConfigureCteModuleHosting("/ui/modulename/");

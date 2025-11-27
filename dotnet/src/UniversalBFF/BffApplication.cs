@@ -54,14 +54,14 @@ namespace UniversalBFF {
     }
 
     [ProvidesDiscoverableInstance, DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private static ITypeIndexer DiscoverableTypeIndexer {
+    public static ITypeIndexer DiscoverableTypeIndexer {
       get {
         return _Current.TypeIndexer;
       }
     }
 
     [ProvidesDiscoverableInstance, DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private static IAssemblyIndexer DiscoverableAssemblyIndexer {
+    public static IAssemblyIndexer DiscoverableAssemblyIndexer {
       get {
         return _Current._AssemblyIndexer;
       }

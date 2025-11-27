@@ -20,7 +20,7 @@ namespace UniversalBFF {
     }
 
     public ModuleLoader(ModuleRegistrar registrar) {
-       _Registrar = registrar;
+      _Registrar = registrar;
     }
 
     public void Load() {
@@ -30,6 +30,12 @@ namespace UniversalBFF {
       foreach (Type t in foundProvderTypes) {
         IFrontendModuleProvider provider = (IFrontendModuleProvider) Activator.CreateInstance(t);
         provider.RegisterModule(_Registrar);
+      }
+
+      Type[] foundBackendProvderTypes = BffApplication.Current.TypeIndexer.GetApplicableTypes<IBackendServiceProvider>(true);
+      foreach (Type t in foundBackendProvderTypes) {
+        IBackendServiceProvider provider = (IBackendServiceProvider)Activator.CreateInstance(t);
+        provider.RegisterServices(_Registrar);
       }
 
     }

@@ -175,6 +175,12 @@ namespace UniversalBFF.OobModules.UserManagement {
       }
 
 
+
+
+
+
+
+
       //DER REST IST FALSCH - WIR LEITEN NICHT BEIM AUTH WEITER SODNERN SCHON BEIM LANDING!!!!!!!!
       ////////////////////////
 
@@ -441,23 +447,30 @@ namespace UniversalBFF.OobModules.UserManagement {
       string apiClientId, string apiCallerHost, string redirectUri,
       out string message
     ) {
+      message = string.Empty;
 
+      if (long.TryParse(apiClientId, out long targetUid)) {
+        using (UserManagementDbContext db = new UserManagementDbContext()) {
 
-      //für die  apiClientIds in der normal liste muss dann aber die redirecturi immer die des bff sein!!!!!
+          OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.Uid == targetUid).FirstOrDefault();
+          if (target != null) {
+            return true;
+            //if (target.AuthUrl != _OurProxyAuthUrl) {
+            //}
+
+          }   
+
+        }
+
+      }
+
+      message = $"The client_id '{apiClientId}' is not valid in this context.";
+      return false;
+
+      //TODO: für die  apiClientIds in der normal liste muss dann aber die redirecturi immer die des bff sein!!!!!
 
       //sonderlösung für die vom locaauth - DataMisalignedException ists dann die tabelle!
       //redirectUri
-
-      throw new NotImplementedException("TODO: hier reparieren");
-      //TODO: hier reparieren:
-      //if (apiClientId == _MyOAuthClientId) {
-      //  message = "Valid client";
-      //  return true;
-      //}
-      //else {
-      //  message = "Unknown client";
-      //  return false;
-      //}
 
     }
 
@@ -465,15 +478,16 @@ namespace UniversalBFF.OobModules.UserManagement {
       string apiClientId, string apiClientSecret
     ) {
 
-      throw new NotImplementedException("TODO: hier reparieren");
-      //TODO: hier reparieren:
-      //if (apiClientId == _MyOAuthClientId && apiClientSecret == _MyOAuthClientSecret) {
-      //  return true;
-      //}
-      //else {
-      //  return false;
-      //}
+      if (long.TryParse(apiClientId, out long targetUid)) {
+        using (UserManagementDbContext db = new UserManagementDbContext()) {
+          OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.Uid == targetUid).FirstOrDefault();
+          if (target != null) {
+            return (apiClientSecret == target.ClientSecret);
+          }
+        }
+      }
 
+      return false;
     }
 
     private bool TryValidateSessionId(string sessionId, out string login) {

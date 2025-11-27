@@ -17,7 +17,9 @@ namespace UniversalBFF.OobModules.UserManagement.Frontend.Contract {
 
 
 
-
+    public void UserManagementServiceTest() {
+      throw new NotImplementedException();
+    }
 
   }
 

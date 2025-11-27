@@ -1,6 +1,8 @@
 ﻿using ComponentDiscovery;
 using Composition.InstanceDiscovery;
 using Logging.SmartStandards;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Newtonsoft.Json;
 using Security.AccessTokenHandling;
 using Security.AccessTokenHandling.OAuth;
 using Security.AccessTokenHandling.OAuth.Server;
@@ -27,7 +29,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
           OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.Uid == targetUid).FirstOrDefault();
           if (target != null) {
-            if (target.AuthUrl != _OurProxyAuthUrl) {
+            if (target.ProviderClassName != typeof(LocalCredentialService).FullName && target.AuthUrl != _OurProxyAuthUrl) {
 
               targetAuthorizeUrl = target.AuthUrl;
               targetClientId = target.ClientId;
@@ -66,15 +68,11 @@ namespace UniversalBFF.OobModules.UserManagement {
 
                 OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.Uid == targetUid).FirstOrDefault();
 
-                if (target != null) { 
-                
+                if (target != null) {
 
-                  IOAuthOperationsProvider oAuthOperations = this.TypeIndexer.GetApplicableTypes<IOAuthOperationsProvider>(true)
-                    .Where((t) => t.FullName == target.ProviderClassName)
-                    .Select((t) => (IOAuthOperationsProvider)Activator.CreateInstance(t))
-                    .FirstOrDefault();
+                  IOAuthOperationsProvider oAuthOperations = this.InitializeOAuthOperationsProvider(target);
 
-                  if(!oAuthOperations.TryGetAccessTokenViaOAuthCode(
+                  if (!oAuthOperations.TryGetAccessTokenViaOAuthCode(
                     codeFromDelegate, target.ClientId, target.ClientSecret, thisRedirectUri,
                     out TokenIssuingResult result
                   )){
@@ -98,6 +96,39 @@ namespace UniversalBFF.OobModules.UserManagement {
       }
 
       return false;
+    }
+
+    private IOAuthOperationsProvider InitializeOAuthOperationsProvider(OAuthProxyTargetEntity target) {
+
+      //TODO: Cache instances per targetUid?
+
+      IOAuthOperationsProvider oAuthOperations = (
+        this.TypeIndexer.GetApplicableTypes<IOAuthOperationsProvider>(true)
+        .Where((t) => t.FullName == target.ProviderClassName)
+        .Select((t) => (IOAuthOperationsProvider)Activator.CreateInstance(t))
+        .FirstOrDefault()
+      );
+
+      if (oAuthOperations == null) {
+        oAuthOperations = new Security.AccessTokenHandling.OAuth.OobProviders.GenericOAuthOperationsProvider();
+      }
+
+      Dictionary<string, string> additionalParams = null;
+      if (!string.IsNullOrWhiteSpace(target.AdditionalParamsJson) && target.AdditionalParamsJson.StartsWith("{")) {
+        additionalParams = JsonConvert.DeserializeObject<Dictionary<string, string>>(target.AdditionalParamsJson);
+      }
+
+      oAuthOperations.ApplyCommonConfigurationValues(
+        target.DisplayLabel,
+        target.AuthUrl,
+        target.RetrivalUrl,
+        "", //target.IntrospectorParamsJson,
+        supportsIframe: true,
+        requestIdToken: false,
+        additionalParams
+      );
+
+      return oAuthOperations;
     }
 
   }

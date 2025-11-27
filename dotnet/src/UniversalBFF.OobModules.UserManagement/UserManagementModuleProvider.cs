@@ -21,7 +21,11 @@ namespace UniversalBFF.OobModules.UserManagement {
       //es folgen nur die "Management" services, welche z.B. user anlegen, rollen zuweisen etc können
 
       registrar.RegisterUjmwServiceEndpoint<IUserManagementService>("oob-usrmgmt", () => new UserManagementService());
- 
+
+
+      registrar.RegisterUjmwServiceEndpoint<ILocalCredentialManagementService>("oob-usrmgmt", () => new LocalCredentialService());
+
+
     }
 
     public void RegisterModule(IFrontendModuleRegistrar registrar) {
@@ -35,7 +39,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
       string usecaseKey1 = module.AddUsecase("UseCase 1", (u) => {
         u.WidgetClass = "";
-        u.UnitOfWorkDefaults["Abc"] = "Hallo";
+        //u.UnitOfWorkDefaults["Abc"] = "Hallo";
       });
 
 

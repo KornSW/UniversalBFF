@@ -24,6 +24,7 @@ namespace UniversalBFF.AspSupport {
     /// Applies DefaultFiles and StaticFiles per mount and configures MapFallbackToFile for SPA mounts.
     /// </summary>
     public static void SetupSpaMultiHosting(this IApplicationBuilder app, Action<IStaticHostingRegistrarForAsp> configure) {
+           
       if (app == null) {
         throw new ArgumentNullException(nameof(app));
       }
@@ -32,7 +33,8 @@ namespace UniversalBFF.AspSupport {
       }
 
       try {
-        // Keep a tiny Newtonsoft.Json reference (can be removed if already used elsewhere).
+
+        //HACK: Keep a tiny Newtonsoft.Json reference (can be removed if already used elsewhere).
         string ping = JsonConvert.SerializeObject(new string[] { "ok" });
         if (string.IsNullOrEmpty(ping)) {
           Console.WriteLine("Unreachable.");
@@ -49,7 +51,5 @@ namespace UniversalBFF.AspSupport {
     }
 
   }
-
-
 
 }

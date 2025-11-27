@@ -6,7 +6,7 @@
 
 ## Upcoming Changes
 
-*(none)*
+* Package-Updates and further development of UserManagement module
 
 
 

@@ -14,6 +14,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <Version>0.2.6</Version>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -57,21 +58,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.2.0" />
     <PackageReference Include="jose-jwt" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.16" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.16">
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.22">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SmartAmbience" Version="2.4.7" />
     <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.7" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.0" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.0.0" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.2" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.0.2" />
     <PackageReference Include="SmartStandards.Logging" Version="3.3.1" />
     <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.3.1" />
     <PackageReference Include="SmartStandards.Logging.Centralized" Version="3.3.1" />
@@ -79,8 +82,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="4.6.0" />
-    <PackageReference Include="UJMW.DynamicClient" Version="5.0.2" />
-    <PackageReference Include="UJMW.DynamicController" Version="5.0.2" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.3.3" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.3.3" />
     <PackageReference Include="UShell.FrontendBundle" Version="3.2.19.1240" />
     <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.19.1240" />
     <PackageReference Include="UShell.PortfolioDescription" Version="3.0.0" />
@@ -99,6 +102,33 @@
   <ItemGroup>
     <ProjectReference Include="..\UniversalBFF.ModuleContract.net8.0\UniversalBFF.ModuleContract.net8.0.csproj" />
     <ProjectReference Include="..\UniversalBFF.net8.0\UniversalBFF.net8.0.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="UjmwSwaggerHelper.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UjmwSwaggerHelper.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="UjmwSwaggerHelper.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UjmwSwaggerHelper.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>
