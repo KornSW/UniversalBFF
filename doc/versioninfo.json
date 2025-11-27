@@ -1,13 +1,13 @@
 {
-  "currentVersion": "0.2.6",
-  "currentVersionWithSuffix": "0.2.6",
+  "currentVersion": "0.2.7",
+  "currentVersionWithSuffix": "0.2.7",
   "releaseType": "",
-  "previousVersion": "0.2.5",
+  "previousVersion": "0.2.6",
   "changeGrade": "fix",
   "currentMajor": 0,
   "currentMinor": 2,
-  "currentPatch": 6,
-  "versionDateInfo": "2025-10-28",
-  "versionTimeInfo": "14:14:30",
-  "versionNotes": "- new revision without significant changes\n"
+  "currentPatch": 7,
+  "versionDateInfo": "2025-11-27",
+  "versionTimeInfo": "18:30:42",
+  "versionNotes": "- Package-Updates and further development of UserManagement module\n"
 }

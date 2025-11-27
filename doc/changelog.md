@@ -6,7 +6,13 @@
 
 ## Upcoming Changes
 
-* Package-Updates and further development of UserManagement module
+*(none)*
+
+
+
+## v 0.2.7
+released **2025-11-27**, including:
+ - Package-Updates and further development of UserManagement module
 
 
 

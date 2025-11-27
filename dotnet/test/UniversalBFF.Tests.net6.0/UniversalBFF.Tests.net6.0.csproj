@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>UniversalBFF</RootNamespace>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>0.2.6</AssemblyVersion>
-    <Version>0.2.6</Version>
+    <AssemblyVersion>0.2.7</AssemblyVersion>
+    <Version>0.2.7</Version>
     <AssemblyName>UniversalBFF.AspHost</AssemblyName>
     <PackageId>Tests</PackageId>
     <Product>Tests</Product>
