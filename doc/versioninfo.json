@@ -1,13 +1,13 @@
 {
-  "currentVersion": "0.2.7",
-  "currentVersionWithSuffix": "0.2.7",
+  "currentVersion": "0.3.0",
+  "currentVersionWithSuffix": "0.3.0",
   "releaseType": "",
-  "previousVersion": "0.2.6",
-  "changeGrade": "fix",
+  "previousVersion": "0.2.7",
+  "changeGrade": "major",
   "currentMajor": 0,
-  "currentMinor": 2,
-  "currentPatch": 7,
-  "versionDateInfo": "2025-11-27",
-  "versionTimeInfo": "18:30:42",
-  "versionNotes": "- Package-Updates and further development of UserManagement module\n"
+  "currentMinor": 3,
+  "currentPatch": 0,
+  "versionDateInfo": "2026-03-06",
+  "versionTimeInfo": "11:16:25",
+  "versionNotes": "- breaking Change: standardized Hosting-Registration-Routes for Endpoints\n"
 }

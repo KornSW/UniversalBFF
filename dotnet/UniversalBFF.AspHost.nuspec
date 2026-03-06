@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>UniversalBFF.AspHost</id>
-    <version>0.2.7</version>
+    <version>0.3.0</version>
     <title>UniversalBFF.AspHost</title>
     <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>
@@ -18,7 +18,7 @@
 
         <!-- Explicit own Dependencies -->
         
-        <dependency id="UniversalBFF.ModuleContract" version="[0.2.7]" />
+        <dependency id="UniversalBFF.ModuleContract" version="[0.3.0]" />
 
         <dependency id="UShell.FrontendBundle" version="3.2.23.1314" />
         <dependency id="UShell.FrontendBundle.Mvc" version="3.2.23.1314" />

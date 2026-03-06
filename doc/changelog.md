@@ -6,7 +6,13 @@
 
 ## Upcoming Changes
 
-* **breaking Change**: standardized Hosting-Registration-Routes for Endpoints
+*(none)*
+
+
+
+## v 0.3.0
+released **2026-03-06**, including:
+ - **breaking Change**: standardized Hosting-Registration-Routes for Endpoints
 
 
 
