@@ -29,10 +29,6 @@ using System.Reflection;
 //        u.UnitOfWorkDefaults["Abc"] = "Hallo";
 //      });
 
-
-
-
-
 //      ////registrar.RegisterModule(
 //      ////  new UShell.ModuleDescription() {
 //      ////     Commands = new List<UShell.CommandDescription> {

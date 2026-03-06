@@ -95,17 +95,17 @@ namespace UniversalBFF.OobModules.UserManagement {
 
         if (lcl == null) {
           message = "Wrong credentials";
-          SecLogger.LogWarning(2079222383703567401L, 73901, "TryAuthenticate failed: " + message);
+          SecLogger.LogWarning(2079222383703567401L, 77391, "TryAuthenticate failed: " + message);
           return false;
         }
         else if (!lcl.IsValidated) {
           message = "User has not jet been validated...";
-          SecLogger.LogInformation(2079222383703567402L, 73904, "TryAuthenticate failed: " + message);
+          SecLogger.LogInformation(2079222383703567402L, 77394, "TryAuthenticate failed: " + message);
           return false;
         }
         else if (lcl.LockedUntil.HasValue && lcl.LockedUntil.Value > DateTime.Now) {
           message = $"User is locked until {lcl.LockedUntil.Value.AddMinutes(1):dd.MM HH:mm}, please come back later!";
-          SecLogger.LogWarning(2079222383703567403L, 73903, "TryAuthenticate failed: " + message);
+          SecLogger.LogWarning(2079222383703567403L, 77393, "TryAuthenticate failed: " + message);
           return false;
         }
         else if (lcl.PasswordHash != GetPasswordHash(password)) {
@@ -117,11 +117,11 @@ namespace UniversalBFF.OobModules.UserManagement {
           if (lcl.WrongPasswordCount > allowedFails) {
             lcl.LockedUntil = DateTime.Now.AddMinutes(5 ^ (lcl.WrongPasswordCount - allowedFails));
             message = $"Wrong credentials! The user will now be locked until {lcl.LockedUntil.Value.AddMinutes(1):dd.MM HH:mm}, please come back later!";
-            SecLogger.LogWarning(2079222383703567404L, 73902, "TryAuthenticate failed: " + message);
+            SecLogger.LogWarning(2079222383703567404L, 77392, "TryAuthenticate failed: " + message);
           }
           else {
             message = "Wrong credentials";
-            SecLogger.LogWarning(2079222383703567405L, 73902, "TryAuthenticate failed: " + message);
+            SecLogger.LogWarning(2079222383703567405L, 77392, "TryAuthenticate failed: " + message);
           }
 
           db.SaveChanges();
@@ -132,7 +132,7 @@ namespace UniversalBFF.OobModules.UserManagement {
           lcl.WrongPasswordCount = 0;
           lcl.LockedUntil = null;
 
-          SecLogger.LogInformation(2079222383703567403L, 73900, "TryAuthenticate succeeded for local Credential '{login}'", login);
+          SecLogger.LogInformation(2079222383703567403L, 77390, "TryAuthenticate succeeded for local Credential '{login}'", login);
 
           message = null;
           db.SaveChanges();

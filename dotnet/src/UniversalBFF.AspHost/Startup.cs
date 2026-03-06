@@ -63,7 +63,7 @@ namespace UniversalBFF {
         AssemblyResolving.AddResolvePath(pluginDir);
       }
 
-      DevLogger.LogInformation("BFF IS INITIALIZING... (Base-URL: '{baseUrl}', Workdir: '{Workdir}')", baseUrl, outDir);
+      DevLogger.LogInformation(0, 77109, "BFF IS INITIALIZING... (Base-URL: '{baseUrl}', Workdir: '{Workdir}')", baseUrl, outDir);
 
       _ApiVersion = typeof(Startup).Assembly.GetName().Version;
 
@@ -92,15 +92,15 @@ namespace UniversalBFF {
 
 
       if (psp == null) {
-        SecLogger.LogCritical(0, 0, $"Could not discover any available implementation of '{nameof(IPortfolioSecurityProvider)}' (via InstanceDiscovery)! Only Anonymous parts will work!");
+        SecLogger.LogCritical(0, 77110, $"Could not discover any available implementation of '{nameof(IPortfolioSecurityProvider)}' (via InstanceDiscovery)! Only Anonymous parts will work!");
       }
       else {
         services.AddSingleton<IPortfolioSecurityProvider>(psp);
-        SecLogger.LogInformation(0, 0, $"Discovered and added '{psp.GetType().FullName}' as implementation of '{nameof(IPortfolioSecurityProvider)}'!");
+        SecLogger.LogInformation(0, 77111, $"Discovered and added '{psp.GetType().FullName}' as implementation of '{nameof(IPortfolioSecurityProvider)}'!");
 
         if (psp is IOAuthService) {
           services.AddSingleton<IOAuthService>((IOAuthService)psp);
-          SecLogger.LogInformation(0, 0, $"Discovered and added '{psp.GetType().FullName}' as implementation of '{nameof(IOAuthService)}'!");
+          SecLogger.LogInformation(0, 77112, $"Discovered and added '{psp.GetType().FullName}' as implementation of '{nameof(IOAuthService)}'!");
 
           if (psp is IAuthPageBuilder) {
             services.AddSingleton<IAuthPageBuilder>((IAuthPageBuilder)psp);
@@ -110,24 +110,24 @@ namespace UniversalBFF {
           }
 
           services.AddOAuthServerController();
-          SecLogger.LogInformation(0, 0, $"Enabled OAuth2 Controller as Facade over '{psp.GetType().FullName}'!");
+          SecLogger.LogInformation(0, 77113, $"Enabled OAuth2 Controller as Facade over '{psp.GetType().FullName}'!");
 
         }
       }
 
       ITenancyProvider tp = null;//InstanceDiscoveryContext.Current.GetInstance<ITenancyProvider>(false);
       if (tp == null) {
-        DevLogger.LogInformation(0, 0, $"Could not discover any available implementation of '{nameof(ITenancyProvider)}' (via InstanceDiscovery)!");
+        DevLogger.LogInformation(0, 77114, $"Could not discover any available implementation of '{nameof(ITenancyProvider)}' (via InstanceDiscovery)!");
       }
       else {
         services.AddSingleton<ITenancyProvider>(tp);
-        DevLogger.LogInformation(0, 0, $"Discovered and added '{tp.GetType().FullName}' as implementation of '{nameof(ITenancyProvider)}'!");
+        DevLogger.LogInformation(0, 77115, $"Discovered and added '{tp.GetType().FullName}' as implementation of '{nameof(ITenancyProvider)}'!");
       }
 
 
       IProductDefinitionProvider pdp = null;//InstanceDiscoveryContext.Current.GetInstance<IProductDefinitionProvider>(false);
       if (pdp == null) {
-        DevLogger.LogInformation(0, 0, $"Could not discover any available implementation of '{nameof(IProductDefinitionProvider)}' (via InstanceDiscovery)! Switching to fallback 'FileBasedProductDefinitionProvider'...");
+        DevLogger.LogInformation(0, 77116, $"Could not discover any available implementation of '{nameof(IProductDefinitionProvider)}' (via InstanceDiscovery)! Switching to fallback 'FileBasedProductDefinitionProvider'...");
         pdp = new FileBasedProductDefinitionProvider(outDir); 
       }
       services.AddSingleton<IProductDefinitionProvider>(pdp);
@@ -185,10 +185,41 @@ namespace UniversalBFF {
 
       bool useWinAuth = false;
 
-      services.AddUjmwStandardSwaggerGen("OAuth");
+     services.AddUjmwStandardSwaggerGen("OAuth");
+
+
+
+      var auth = services.AddAuthentication((opt) => {
+
+        opt.DefaultAuthenticateScheme = useWinAuth ? NegotiateDefaults.AuthenticationScheme : "dummy";
+        opt.DefaultChallengeScheme = useWinAuth ? NegotiateDefaults.AuthenticationScheme : "dummy";
+
+
+        
+
+
+      });
+      if (useWinAuth) {
+        auth.AddNegotiate();
+      }
+      else {
+        // Nur nötig, damit [Authorize] nicht "no authentication handler..." wirft
+        auth.AddScheme<AuthenticationSchemeOptions, Security.AccessTokenHandling.AspNetCore.AllowAllAuthHandler>("dummy", _ => { });
+      }
+
+      // Wichtig: KEINE FallbackPolicy setzen, sonst wäre alles per Default geschützt!
+      // services.AddAuthorization(); reicht.
+      services.AddAuthorization();
+
+
 
       if (useWinAuth) {
-        services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
+        var x = services.AddAuthentication(NegotiateDefaults.AuthenticationScheme);
+          
+        x.AddNegotiate();
+        x.AddScheme<AuthenticationSchemeOptions, Security.AccessTokenHandling.AspNetCore.AllowAllAuthHandler> ("dummy", null);
+      
+      
       }
       else {
         //dummy ist nötig, damit die controller mit Authorize-Attribut überhaupt angesteurt werden können

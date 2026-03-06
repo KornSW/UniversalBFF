@@ -88,7 +88,8 @@ namespace UniversalBFF {
     private List<Action<IStaticHostingRegistrar>> _ModuleFileRegistrationMethods = new List<Action<IStaticHostingRegistrar>>();
 
     /// <summary></summary>
-    /// <param name="endpointAlias">MUST BE URL-COMPATIBLE!</param>
+    /// <param name="moduleScopingKey">An technical name (URL-SAFE!) to discriminate application modules from each other.</param>
+    /// <param name="extensionAlias">An technical name (URL-SAFE!), used as alias to address this extension!</param>
     /// <param name="assemblyWithEmbeddedFiles"></param>
     /// <param name="embeddedFilesNamespace">
     /// WARNING: Errors here are very hard to track, because simply no file is returned!
@@ -99,18 +100,25 @@ namespace UniversalBFF {
     /// </param>
     /// <param name="defaultDoc"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void RegisterFrontendExtension(string endpointAlias, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace, string defaultDoc = "index.html") {
-      string aliasUrl = $"ui/{HttpUtility.UrlEncode(endpointAlias)}/";
+    public void RegisterFrontendExtension(string moduleScopingKey, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace, string extensionAlias = "ui", string defaultDoc = "index.html") {
+      string mountpointUrl = $"{HttpUtility.UrlEncode(moduleScopingKey)}/{HttpUtility.UrlEncode(extensionAlias)}/";
+ 
       lock (_ModuleFileRegistrationMethods) {
         _ModuleFileRegistrationMethods.Add(
           (r) => {
-            r.Register(_BaseUrl, aliasUrl, assemblyWithEmbeddedFiles, embeddedFilesNamespace);
-            r.SetDefaultDoc(aliasUrl, defaultDoc, true);
+            r.Register(_BaseUrl, mountpointUrl, assemblyWithEmbeddedFiles, embeddedFilesNamespace);
+            r.SetDefaultDoc(mountpointUrl, defaultDoc, true);
           }
         );
       }
     }
 
+    public void RegisterFrontendExtension(string moduleScopingKey, string externalHostedUrl, string extensionAlias = "ui") {
+      string mountpointUrl = $"{HttpUtility.UrlEncode(moduleScopingKey)}/{HttpUtility.UrlEncode(extensionAlias)}/";
+      lock (_FrontendExtensionUrlsByAlias) {
+        _FrontendExtensionUrlsByAlias[mountpointUrl] = externalHostedUrl;
+      }
+    }
     public void CollectAndRegisterFrontendExtensionsTo(IStaticHostingRegistrar registrar) {
       //now is the right time to execute the registrations
       lock (_ModuleFileRegistrationMethods) {
@@ -157,42 +165,31 @@ namespace UniversalBFF {
       lock (_RegisteredModules) {
         return _RegisteredModules.Where((m)=>m.ModuleUid == nameInUrl).FirstOrDefault();
       }
+      //TODO: das muss noch gemerget werdnen mit:
+      var DUMMY = nameof(_FrontendExtensionUrlsByAlias);
     }
 
-    public void RegisterServerCommands(IServerCommandExecutor executor) {
+    public void RegisterServerCommands(string moduleScopingKey, IServerCommandExecutor executor) {
 
-
+      //TODO: dringend implementieren:
+      throw new NotImplementedException();
 
 
     }
 
     private Dictionary<string, string> _FrontendExtensionUrlsByAlias = new Dictionary<string, string>();
 
+    public abstract void RegisterHttpProxy(string moduleScopingKey, string endpointAlias, string forwardingAddress, int apiV = 1);
 
-    //public virtual void RegisterFrontendExtension(string endpointAlias, IAfsRepository staticFilesForHosting) {
-    //  string relativeApplicationRoute = $"/ui/{endpointAlias}/";
-    //  lock (_FrontendExtensionUrlsByAlias) {
-    //    _FrontendExtensionUrlsByAlias[endpointAlias] = relativeApplicationRoute;
-    //  }
-    //}
-
-    public void RegisterFrontendExtension(string endpointAlias, string externalHostedUrl) {
-      lock (_FrontendExtensionUrlsByAlias) {
-        _FrontendExtensionUrlsByAlias[endpointAlias] = externalHostedUrl;
-      }
+    public void RegisterUjmwServiceEndpoint<TServiceContract>(string moduleScopingKey, string endpointAlias, Func<TServiceContract> factory, int apiV = 1) where TServiceContract : class {
+      this.RegisterUjmwServiceEndpoint(typeof(TServiceContract), moduleScopingKey, endpointAlias, () => factory.Invoke(), apiV);
     }
 
-    public abstract void RegisterHttpProxy(string endpointAlias, string forwardingAddress);
+    public abstract void RegisterUjmwServiceEndpoint(Type contractType, string moduleScopingKey, string endpointAlias, Func<object> factory, int apiV = 1);
 
-    public void RegisterUjmwServiceEndpoint<TServiceContract>(string endpointAlias, Func<TServiceContract> factory) where TServiceContract : class {
-      this.RegisterUjmwServiceEndpoint(typeof(TServiceContract), endpointAlias, () => factory.Invoke());
-    }
-
-    public abstract void RegisterUjmwServiceEndpoint(Type contractType, string endpointAlias, Func<object> factory);
-
-    public void RegisterUjmwProxy<TServiceContract>(string endpointAlias, Func<string> externalHostedUrlGetter = null) where TServiceContract : class {
+    public void RegisterUjmwProxy<TServiceContract>(string moduleScopingKey, string endpointAlias, Func<string> externalHostedUrlGetter = null, int apiV = 1) where TServiceContract : class {
       this.RegisterUjmwServiceEndpoint<TServiceContract>(
-        endpointAlias,
+        moduleScopingKey, endpointAlias,
         () => {
           if(externalHostedUrlGetter == null) {
             return System.Web.UJMW.DynamicClientFactory.CreateInstance<TServiceContract>();
@@ -202,13 +199,14 @@ namespace UniversalBFF {
               externalHostedUrlGetter, null
             );
           }
-        }
+        },
+        apiV
       );
     }
 
-    public void RegisterUjmwProxy(Type contractType, string endpointAlias, Func<string> externalHostedUrlGetter = null) {
+    public void RegisterUjmwProxy(Type contractType, string moduleScopingKey, string endpointAlias, Func<string> externalHostedUrlGetter = null, int apiV = 1) {
       this.RegisterUjmwServiceEndpoint(
-        contractType, endpointAlias,
+        contractType, moduleScopingKey, endpointAlias,
         () => {
           if (externalHostedUrlGetter == null) {
             return System.Web.UJMW.DynamicClientFactory.CreateInstance(contractType);
@@ -218,7 +216,8 @@ namespace UniversalBFF {
               contractType, externalHostedUrlGetter, null
             );
           }
-        }
+        },
+        apiV
       );
     }
 

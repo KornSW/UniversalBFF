@@ -12,6 +12,12 @@ namespace UniversalBFF {
 
     public static int Main(string[] commandlineArgs) {
 
+      //using mainForm as new mainForm(commandlineArgs) {
+      //  Application.Run(a);
+      //}
+
+      //cefcontronl.CefHostApplication.Initialize(commandlineArgs);
+
       Application.Run();
 
       return 0;

@@ -20,15 +20,14 @@ namespace UniversalBFF.AspSupport {
     private IFileProvider _FileProvider;
 
     public MountRegistration(string requestPathRelativeToApplicationBase, IFileProvider fileProvider) {
-      if (string.IsNullOrWhiteSpace(requestPathRelativeToApplicationBase)) {
-        throw new ArgumentException("requestPath must not be null or empty.", nameof(requestPathRelativeToApplicationBase));
-      }
+
       if (fileProvider == null) {
         throw new ArgumentNullException(nameof(fileProvider));
       }
 
       _RequestPathRelativeToApplicationBase = requestPathRelativeToApplicationBase;
       _FileProvider = fileProvider;
+
     }
 
     /// <summary>

@@ -39,7 +39,7 @@
   <Import Project="..\UniversalBFF\UniversalBFF.projitems" Label="Shared" />
 
   <ItemGroup>
-    <PackageReference Include="ComponentDiscovery" Version="4.11.0" />
+    <PackageReference Include="ComponentDiscovery" Version="4.11.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
@@ -47,10 +47,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.5" />
     <PackageReference Include="SmartStandards.Logging" Version="3.3.1" />
-    <PackageReference Include="Snowflake44" Version="3.5.0" />
-    <PackageReference Include="UJMW.DynamicClient" Version="5.3.5" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="3.0.0" />
-    <PackageReference Include="UShell.ServerCommands.Contract" Version="0.1.1" />
+    <PackageReference Include="Snowflake44" Version="3.7.0" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.3.7" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -38,11 +38,11 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="ComponentDiscovery" Version="4.11.0" />
-    <PackageReference Include="FUSE-fx.EfSupport" Version="0.7.1" />
+    <PackageReference Include="ComponentDiscovery" Version="4.11.1" />
+    <PackageReference Include="FUSE-fx.EfSupport" Version="0.10.0" />
     <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.2.0" />
     <PackageReference Include="FUSE-fx.ModelDescription" Version="2.0.22" />
-    <PackageReference Include="FUSE-fx.RepositoryContract" Version="0.7.1" />
+    <PackageReference Include="FUSE-fx.RepositoryContract" Version="0.10.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
@@ -65,8 +65,8 @@
     <PackageReference Include="SmartAmbience" Version="2.4.7" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.5" />
     <PackageReference Include="SmartStandards.Logging" Version="3.3.1" />
-    <PackageReference Include="Snowflake44" Version="3.5.0" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="3.0.0" />
+    <PackageReference Include="Snowflake44" Version="3.7.0" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>

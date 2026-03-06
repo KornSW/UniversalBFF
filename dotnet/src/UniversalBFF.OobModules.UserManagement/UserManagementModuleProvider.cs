@@ -11,7 +11,12 @@ using UShell.ServerCommands;
 
 namespace UniversalBFF.OobModules.UserManagement {
 
-    public class UserManagementModuleProvider : IFrontendModuleProvider, IBackendServiceProvider {
+  public class UserManagementModuleProvider : IFrontendModuleProvider, IBackendServiceProvider {
+
+    /// <summary>
+    /// An technical name (URL-SAFE!) to discriminate application modules from each other.
+    /// </summary>
+    internal const string ModuleScopingKey = "oob-usrmgmt";
 
     public void RegisterServices(IBackendServiceRegistrar registrar) {
 
@@ -20,10 +25,14 @@ namespace UniversalBFF.OobModules.UserManagement {
 
       //es folgen nur die "Management" services, welche z.B. user anlegen, rollen zuweisen etc können
 
-      registrar.RegisterUjmwServiceEndpoint<IUserManagementService>("oob-usrmgmt", () => new UserManagementService());
+      registrar.RegisterUjmwServiceEndpoint<IUserManagementService>(
+        ModuleScopingKey, nameof(UserManagementService), () => new UserManagementService()
+      );
 
 
-      registrar.RegisterUjmwServiceEndpoint<ILocalCredentialManagementService>("oob-usrmgmt", () => new LocalCredentialService());
+      registrar.RegisterUjmwServiceEndpoint<ILocalCredentialManagementService>(
+        ModuleScopingKey, nameof(LocalCredentialService), () => new LocalCredentialService()
+      );
 
 
     }
@@ -43,7 +52,7 @@ namespace UniversalBFF.OobModules.UserManagement {
       });
 
 
-
+      
 
 
       //registrar.RegisterModule(
@@ -87,7 +96,7 @@ namespace UniversalBFF.OobModules.UserManagement {
       const string subNamespaceOfEmbeddedSpaFiles = "Frontend.webapp_files";
       const string defaultNamespace = "UniversalBFF.OobModules.UserManagement";
       registrar.RegisterFrontendExtension(
-        "oob-usrmgmt",
+        ModuleScopingKey,
         Assembly.GetExecutingAssembly(),
         $"{defaultNamespace}.{subNamespaceOfEmbeddedSpaFiles}",
         "index.html"

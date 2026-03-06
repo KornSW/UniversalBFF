@@ -11,7 +11,8 @@ namespace UniversalBFF {
     void RegisterModule(ModuleDescription moduleDescription);
 
     /// <summary></summary>
-    /// <param name="endpointAlias">should be url-safe! </param>
+    /// <param name="moduleScopingKey">An technical name (URL-SAFE!) to discriminate application modules from each other.</param>
+    /// <param name="extensionAlias">An technical name (URL-SAFE!), used as alias to address this extension!</param>
     /// <param name="assemblyWithEmbeddedFiles"></param>
     /// <param name="embeddedFilesNamespace">
     /// WARNING: Errors here are very hard to track, because simply no file is returned!
@@ -22,32 +23,18 @@ namespace UniversalBFF {
     /// </param>
     /// <param name="defaultDoc"></param> 
     /// <exception cref="InvalidOperationException"></exception>
-    void RegisterFrontendExtension(string endpointAlias, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace, string defaultDoc = "index.html");
+    void RegisterFrontendExtension(string moduleScopingKey, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace, string extensionAlias = "ui", string defaultDoc = "index.html");
 
-    void RegisterFrontendExtension(string endpointAlias, string externalHostedUrl);
+    /// <summary></summary>
+    /// <param name="moduleScopingKey"></param>
+    /// <param name="extensionAlias"></param>
+    /// <param name="externalHostedUrl">usually the location where the remote-entrypoint for javascript is loacted</param>
+    void RegisterFrontendExtension(string moduleScopingKey, string externalHostedUrl, string extensionAlias = "ui");
 
     ///// <summary>
     ///// Registers an UShell Module Application
     ///// </summary>
     //void RegisterFrontendExtension(string endpointAlias, IAfsRepository staticFilesForHosting);
-
-  }
-
-  public interface IBackendServiceRegistrar {
-
-    void RegisterUjmwServiceEndpoint<TServiceContract>(string endpointAlias, Func<TServiceContract> factory) 
-      where TServiceContract : class;
-
-    void RegisterUjmwServiceEndpoint(Type contractType, string endpointAlias, Func<object> factory);
-
-    void RegisterUjmwProxy<TServiceContract>(string endpointAlias, Func<string> externalHostedUrlGetter = null)
-      where TServiceContract : class;
-
-    void RegisterUjmwProxy(Type contractType, string endpointAlias, Func<string> externalHostedUrlGetter = null);
-
-    void RegisterHttpProxy(string endpointAlias, string forwardingAddress);
-
-    void RegisterServerCommands(IServerCommandExecutor executor);
 
   }
 

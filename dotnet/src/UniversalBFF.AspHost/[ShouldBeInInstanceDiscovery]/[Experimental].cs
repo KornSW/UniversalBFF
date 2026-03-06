@@ -28,7 +28,7 @@
 //  /// 3. Return the same instance for all subsequent resolutions of that type.
 //  /// </summary>
 //  public sealed class SmartSingletonFallbackServiceProvider : IServiceProvider, ISupportRequiredService, IDisposable {
-    
+
 //    private readonly IServiceProvider _InnerServiceProvider;
 //    private Boolean _IsDisposed;
 
@@ -63,7 +63,7 @@
 
 //      this.ThrowIfDisposed();
 
-//      DevLogger.LogTrace(0, 99999, "Resolving service type: " + serviceType.FullName);
+//      DevLogger.LogTrace(0, 77121,  "Resolving service type: " + serviceType.FullName);
 
 //      // First try the inner provider.
 //      Object resolvedInstance = _InnerServiceProvider.GetService(serviceType);
@@ -132,7 +132,7 @@
 //    /// <returns>The created instance or null if creation fails.</returns>
 //    private Object CreateSingletonInstance(Type serviceType) {
 //      try {
-//        DevLogger.LogTrace(0, 99999, "Creating fallback singleton instance for type: " + serviceType.FullName);
+//        DevLogger.LogTrace(0, 77122,  "Creating fallback singleton instance for type: " + serviceType.FullName);
 
 //        // Important: this will require a public parameterless constructor.
 //        // If you need constructor injection here, you would have to use ActivatorUtilities.
@@ -177,14 +177,14 @@
 //  /// with <see cref="SmartSingletonFallbackServiceProvider"/>.
 //  /// </summary>
 //  public sealed class SmartSingletonFallbackServiceProviderFactory : IServiceProviderFactory<IServiceCollection> {
-    
+
 //    /// <summary>
 //    /// Creates the container builder (here simply the IServiceCollection).
 //    /// </summary>
 //    /// <param name="services">The service collection.</param>
 //    /// <returns>The builder object (same IServiceCollection).</returns>
 //    public IServiceCollection CreateBuilder(IServiceCollection services) {
-     
+
 //      if (services == null) {
 //        throw new ArgumentNullException("services");
 //      }
@@ -199,7 +199,7 @@
 //    /// <param name="containerBuilder">The service collection to build from.</param>
 //    /// <returns>The wrapped service provider.</returns>
 //    public IServiceProvider CreateServiceProvider(IServiceCollection containerBuilder) {
-     
+
 //      if (containerBuilder == null) {
 //        throw new ArgumentNullException("containerBuilder");
 //      }
@@ -250,6 +250,6 @@
 
 //      return app;
 //    }
-  
+
 //  }
 //}

@@ -6,7 +6,7 @@
 
 ## Upcoming Changes
 
-*(none)*
+* **breaking Change**: standardized Hosting-Registration-Routes for Endpoints
 
 
 

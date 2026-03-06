@@ -77,7 +77,7 @@ namespace UniversalBFF.OobModules.UserManagement {
                     out TokenIssuingResult result
                   )){
 
-                    SecLogger.LogError($"Returned from CodeFlow-Delegation (over '{target.DisplayLabel}'), but the token could not be retrieved: {result?.error}");
+                    SecLogger.LogError(0, 77301, $"Returned from CodeFlow-Delegation (over '{target.DisplayLabel}'), but the token could not be retrieved: {result?.error}");
                     return false;
                   }
 
@@ -89,7 +89,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
                     _LoginsPerSessionId[sid] =$"{providerResolvedSubject}@{oAuthOperations.ProviderInvariantName}-{target.Uid}";
 
-                    SecLogger.LogTrace($"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_LoginsPerSessionId[sid]}' (subject resolved via provider)");
+                    SecLogger.LogTrace(0, 77302, $"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_LoginsPerSessionId[sid]}' (subject resolved via provider)");
                     return true;
                   }
                   else {
@@ -106,7 +106,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
                         _LoginsPerSessionId[sid] = $"{selfExtractedSubjectClaim}@{oAuthOperations.ProviderInvariantName}-{target.Uid}";
 
-                        SecLogger.LogTrace($"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_LoginsPerSessionId[sid]}' (subject resolved via fallback-JWT introspection)");
+                        SecLogger.LogTrace(0, 77303, $"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_LoginsPerSessionId[sid]}' (subject resolved via fallback-JWT introspection)");
                         return true;
 
                       }
@@ -117,7 +117,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
                     _LoginsPerSessionId[sid] = $"TEMP_{MD5(result.access_token)}@{oAuthOperations.ProviderInvariantName}.{target.Uid}";
 
-                    SecLogger.LogTrace($"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_LoginsPerSessionId[sid]}' (no subject resolvable)");
+                    SecLogger.LogTrace(0, 77304, $"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_LoginsPerSessionId[sid]}' (no subject resolvable)");
                     return true;
 
                     //SecLogger.LogError($"Impossible to map token (comming from oauth delegation) to a local identity because the subject could not be resolved...");

@@ -54,7 +54,7 @@ namespace UniversalBFF.AspSupport {
         throw new InvalidOperationException("Duplicate mount registration for path: " + normalizedMountPointUrl);
       }
 
-      //IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/app/)
+      //IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/optionalAppSubroute/)
       string webAppBaseUrl = (applicationBase + mountPointPathRelativeToApplicationBase + "/").Replace("//", "").Replace("//", "");
 
       EmbeddedBundleFileProvider fileProvider = new EmbeddedBundleFileProvider(
@@ -64,7 +64,7 @@ namespace UniversalBFF.AspSupport {
       MountRegistration reg = new MountRegistration(normalizedMountPointUrl, fileProvider);
       _Mounts.Add(reg);
 
-      DevLogger.LogTrace(0, 77051, "Registered SPA mount point " + normalizedMountPointUrl);
+      DevLogger.LogTrace(0, 77117, "Registered SPA mount point " + normalizedMountPointUrl);
     }
 
 
@@ -87,7 +87,7 @@ namespace UniversalBFF.AspSupport {
       MountRegistration reg = new MountRegistration(normalizedMountPointUrl, fileProvider);
       _Mounts.Add(reg);
 
-      DevLogger.LogTrace(0, 77051, "Registered SPA mount point " + normalizedMountPointUrl);
+      DevLogger.LogTrace(0, 77117, "Registered SPA mount point " + normalizedMountPointUrl);
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ namespace UniversalBFF.AspSupport {
       if (spa) {
         spaFlagText = "true";
       }
-      DevLogger.LogTrace(0, 77052, "Configured default-doc for " + normalizedMountPointUrl + " (spa=" + spaFlagText + ")");
+      DevLogger.LogTrace(0, 77118, "Configured default-doc for " + normalizedMountPointUrl + " (spa=" + spaFlagText + ")");
     }
 
     /// <summary>
@@ -188,14 +188,14 @@ namespace UniversalBFF.AspSupport {
                   }
                 }));
 
-                DevLogger.LogTrace(0, 99999, "Mapped SPA fallback " + pattern + " -> " + cfg.DefaultDocument + " (served from mount provider)");
+                DevLogger.LogTrace(0, 77119, "Mapped SPA fallback " + pattern + " -> " + cfg.DefaultDocument + " (served from mount provider)");
               }
             }
           });
         }
 
 
-        DevLogger.LogTrace(0, 99999, "StaticFileConsolidatorIApp applied all registrations.");
+        DevLogger.LogTrace(0, 77120, "StaticFileConsolidatorIApp applied all registrations.");
       }
       catch (Exception ex) {
         DevLogger.LogCritical(ex);
@@ -275,9 +275,6 @@ namespace UniversalBFF.AspSupport {
     /// Normalize any user-provided path to "/name" form (leading slash, no trailing slash).
     /// </summary>
     private static string NormalizeMount(string requestPath) {
-      if (string.IsNullOrWhiteSpace(requestPath)) {
-        throw new ArgumentException("requestPath must not be null or empty.", nameof(requestPath));
-      }
 
       string trimmed = requestPath.Trim();
       trimmed = trimmed.Replace('\\', '/');
@@ -286,11 +283,11 @@ namespace UniversalBFF.AspSupport {
         trimmed = "/" + trimmed;
       }
 
-      if (trimmed.Length > 1) {
+      //if (trimmed.Length > 1) {
         if (trimmed.EndsWith("/", StringComparison.Ordinal)) {
           trimmed = trimmed.Substring(0, trimmed.Length - 1);
         }
-      }
+      //}
 
       return trimmed;
     }

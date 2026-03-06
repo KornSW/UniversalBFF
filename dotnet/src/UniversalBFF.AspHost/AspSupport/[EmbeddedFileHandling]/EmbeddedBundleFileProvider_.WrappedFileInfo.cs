@@ -231,7 +231,7 @@ namespace UniversalBFF.AspSupport {
 //public class EmbeddedBundleFileProvider : IFileProvider {
 
 //  /// <summary>
-//  /// IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/app/)
+//  /// IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/optionalAppSubroute/)
 //  /// </summary>
 //  private string _WebAppBaseUrl;
 
@@ -240,7 +240,7 @@ namespace UniversalBFF.AspSupport {
 
 //  /// <summary></summary>
 //  /// <param name="webAppBaseUrl">
-//  /// IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/app/) 
+//  /// IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/optionalAppSubroute/) 
 //  /// </param>
 //  /// <param name="assemblyWithEmbeddedFiles"></param>
 //  /// <param name="embeddedFilesNamespace">
@@ -300,7 +300,7 @@ namespace UniversalBFF.AspSupport {
 //  /// <summary> </summary>
 //  /// <param name="innerFileInfo"></param>
 //  /// <param name="webAppBaseUrl">
-//  /// IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/app/)
+//  /// IMPORTANT: this must include the full base-path of the BFF-Application + the Mount-Point of the WebApp (/BffProductX/Alpha/optionalAppSubroute/)
 //  /// </param>
 //  /// <param name="sourceInfoString"></param>
 //  public WrappedFileInfo(IFileInfo innerFileInfo, string webAppBaseUrl, string sourceInfoString) {

@@ -163,7 +163,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
       if (noPasswordNeeded) {
         message = $"Passtrough-Auth is currently not supported!";
-        SecLogger.LogError(2079222383703567499L, 73907, "TryAuthenticate failed: " + message);
+        SecLogger.LogError(2079222383703567499L, 77307, "TryAuthenticate failed: " + message);
         sessionId = null;
         return false;
       }
@@ -192,7 +192,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
         if(target == null) {
           message = $"Invalid apiClientId '{apiClientId}'";
-          SecLogger.LogError(2079222383703567498L, 73905, "TryAuthenticate failed: " + message);
+          SecLogger.LogError(2079222383703567498L, 77305, "TryAuthenticate failed: " + message);
           sessionId = null;
           return false;
         }
@@ -203,7 +203,7 @@ namespace UniversalBFF.OobModules.UserManagement {
           //REMOTE AUTH REDIRECTION
 
           message = $"Redirection to 3rd.pt OAuth Prpovider '{target.DisplayLabel}' not Possible!";
-          SecLogger.LogCritical(2079222383703567498L, 73905, "TryAuthenticate failed: " + message);
+          SecLogger.LogCritical(2079222383703567498L, 77305, "TryAuthenticate failed: " + message);
           sessionId = null;
           return false;
 

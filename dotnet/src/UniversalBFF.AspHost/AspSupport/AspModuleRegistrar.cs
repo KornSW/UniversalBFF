@@ -37,13 +37,17 @@ namespace UniversalBFF {
     private IServiceCollection _Services;
 
 
-    public override void RegisterHttpProxy(string endpointAlias, string forwardingAddress) {
+    public override void RegisterHttpProxy(
+      string moduleScopingKey, string endpointAlias, string forwardingAddress, int apiV = 1
+    ) {
 
       throw new NotImplementedException("RegisterHttpProxy is comming soon...");
 
     }
 
-    public override void RegisterUjmwServiceEndpoint(Type contractType, string endpointAlias, Func<object> factory) {
+    public override void RegisterUjmwServiceEndpoint(
+      Type contractType, string moduleScopingKey, string endpointAlias, Func<object> factory, int apiV = 1
+    ) {
       //HACK: muss irgendwie zusammengefasst werdenm, wegen dem einzel-overhead
 
       _Services.AddSingleton(contractType, (sp) => { return factory.Invoke(); });
@@ -53,11 +57,23 @@ namespace UniversalBFF {
         ujmw.AddControllerFor(
           contractType,
           new DynamicUjmwControllerOptions {
-            ControllerRoute = $"api/{endpointAlias}"
+            ControllerRoute = $"{moduleScopingKey}/api/v{apiV}/{endpointAlias}"
           }
         );
 
       });
+
+    }
+
+    /// <summary>
+    ///   returns "{moduleScopingKey}/api/v{apiV}/{endpointAlias}"
+    /// </summary>
+    /// <param name="moduleScopingKey">An technical name (URL-SAFE!) to discriminate application modules from each other.</param>
+    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint!</param>
+    /// <param name="apiV"></param>
+    /// <returns></returns>
+    public static string BuildEndpointRoute(string moduleScopingKey, string endpointAlias, int apiV = 1) {
+      return $"{moduleScopingKey}/api/v{apiV}/{endpointAlias}";
 
     }
 

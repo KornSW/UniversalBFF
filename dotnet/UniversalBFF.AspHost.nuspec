@@ -15,8 +15,52 @@
     <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
     <dependencies>
       <group targetFramework="net8.0">
+
+        <!-- Explicit own Dependencies -->
+        
         <dependency id="UniversalBFF.ModuleContract" version="[0.2.7]" />
-        <dependency id="SmartStandards.AuthTokenHandling" version="[5.0.0,6.0)" />
+
+        <dependency id="UShell.FrontendBundle" version="3.2.23.1314" />
+        <dependency id="UShell.FrontendBundle.Mvc" version="3.2.23.1314" />
+        <dependency id="UShell.PortfolioDescription" version="3.0.0" />
+        <dependency id="UShell.PortfolioHosting.Mvc" version="3.0.0" />
+        <dependency id="UShell.ServerCommands.Contract" version="0.1.1" />
+        
+        <dependency id="FUSE-fx.EntityAnnotations" version="4.2.0" />
+        
+        <dependency id="SmartStandards.AuthTokenHandling" version="[5.0.5,6.0)" />
+        <dependency id="SmartStandards.AuthTokenHandling.MvcSupport" version="[5.0.5,6.0)" />
+
+        <dependency id="UJMW.DynamicClient" version="5.3.5" />
+        <dependency id="UJMW.DynamicController" version="5.3.5" />
+
+        <dependency id="SmartAmbience" version="2.4.7" />
+        <dependency id="SmartAmbience.MvcSupport" version="2.4.7" />
+
+        <dependency id="SmartStandards.Logging" version="3.3.1" />
+        <dependency id="SmartStandards.Logging.AspSupport" version="3.3.1" />
+        <dependency id="SmartStandards.Logging.Centralized" version="3.3.1" />
+
+        <dependency id="Swashbuckle.AspNetCore" version="6.5.0" />
+        <dependency id="Swashbuckle.AspNetCore.Annotations" version="6.5.0" />
+
+        <dependency id="jose-jwt" version="4.1.0" />
+        <dependency id="Newtonsoft.Json" version="13.0.3" />
+        
+        <!-- Transitive Peer-Dependencies from ASP-Framework-Reference -->
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="9.0.4" />
+        <dependency id="Microsoft.Extensions.Primitives" version="9.0.6" />
+
+        <!-- Explicit MS Dependencies -->
+        <!--<dependency id="Microsoft.AspNetCore.Authentication.Negotiate" version="5.0.17" />
+        <dependency id="Microsoft.AspNetCore.Authentication.OpenIdConnect" version="5.0.0" />
+        <dependency id="Microsoft.AspNetCore.Cors" version="2.2.0" />
+        <dependency id="Microsoft.AspNetCore.Mvc.Cors" version="2.2.0" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="9.0.4" />
+        <dependency id="Microsoft.Extensions.Primitives" version="9.0.6" />
+        <dependency id="System.Runtime" version="4.3.1" />
+        <dependency id="System.ServiceModel.Primitives" version="4.6.0" />-->
+
       </group>
     </dependencies>
   </metadata>

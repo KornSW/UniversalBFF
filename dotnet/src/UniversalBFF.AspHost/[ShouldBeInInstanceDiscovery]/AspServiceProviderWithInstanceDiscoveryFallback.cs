@@ -109,11 +109,11 @@ namespace Composition.InstanceDiscovery.AspNetCore {
         throw new ArgumentNullException("serviceType");
       }
 
-      DevLogger.LogTrace(0, 74504, nameof(AspServiceProviderWithInstanceDiscoveryFallback) + " resolving: " + serviceType.FullName);
+      DevLogger.LogTrace(0, 77101, nameof(AspServiceProviderWithInstanceDiscoveryFallback) + " resolving: " + serviceType.FullName);
 
       object resolvedInstance = _InnerServiceProvider.GetService(serviceType);
       if (resolvedInstance != null) {
-        DevLogger.LogTrace(0, 74505, nameof(AspServiceProviderWithInstanceDiscoveryFallback) + " provides '" + resolvedInstance.GetType().FullName + "' from original ServiceProvider.");
+        DevLogger.LogTrace(0, 77102, nameof(AspServiceProviderWithInstanceDiscoveryFallback) + " provides '" + resolvedInstance.GetType().FullName + "' from original ServiceProvider.");
         return resolvedInstance;
       }
 
@@ -121,15 +121,15 @@ namespace Composition.InstanceDiscovery.AspNetCore {
         InstanceDiscoveryContext.Current.TryGetInstanceOf(serviceType, ref resolvedInstance);
       }
       catch (Exception ex) {
-        DevLogger.LogError(ex.Wrap(74508, nameof(AspServiceProviderWithInstanceDiscoveryFallback) + " got exception from InstanceDiscovery while resolving '" + serviceType.FullName + "': " + ex.Message));
+        DevLogger.LogError(ex.Wrap(77103, nameof(AspServiceProviderWithInstanceDiscoveryFallback) + " got exception from InstanceDiscovery while resolving '" + serviceType.FullName + "': " + ex.Message));
         return resolvedInstance;
       }
 
       if (resolvedInstance != null) {
-        DevLogger.LogTrace(0, 74506, nameof(AspServiceProviderWithInstanceDiscoveryFallback) + " provides '" + resolvedInstance.GetType().FullName + "' from InstanceDiscovery.");
+        DevLogger.LogTrace(0, 77104, nameof(AspServiceProviderWithInstanceDiscoveryFallback) + " provides '" + resolvedInstance.GetType().FullName + "' from InstanceDiscovery.");
       }
       else {
-        DevLogger.LogWarning(0, 74507, nameof(AspServiceProviderWithInstanceDiscoveryFallback) + " could not find any '" + serviceType.FullName + "'.");
+        DevLogger.LogWarning(0, 77105, nameof(AspServiceProviderWithInstanceDiscoveryFallback) + " could not find any '" + serviceType.FullName + "'.");
       }
 
       return resolvedInstance;
@@ -176,7 +176,7 @@ namespace Composition.InstanceDiscovery.AspNetCore {
 
       Type controllerType = context.ActionDescriptor.ControllerTypeInfo.AsType();
 
-      DevLogger.LogTrace(0, 74502, nameof(ControllerActivatorWithInstanceDiscoverySupport) + " creating controller: " + controllerType.FullName);
+      DevLogger.LogTrace(0, 77106, nameof(ControllerActivatorWithInstanceDiscoverySupport) + " creating controller: " + controllerType.FullName);
 
       IServiceProvider requestServices = context.HttpContext.RequestServices;
       if (requestServices == null) {
@@ -242,14 +242,14 @@ namespace Microsoft.AspNetCore.Builder {
         //TODO: Pass IServiceProvider from BuildServiceProvider
 
         DiscoverableInstanceProviderForAspServiceCollection.BindToServiceCollection(services);
-        DevLogger.LogTrace(0, 74501, "IServiceCollection will now provide instances for Instance Discovery.");
+        DevLogger.LogTrace(0, 77107, "IServiceCollection will now provide instances for Instance Discovery.");
       }
 
       if (consumeFromInstanceDiscovery) { 
         services.Replace(
           ServiceDescriptor.Transient<IControllerActivator, ControllerActivatorWithInstanceDiscoverySupport>()
         );
-        DevLogger.LogTrace(0, 74502, "IServiceCollection will now use Instance Discovery as Fallback.");
+        DevLogger.LogTrace(0, 77108, "IServiceCollection will now use Instance Discovery as Fallback.");
       }
 
       return services;
