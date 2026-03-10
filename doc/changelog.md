@@ -6,7 +6,13 @@
 
 ## Upcoming Changes
 
-* Fix: DefaultDoc can be root
+*(none)*
+
+
+
+## v 0.3.1
+released **2026-03-10**, including:
+ - Fix: DefaultDoc can be root
 
 
 

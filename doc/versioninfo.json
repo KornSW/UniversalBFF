@@ -1,13 +1,13 @@
 {
-  "currentVersion": "0.3.0",
-  "currentVersionWithSuffix": "0.3.0",
+  "currentVersion": "0.3.1",
+  "currentVersionWithSuffix": "0.3.1",
   "releaseType": "",
-  "previousVersion": "0.2.7",
-  "changeGrade": "major",
+  "previousVersion": "0.3.0",
+  "changeGrade": "fix",
   "currentMajor": 0,
   "currentMinor": 3,
-  "currentPatch": 0,
-  "versionDateInfo": "2026-03-06",
-  "versionTimeInfo": "11:16:25",
-  "versionNotes": "- breaking Change: standardized Hosting-Registration-Routes for Endpoints\n"
+  "currentPatch": 1,
+  "versionDateInfo": "2026-03-10",
+  "versionTimeInfo": "13:25:02",
+  "versionNotes": "- Fix: DefaultDoc can be root\n"
 }
