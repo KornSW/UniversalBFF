@@ -6,7 +6,7 @@
 
 ## Upcoming Changes
 
-*(none)*
+* Fix: DefaultDoc can be root
 
 
 

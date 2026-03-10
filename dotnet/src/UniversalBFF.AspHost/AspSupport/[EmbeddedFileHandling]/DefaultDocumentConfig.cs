@@ -25,9 +25,7 @@ namespace UniversalBFF.AspSupport {
     private bool _IsSpa;
 
     public DefaultDocumentConfig(string requestPathRelativeToApplicationBase, string defaultDocument, bool isSpa) {
-      if (string.IsNullOrWhiteSpace(requestPathRelativeToApplicationBase)) {
-        throw new ArgumentException("requestPath must not be null or empty.", nameof(requestPathRelativeToApplicationBase));
-      }
+
       if (string.IsNullOrWhiteSpace(defaultDocument)) {
         throw new ArgumentException("defaultDocument must not be null or empty.", nameof(defaultDocument));
       }
