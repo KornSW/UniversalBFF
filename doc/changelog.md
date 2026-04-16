@@ -10,6 +10,12 @@
 
 
 
+## v 0.3.2
+released **2026-04-16**, including:
+ - new revision without significant changes
+
+
+
 ## v 0.3.1
 released **2026-03-10**, including:
  - Fix: DefaultDoc can be root

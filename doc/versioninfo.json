@@ -1,13 +1,13 @@
 {
-  "currentVersion": "0.3.1",
-  "currentVersionWithSuffix": "0.3.1",
+  "currentVersion": "0.3.2",
+  "currentVersionWithSuffix": "0.3.2",
   "releaseType": "",
-  "previousVersion": "0.3.0",
+  "previousVersion": "0.3.1",
   "changeGrade": "fix",
   "currentMajor": 0,
   "currentMinor": 3,
-  "currentPatch": 1,
-  "versionDateInfo": "2026-03-10",
-  "versionTimeInfo": "13:25:02",
-  "versionNotes": "- Fix: DefaultDoc can be root\n"
+  "currentPatch": 2,
+  "versionDateInfo": "2026-04-16",
+  "versionTimeInfo": "07:06:46",
+  "versionNotes": "- new revision without significant changes\n"
 }
