@@ -19,43 +19,43 @@
         <dependency id="UniversalBFF.ModuleContract" version="[0.3.3]" />
         
         <!-- Explicit own Dependencies -->
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="5.0.17" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
+        <dependency id="Microsoft.AspNetCore.Authentication.Negotiate" version="5.0.17" />
+        <dependency id="Microsoft.AspNetCore.Authentication.OpenIdConnect" version="5.0.0" NoWarn="NU1605" />
         <!--
         <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="9.0.4" />
         <dependency id="Microsoft.Extensions.Primitives" version="9.0.6" />
         -->
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+        <dependency id="Microsoft.AspNetCore.OpenApi" version="8.0.0" />
 
         <!-- intermediate (until we've completely switched to 'Microsoft.AspNetCore.OpenApi' -->
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="8.0.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.0.0" />
+        <dependency id="Swashbuckle.AspNetCore" version="8.0.0" />
+        <dependency id="Swashbuckle.AspNetCore.Annotations" version="8.0.0" />
 
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <dependency id="Newtonsoft.Json" version="13.0.3" />
 
-        <PackageReference Include="UJMW.DynamicClient" Version="5.4.0" />
-        <PackageReference Include="UJMW.DynamicController" Version="5.4.0" />
+        <dependency id="UJMW.DynamicClient" version="5.4.0" />
+        <dependency id="UJMW.DynamicController" version="5.4.0" />
 
-        <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.10" />
-        <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.0.10" />
+        <dependency id="SmartStandards.AuthTokenHandling" version="5.0.10" />
+        <dependency id="SmartStandards.AuthTokenHandling.MvcSupport" version="5.0.10" />
 
-        <PackageReference Include="SmartAmbience" Version="2.4.8" />
-        <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.8" />
+        <dependency id="SmartAmbience" version="2.4.8" />
+        <dependency id="SmartAmbience.MvcSupport" version="2.4.8" />
 
-        <PackageReference Include="SmartStandards.Essentials" Version="0.8.0" />
+        <dependency id="SmartStandards.Essentials" version="0.8.0" />
 
-        <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
-        <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.3" />
-        <PackageReference Include="SmartStandards.Logging.Centralized" Version="3.4.3" />
+        <dependency id="SmartStandards.Logging" version="3.4.3" />
+        <dependency id="SmartStandards.Logging.AspSupport" version="3.4.3" />
+        <dependency id="SmartStandards.Logging.Centralized" version="3.4.3" />
 
-        <PackageReference Include="Snowflake44" Version="3.7.0" />
-        <PackageReference Include="ComponentDiscovery" Version="4.11.1" />
+        <dependency id="Snowflake44" version="3.7.0" />
+        <dependency id="ComponentDiscovery" version="4.11.1" />
 
-        <PackageReference Include="UShell.FrontendBundle" Version="3.2.24.1384" />
-        <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.24.1384" />
-        <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
-        <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.1" />
-        <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
+        <dependency id="UShell.FrontendBundle" version="3.2.24.1384" />
+        <dependency id="UShell.FrontendBundle.Mvc" version="3.2.24.1384" />
+        <dependency id="UShell.PortfolioDescription" version="4.0.1" />
+        <dependency id="UShell.PortfolioHosting.Mvc" version="4.0.1" />
+        <dependency id="UShell.ServerCommands.Contract" version="1.1.0" />
         
       </group>
       <group targetFramework="net10.0">
@@ -65,31 +65,31 @@
         <!-- Explicit own Dependencies -->
         <dependency id="SmartStandards.WebApiDependencies.net10.0" version="10.0.7" />
 
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+        <dependency id="Newtonsoft.Json" version="13.0.4" />
 
-        <PackageReference Include="UJMW.DynamicClient" Version="5.4.0" />
-        <PackageReference Include="UJMW.DynamicController" Version="5.4.0" />
+        <dependency id="UJMW.DynamicClient" version="5.4.0" />
+        <dependency id="UJMW.DynamicController" version="5.4.0" />
 
-        <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.10" />
-        <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.0.10" />
+        <dependency id="SmartStandards.AuthTokenHandling" version="5.0.10" />
+        <dependency id="SmartStandards.AuthTokenHandling.MvcSupport" version="5.0.10" />
 
-        <PackageReference Include="SmartAmbience" Version="2.4.8" />
-        <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.8" />
+        <dependency id="SmartAmbience" version="2.4.8" />
+        <dependency id="SmartAmbience.MvcSupport" version="2.4.8" />
 
-        <PackageReference Include="SmartStandards.Essentials" Version="0.8.0" />
+        <dependency id="SmartStandards.Essentials" version="0.8.0" />
 
-        <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
-        <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.3" />
-        <PackageReference Include="SmartStandards.Logging.Centralized" Version="3.4.3" />
+        <dependency id="SmartStandards.Logging" version="3.4.3" />
+        <dependency id="SmartStandards.Logging.AspSupport" version="3.4.3" />
+        <dependency id="SmartStandards.Logging.Centralized" version="3.4.3" />
 
-        <PackageReference Include="Snowflake44" Version="3.7.0" />
-        <PackageReference Include="ComponentDiscovery" Version="4.11.1" />
+        <dependency id="Snowflake44" version="3.7.0" />
+        <dependency id="ComponentDiscovery" version="4.11.1" />
         
-        <PackageReference Include="UShell.FrontendBundle" Version="3.2.24.1384" />
-        <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.24.1384" />
-        <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
-        <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.1" />
-        <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
+        <dependency id="UShell.FrontendBundle" version="3.2.24.1384" />
+        <dependency id="UShell.FrontendBundle.Mvc" version="3.2.24.1384" />
+        <dependency id="UShell.PortfolioDescription" version="4.0.1" />
+        <dependency id="UShell.PortfolioHosting.Mvc" version="4.0.1" />
+        <dependency id="UShell.ServerCommands.Contract" version="1.1.0" />
               
       </group>
     </dependencies>

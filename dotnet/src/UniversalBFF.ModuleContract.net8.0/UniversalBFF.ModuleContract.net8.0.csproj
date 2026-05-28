@@ -39,10 +39,6 @@
   <Import Project="..\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems" Label="Shared" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.5" />
     <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
