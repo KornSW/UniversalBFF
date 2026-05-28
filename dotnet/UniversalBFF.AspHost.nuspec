@@ -20,7 +20,7 @@
         
         <!-- Explicit own Dependencies -->
         <dependency id="Microsoft.AspNetCore.Authentication.Negotiate" version="5.0.17" />
-        <dependency id="Microsoft.AspNetCore.Authentication.OpenIdConnect" version="5.0.0" NoWarn="NU1605" />
+        <dependency id="Microsoft.AspNetCore.Authentication.OpenIdConnect" version="5.0.0" />
         <!--
         <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="9.0.4" />
         <dependency id="Microsoft.Extensions.Primitives" version="9.0.6" />
