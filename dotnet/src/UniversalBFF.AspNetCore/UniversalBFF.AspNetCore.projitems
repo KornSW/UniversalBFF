@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>cf0a161a-99ba-4f01-af5e-16c6fcbc95ae</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>UniversalBFF</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AspSupport\AspModuleRegistrar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AspSupport\IStaticHostingRegistrarForAsp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AspSupport\[EmbeddedFileHandling]\DefaultDocumentConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AspSupport\[EmbeddedFileHandling]\EmbeddedBundleFileProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AspSupport\[EmbeddedFileHandling]\EmbeddedBundleFileProvider_.WrappedFileInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AspSupport\[EmbeddedFileHandling]\MountRegistration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AspSupport\[EmbeddedFileHandling]\SpaMultiHostingExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AspSupport\[EmbeddedFileHandling]\StaticFileConsolidatorIApp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controllers\HelloWorldController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LogMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Programm.Configure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)[ShouldBeInAuhTokenHandling]\AllowAllAuthHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)[ShouldBeInInstanceDiscovery]\AspServiceProviderWithInstanceDiscoveryFallback.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)[ShouldBeInInstanceDiscovery]\[Experimental].cs" />
+  </ItemGroup>
+</Project>

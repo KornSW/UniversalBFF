@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>UniversalBFF.OobModules.UserManagement</AssemblyName>
     <RootNamespace>UniversalBFF.OobModules.UserManagement</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -22,16 +22,16 @@
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.OobModules.UserManagement.xml</DocumentationFile>
-    <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
+    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.OobModules.UserManagement.xml</DocumentationFile>
+    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
     <DefineConstants>TRACE;DEBUG;NET5</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
-    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.OobModules.UserManagement.xml</DocumentationFile>
+    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
+    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.OobModules.UserManagement.xml</DocumentationFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
     <DefineConstants>TRACE;NET5</DefineConstants>
@@ -39,10 +39,10 @@
   
   <ItemGroup>
     <PackageReference Include="ComponentDiscovery" Version="4.11.1" />
-    <PackageReference Include="FUSE-fx.EfSupport" Version="0.10.0" />
-    <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.2.0" />
+    <PackageReference Include="FUSE-fx.EfSupport" Version="1.0.2" />
+    <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.2.2" />
     <PackageReference Include="FUSE-fx.ModelDescription" Version="2.0.22" />
-    <PackageReference Include="FUSE-fx.RepositoryContract" Version="0.10.0" />
+    <PackageReference Include="FUSE-fx.RepositoryContract" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
@@ -70,7 +70,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UniversalBFF.ModuleContract.net8.0\UniversalBFF.ModuleContract.net8.0.csproj" />
+    <ProjectReference Include="..\UniversalBFF.ModuleContract.net10.0\UniversalBFF.ModuleContract.net10.0.csproj" />
   </ItemGroup>
 
   <ItemGroup>

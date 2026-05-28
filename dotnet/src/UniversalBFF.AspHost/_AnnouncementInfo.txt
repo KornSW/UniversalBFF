@@ -1,2 +1,0 @@
-http://localhost:55202/api/oob-usrmgmt (UniversalBFF.OobModules.UserManagement.Frontend.Contract.IUserManagementService) >> ONLINE @16:27:33
-http://localhost:55202/api/oob-usrmgmt (UniversalBFF.OobModules.UserManagement.ILocalCredentialManagementService) >> ONLINE @16:27:33

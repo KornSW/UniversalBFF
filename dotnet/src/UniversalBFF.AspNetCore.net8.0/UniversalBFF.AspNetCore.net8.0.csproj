@@ -1,0 +1,96 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>UniversalBFF.AspNetCore</AssemblyName>
+    <RootNamespace>UniversalBFF</RootNamespace>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
+  <!--<PropertyGroup>
+    <PackageId>UniversalBFF8</PackageId>
+    <Description>UniversalBFF (Core)</Description>
+    <Product>UniversalBFF</Product>
+    <Company>(public domain)</Company>
+    <Copyright>KornSW</Copyright>
+    <Version>0.3.3</Version>
+    <AssemblyVersion>0.3.3</AssemblyVersion>
+    <Authors>KornSW</Authors>
+    <FileVersion>0.3.3</FileVersion>
+    <PackageTags></PackageTags>
+  </PropertyGroup>-->
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.AspNetCore.xml</DocumentationFile>
+    <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DefineConstants>TRACE;DEBUG;NET5</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
+    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.AspNetCore.xml</DocumentationFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DefineConstants>TRACE;NET5</DefineConstants>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+
+    <!-- IMPORTANT: this package is made for the ASP.NET Core ecosystem ONLY -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+    
+    <!-- intermediate (until we've completely switched to 'Microsoft.AspNetCore.OpenApi' -->
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.0.0" />
+
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    
+    <PackageReference Include="UJMW.DynamicClient" Version="5.4.0" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.4.0" />
+
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.10" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.0.10" />
+
+    <PackageReference Include="SmartAmbience" Version="2.4.8" />
+    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.8" />
+
+    <PackageReference Include="SmartStandards.Essentials" Version="0.8.0" />
+
+    <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
+    <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.3" />
+    <PackageReference Include="SmartStandards.Logging.Centralized" Version="3.4.3" />
+    
+    <PackageReference Include="Snowflake44" Version="3.7.0" />
+
+    <PackageReference Include="UShell.FrontendBundle" Version="3.2.24.1384" />
+    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.24.1384" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.1" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
+    
+    
+    
+    
+    
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UniversalBFF.ModuleContract.net8.0\UniversalBFF.ModuleContract.net8.0.csproj" />
+    <ProjectReference Include="..\UniversalBFF.net8.0\UniversalBFF.net8.0.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\UniversalBFF.AspNetCore\UniversalBFF.AspNetCore.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  
+</Project>

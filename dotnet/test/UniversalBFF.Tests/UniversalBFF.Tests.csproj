@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>UniversalBFF.Tests</AssemblyName>
+    <RootNamespace>UniversalBFF</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <AssemblyVersion>0.3.3</AssemblyVersion>
+    <Version>0.3.3</Version>
+    <AssemblyName>UniversalBFF.AspHost</AssemblyName>
+    <PackageId>Tests</PackageId>
+    <Product>Tests</Product>
+    <Company />
+    <Authors>Tests</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DefineConstants>DEBUG;TRACE;NET5</DefineConstants>
+    <OutputPath>Bin</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DefineConstants>TRACE;NET5</DefineConstants>
+    <OutputPath>Bin</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ComponentDiscovery" Version="4.11.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.5" />
+    <PackageReference Include="SmartStandards.Logging" Version="3.3.1" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
+  </ItemGroup>
+
+</Project>

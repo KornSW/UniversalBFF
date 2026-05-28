@@ -2,26 +2,26 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <AssemblyName>UniversalBFF.OobModules.Diagnostics</AssemblyName>
-    <RootNamespace>UniversalBFF.OobModules.Diagnostics</RootNamespace>
+    <AssemblyName>UniversalBFF</AssemblyName>
+    <RootNamespace>UniversalBFF</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <PropertyGroup>
-    <PackageId>UniversalBFF.OobModules.Diagnostics</PackageId>
-    <Description></Description>
+    <PackageId>UniversalBFF</PackageId>
+    <Description>UniversalBFF (Core)</Description>
     <Product>UniversalBFF</Product>
     <Company>(public domain)</Company>
-    <Copyright>KornSW + KeinIch</Copyright>
+    <Copyright>KornSW</Copyright>
     <Version>0.3.3</Version>
     <AssemblyVersion>0.3.3</AssemblyVersion>
-    <Authors>KornSW + KeinIch</Authors>
+    <Authors>KornSW</Authors>
     <FileVersion>0.3.3</FileVersion>
     <PackageTags></PackageTags>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.OobModules.Diagnostics.xml</DocumentationFile>
+    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.xml</DocumentationFile>
     <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
@@ -30,7 +30,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.OobModules.Diagnostics.xml</DocumentationFile>
+    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.xml</DocumentationFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
     <DefineConstants>TRACE;NET5</DefineConstants>
@@ -38,32 +38,17 @@
 
   <ItemGroup>
     <PackageReference Include="ComponentDiscovery" Version="4.11.1" />
-    <PackageReference Include="FUSE-fx.EfSupport" Version="1.0.2" />
-    <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.2.2" />
-    <PackageReference Include="FUSE-fx.ModelDescription" Version="2.0.22" />
-    <PackageReference Include="FUSE-fx.RepositoryContract" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.22">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.22" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.22" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.22">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SmartAmbience" Version="2.4.7" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.5" />
     <PackageReference Include="SmartStandards.Logging" Version="3.3.1" />
     <PackageReference Include="Snowflake44" Version="3.7.0" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.3.7" />
     <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -74,10 +59,6 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Backend\" />
-    <Folder Include="Frontend\" />
-  </ItemGroup>
-
+  <Import Project="..\UniversalBFF\UniversalBFF.projitems" Label="Shared" />
 
 </Project>

@@ -1,0 +1,91 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>UniversalBFF.AspHost</AssemblyName>
+    <RootNamespace>UniversalBFF</RootNamespace>
+    <Version>10.0.8</Version>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.AspHost.xml</DocumentationFile>
+    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Deterministic>false</Deterministic>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.AspHost.xml</DocumentationFile>
+    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Deterministic>false</Deterministic>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <!-- https://stackoverflow.com/questions/57412190/how-to-include-xml-documentation-from-nuget-package-in-csproj-build-output -->
+  <Target Name="_ResolveCopyLocalNuGetPkgXmls" AfterTargets="ResolveReferences">
+    <ItemGroup>
+      <!-- Copy XML files from all PackageReferences to output dir -->
+      <ReferenceCopyLocalPaths Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)%(Filename).xml')" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)'!='' and Exists('%(RootDir)%(Directory)%(Filename).xml')" />
+    </ItemGroup>
+  </Target>
+  
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Compile Remove="Util\**" />
+    <Content Remove="Logs\**" />
+    <Content Remove="Util\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <EmbeddedResource Remove="Util\**" />
+    <None Remove="Logs\**" />
+    <None Remove="Util\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <!-- any additional MS-near references to get complete access to asp, is provided by this dependency-package: -->
+    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.7" />
+
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
+
+    <PackageReference Include="UJMW.DynamicClient" Version="5.4.0" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.4.0" />
+
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.10" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.0.10" />
+
+    <PackageReference Include="SmartAmbience" Version="2.4.8" />
+    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.8" />
+
+    <PackageReference Include="SmartStandards.Essentials" Version="0.8.0" />
+
+    <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
+    <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.3" />
+
+    <PackageReference Include="Snowflake44" Version="3.7.0" />
+
+    <PackageReference Include="UShell.FrontendBundle" Version="3.2.24.1384" />
+    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.24.1384" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.1" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
+    
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\UniversalBFF.ModuleContract.net10.0\UniversalBFF.ModuleContract.net10.0.csproj" />
+    <ProjectReference Include="..\UniversalBFF.net10.0\UniversalBFF.net10.0.csproj" />
+  </ItemGroup>
+  
+  <Import Project="..\UniversalBFF.AspNetCore\UniversalBFF.AspNetCore.projitems" Label="Shared" />
+  
+</Project>

@@ -15,14 +15,6 @@
     <icon>PackageIcon.png</icon>
     <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
     <dependencies>
-      <group targetFramework="net6.0">
-        <dependency id="Newtonsoft.Json" version="[13.0.3,13.9999]" />
-        <dependency id="Microsoft.AspNetCore" version="2.2.0" />
-        <dependency id="Microsoft.AspNetCore.Mvc" version="2.2.0" />
-        <dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.2.5" />
-        <dependency id="System.Text.Encodings.Web" version="6.0.0" />
-        <dependency id="SmartStandards.AuthTokenHandling" version="[5.0.0,6.0)" />
-      </group>
       <group targetFramework="net8.0">
         <dependency id="Newtonsoft.Json" version="[13.0.3,13.9999]" />
         <dependency id="Microsoft.AspNetCore" version="2.2.0" />
@@ -31,18 +23,22 @@
         <dependency id="System.Text.Encodings.Web" version="6.0.0" />
         <dependency id="SmartStandards.AuthTokenHandling" version="[5.0.0,6.0)" />
       </group>
+       <group targetFramework="net10.0">
+        <dependency id="Newtonsoft.Json" version="[13.0.4,13.9999]" />
+        <dependency id="SmartStandards.AuthTokenHandling" version="[5.0.0,6.0)" />
+      </group>     
     </dependencies>
   </metadata>
   <files>
     <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
-    <file src="PackageIcon.png" target="" />
-    <!-- .NET 6.0 -->
-    <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.dll" target="lib/net6.0" />
-    <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.xml" target="lib/net6.0" />
-    <file src="dist\bin-net6.0\UniversalBFF.ModuleContract.pdb" target="lib/net6.0" />
+    <file src="PackageIcon.png" target="" /> 
     <!-- .NET 8.0 -->
     <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.dll" target="lib/net8.0" />
     <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.xml" target="lib/net8.0" />
     <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.pdb" target="lib/net8.0" />
+    <!-- .NET 10.0 -->
+    <file src="dist\bin-net10.0\UniversalBFF.ModuleContract.dll" target="lib/net10.0" />
+    <file src="dist\bin-net10.0\UniversalBFF.ModuleContract.xml" target="lib/net10.0" />
+    <file src="dist\bin-net10.0\UniversalBFF.ModuleContract.pdb" target="lib/net10.0" />
   </files>
 </package>

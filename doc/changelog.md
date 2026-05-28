@@ -6,7 +6,7 @@
 
 ## Upcoming Changes
 
-*(none)*
+* Moved to .NET 10 (**MVP** state reached!)
 
 
 
