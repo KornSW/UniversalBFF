@@ -225,9 +225,9 @@ namespace UniversalBFF {
       else {
         //dummy ist nötig, damit die controller mit Authorize-Attribut überhaupt angesteurt werden können
         //sonst schreit die asp-eigene middleware...
-        services.AddAuthentication("dummy").AddScheme<                      // vvv liegt noch hier im proejkt...
+        services.AddAuthentication("dummy3").AddScheme<                      // vvv liegt noch hier im proejkt...
           AuthenticationSchemeOptions, Security.AccessTokenHandling.AspNetCore.AllowAllAuthHandler
-        >("dummy", null);
+        >("dummy3", null);
       }
 
     }
