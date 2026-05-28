@@ -53,15 +53,15 @@
   <ItemGroup>
 
     <!-- any additional MS-near references to get complete access to asp, is provided by this dependency-package: -->
-    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.7" />
+    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.8" />
 
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
 
     <PackageReference Include="UJMW.DynamicClient" Version="5.4.0" />
     <PackageReference Include="UJMW.DynamicController" Version="5.4.0" />
 
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.10" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.0.10" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.0" />
 
     <PackageReference Include="SmartAmbience" Version="2.4.8" />
     <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.8" />
@@ -73,10 +73,10 @@
 
     <PackageReference Include="Snowflake44" Version="3.7.0" />
 
-    <PackageReference Include="UShell.FrontendBundle" Version="3.2.24.1384" />
-    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.24.1384" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
-    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.1" />
+    <PackageReference Include="UShell.FrontendBundle" Version="3.2.31.1416" />
+    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.31.1416" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.2" />
     <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
     
   </ItemGroup>

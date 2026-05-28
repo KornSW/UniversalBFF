@@ -59,11 +59,11 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="SmartAmbience" Version="2.4.7" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.0.5" />
-    <PackageReference Include="SmartStandards.Logging" Version="3.3.1" />
+    <PackageReference Include="SmartAmbience" Version="2.4.8" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
+    <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
     <PackageReference Include="Snowflake44" Version="3.7.0" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
   </ItemGroup>
 
   <ItemGroup>

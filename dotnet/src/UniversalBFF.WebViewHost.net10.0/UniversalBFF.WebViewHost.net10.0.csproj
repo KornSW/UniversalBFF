@@ -42,7 +42,7 @@
   <ItemGroup>
 
     <!-- any additional MS-near references to get complete access to asp, is provided by this dependency-package: -->
-    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.7" />
+    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.8" />
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
@@ -57,10 +57,10 @@
     <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.0" />
     <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.3" />
 
-    <PackageReference Include="UShell.FrontendBundle" Version="3.2.24.1384" />
-    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.24.1384" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.1" />
-    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.1" />
+    <PackageReference Include="UShell.FrontendBundle" Version="3.2.31.1416" />
+    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.31.1416" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.2" />
     <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
     
   </ItemGroup>
