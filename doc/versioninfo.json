@@ -1,13 +1,13 @@
 {
-  "currentVersion": "0.3.3",
-  "currentVersionWithSuffix": "0.3.3",
+  "currentVersion": "1.0.0",
+  "currentVersionWithSuffix": "1.0.0",
   "releaseType": "",
-  "previousVersion": "0.3.2",
+  "previousVersion": "0.3.3",
   "changeGrade": "fix",
-  "currentMajor": 0,
-  "currentMinor": 3,
-  "currentPatch": 3,
-  "versionDateInfo": "2026-04-16",
-  "versionTimeInfo": "07:36:22",
-  "versionNotes": "- new revision without significant changes\n"
+  "currentMajor": 1,
+  "currentMinor": 0,
+  "currentPatch": 0,
+  "versionDateInfo": "2026-05-28",
+  "versionTimeInfo": "10:52:23",
+  "versionNotes": "- Moved to .NET 10 (**MVP** state reached!)\n"
 }
