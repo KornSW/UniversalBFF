@@ -37,14 +37,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+
     <PackageReference Include="ComponentDiscovery" Version="4.11.1" />
+    <PackageReference Include="SmartAmbience" Version="2.4.8" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
+    <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
+    <PackageReference Include="Snowflake44" Version="3.7.0" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
+
     <PackageReference Include="FUSE-fx.EfSupport" Version="1.0.2" />
     <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.2.2" />
     <PackageReference Include="FUSE-fx.ModelDescription" Version="2.0.22" />
     <PackageReference Include="FUSE-fx.RepositoryContract" Version="1.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.22">
@@ -52,18 +59,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.22" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.22">
+      <PrivateAssets>*</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.22">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="SmartAmbience" Version="2.4.8" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
-    <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
-    <PackageReference Include="Snowflake44" Version="3.7.0" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
+
   </ItemGroup>
 
   <ItemGroup>

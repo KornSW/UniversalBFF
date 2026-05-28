@@ -1,7 +1,6 @@
 ﻿using ComponentDiscovery;
 using Composition.InstanceDiscovery;
 using Logging.SmartStandards;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Security.AccessTokenHandling;
 using Security.AccessTokenHandling.OAuth.Server;
 using System;
