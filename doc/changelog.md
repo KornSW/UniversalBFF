@@ -6,7 +6,13 @@
 
 ## Upcoming Changes
 
-* Moved to .NET 10 (**MVP** state reached!)
+*(none)*
+
+
+
+## v 1.0.0
+released **2026-05-28**, including:
+ - Moved to .NET 10 (**MVP** state reached!)
 
 
 

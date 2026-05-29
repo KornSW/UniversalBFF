@@ -5,8 +5,8 @@
     <AssemblyName>UniversalBFF.Tests</AssemblyName>
     <RootNamespace>UniversalBFF</RootNamespace>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>0.3.3</AssemblyVersion>
-    <Version>0.3.3</Version>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <Version>1.0.0</Version>
     <AssemblyName>UniversalBFF.AspHost</AssemblyName>
     <PackageId>Tests</PackageId>
     <Product>Tests</Product>
