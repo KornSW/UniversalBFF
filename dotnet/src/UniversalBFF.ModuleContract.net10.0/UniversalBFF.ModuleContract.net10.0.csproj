@@ -41,9 +41,9 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
-    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.2" />
-    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.0" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.0" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

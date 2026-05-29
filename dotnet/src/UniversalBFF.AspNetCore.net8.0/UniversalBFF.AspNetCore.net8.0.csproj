@@ -53,16 +53,16 @@
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     
-    <PackageReference Include="UJMW.DynamicClient" Version="5.4.0" />
-    <PackageReference Include="UJMW.DynamicController" Version="5.4.0" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.5.1" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.5.1" />
 
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
     <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.0" />
 
-    <PackageReference Include="SmartAmbience" Version="2.4.8" />
-    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.8" />
+    <PackageReference Include="SmartAmbience" Version="2.5.1" />
+    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.5.1" />
 
-    <PackageReference Include="SmartStandards.Essentials" Version="0.8.0" />
+    <PackageReference Include="SmartStandards.Essentials" Version="1.0.0" />
 
     <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
     <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.3" />
@@ -70,11 +70,11 @@
     
     <PackageReference Include="Snowflake44" Version="3.7.0" />
 
-    <PackageReference Include="UShell.FrontendBundle" Version="3.2.31.1416" />
-    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.31.1416" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
-    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.2" />
-    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
+    <PackageReference Include="UShell.FrontendBundle" Version="3.2.31.1473" />
+    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.31.1473" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.0" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.0" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.0" />
     
     
     

@@ -37,14 +37,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ComponentDiscovery" Version="4.11.1" />
+    <PackageReference Include="ComponentDiscovery" Version="4.12.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
     <PackageReference Include="Snowflake44" Version="3.7.0" />
-    <PackageReference Include="UJMW.DynamicClient" Version="5.4.0" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
-    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.5.1" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.0" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

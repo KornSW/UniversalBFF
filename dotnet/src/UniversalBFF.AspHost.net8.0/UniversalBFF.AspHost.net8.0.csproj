@@ -55,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.2.2" />
+    <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.3.0" />
     <PackageReference Include="jose-jwt" Version="4.1.0" />
 
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="5.0.17" />
@@ -78,8 +78,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SmartAmbience" Version="2.4.8" />
-    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.8" />
+    <PackageReference Include="SmartAmbience" Version="2.5.1" />
+    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.5.1" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
     <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.0" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
@@ -92,14 +92,14 @@
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="4.6.0" />
     
-    <PackageReference Include="UJMW.DynamicClient" Version="5.4.0" />
-    <PackageReference Include="UJMW.DynamicController" Version="5.4.0" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.5.1" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.5.1" />
     
-    <PackageReference Include="UShell.FrontendBundle" Version="3.2.31.1416" />
-    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.31.1416" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
-    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.2" />
-    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
+    <PackageReference Include="UShell.FrontendBundle" Version="3.2.31.1473" />
+    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.31.1473" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.0" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.0" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

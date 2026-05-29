@@ -41,17 +41,17 @@
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     
-    <PackageReference Include="ComponentDiscovery" Version="4.11.1" />
-    <PackageReference Include="SmartAmbience" Version="2.4.8" />
+    <PackageReference Include="ComponentDiscovery" Version="4.12.0" />
+    <PackageReference Include="SmartAmbience" Version="2.5.1" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
     <PackageReference Include="Snowflake44" Version="3.7.0" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.0" />
     
-    <PackageReference Include="FUSE-fx.EfSupport" Version="1.0.2" />
-    <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.2.2" />
-    <PackageReference Include="FUSE-fx.ModelDescription" Version="2.0.22" />
-    <PackageReference Include="FUSE-fx.RepositoryContract" Version="1.0.2" />
+    <PackageReference Include="FUSE-fx.EfSupport" Version="1.1.0" />
+    <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.3.0" />
+    <PackageReference Include="FUSE-fx.ModelDescription" Version="2.1.0" />
+    <PackageReference Include="FUSE-fx.RepositoryContract" Version="1.1.0" />
     
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
