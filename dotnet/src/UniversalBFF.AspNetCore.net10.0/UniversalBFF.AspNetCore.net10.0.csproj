@@ -1,82 +1,102 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>UniversalBFF.AspNetCore</AssemblyName>
     <RootNamespace>UniversalBFF</RootNamespace>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Deterministic>false</Deterministic>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ImportedNamespaces></ImportedNamespaces>
   </PropertyGroup>
-  
-  <!--<PropertyGroup>
-    <PackageId>UniversalBFF.AspNetCore.10</PackageId>
-    <Description>UniversalBFF (Core)</Description>
+
+  <!-- META DATA -->
+
+  <PropertyGroup>
+    <PackageId>UniversalBFF.AspNetCore</PackageId>
+    <Description>UniversalBFF.AspNetCore</Description>
     <Product>UniversalBFF</Product>
-    <Company>(public domain)</Company>
-    <Copyright>KornSW</Copyright>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <Authors>KornSW</Authors>
-    <FileVersion>1.0.0</FileVersion>
     <PackageTags></PackageTags>
-  </PropertyGroup>-->
-  
+    <Company></Company>
+    <Copyright></Copyright>
+    <Authors></Authors>
+    <!-- VERSION -->
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- ADDITIONAL ASSEMBLY-ATTRIBUTES -->
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>SourceContext</_Parameter1>
+      <_Parameter2>UniversalBFF.AspNetCore</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <!-- BUILD -->
+
+  <PropertyGroup>
+    <OutputPath>..\..\dist</OutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <DefineConstants>$(DefineConstants);NET_CORE;NET_8_;NET_10_;NET_10</DefineConstants>
+    <NoWarn>$(NoWarn);1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.AspNetCore.xml</DocumentationFile>
-    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DefineConstants>TRACE;DEBUG;NET5</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.AspNetCore.xml</DocumentationFile>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DefineConstants>TRACE;NET5</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <Optimize>True</Optimize>
   </PropertyGroup>
+
+  <Target Name="_ResolveCopyLocalNuGetPkgXmls" AfterTargets="ResolveReferences">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)%(Filename).xml')" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)'!='' and Exists('%(RootDir)%(Directory)%(Filename).xml')" />
+    </ItemGroup>
+  </Target>
+
+  <!-- REFERENCES -->
 
   <ItemGroup>
 
     <!-- IMPORTANT: this package is made for the ASP.NET Core ecosystem ONLY -->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    
-    <!-- any additional MS-near references to get complete access to asp, is provided by this dependency-package: -->
-    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.8" />
-    
-	<!-- additional packages which are note implicitely provided by 'Microsoft.AspNetCore.App' -->
-    <!-- <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="10.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.8" /> -->
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
 
-    <!-- intermediate (until we've completely switched to 'Microsoft.AspNetCore.OpenApi' -->
-    <!-- <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.1.7" /> -->
-	7
+    <!-- any additional MS-near references to get complete access to asp, is provided by this dependency-package: -->
+    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.10" />
+
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 
-    <PackageReference Include="UJMW.DynamicClient" Version="5.4.0" />
-    <PackageReference Include="UJMW.DynamicController" Version="5.4.0" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.5.1" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.5.1" />
 
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.0" />
-
-    <PackageReference Include="SmartAmbience" Version="2.4.8" />
-    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.4.8" />
-
-    <PackageReference Include="SmartStandards.Essentials" Version="0.8.0" />
-
-    <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
-    <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.3" />
-
-    <PackageReference Include="Snowflake44" Version="3.7.0" />
-
-    <PackageReference Include="UShell.FrontendBundle" Version="3.2.31.1416" />
-    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.31.1416" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.0.2" />
-    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.0.2" />
-    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.1.0" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.1" />
     
+    <PackageReference Include="SmartAmbience" Version="2.5.1" />
+    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.5.1" />
+
+    <PackageReference Include="SmartStandards.Essentials" Version="1.0.1" />
+
+    <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
+    <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.4" />
+
+    <PackageReference Include="Snowflake44" Version="3.8.1" />
+
+    <PackageReference Include="UShell.FrontendBundle" Version="3.2.32.1494" />
+    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.32.1494" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.2" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.2" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.1" />
+
   </ItemGroup>
 
   <ItemGroup>
@@ -84,10 +104,12 @@
     <ProjectReference Include="..\UniversalBFF.net10.0\UniversalBFF.net10.0.csproj" />
   </ItemGroup>
 
-  <Import Project="..\UniversalBFF.AspNetCore\UniversalBFF.AspNetCore.projitems" Label="Shared" />
-
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-  
+
+  <!-- INCLUDEs and FILEs -->
+
+  <Import Project="..\UniversalBFF.AspNetCore\UniversalBFF.AspNetCore.projitems" Label="Shared" />
+
 </Project>

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿//using Microsoft.AspNetCore.Builder;
 //using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Net.Http.Headers;
+//using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Net.Http.Headers;
 using System.IO;
 
 

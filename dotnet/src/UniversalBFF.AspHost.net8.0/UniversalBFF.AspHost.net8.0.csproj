@@ -65,11 +65,12 @@
 
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
 
+
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
+    
     <!-- intermediate (until we've completely switched to 'Microsoft.AspNetCore.OpenApi' -->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.0.0" />
-  
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.22">
       <PrivateAssets>all</PrivateAssets>
@@ -77,14 +78,14 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SmartAmbience" Version="2.5.1" />
     <PackageReference Include="SmartAmbience.MvcSupport" Version="2.5.1" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.0" />
-    <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
-    <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.3" />
-    <PackageReference Include="SmartStandards.Logging.Centralized" Version="3.4.3" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.1" />
+    <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
+    <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.4" />
+    <PackageReference Include="SmartStandards.Logging.Centralized" Version="3.4.4" />
     
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
@@ -95,11 +96,11 @@
     <PackageReference Include="UJMW.DynamicClient" Version="5.5.1" />
     <PackageReference Include="UJMW.DynamicController" Version="5.5.1" />
     
-    <PackageReference Include="UShell.FrontendBundle" Version="3.2.31.1473" />
-    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.31.1473" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.0" />
-    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.0" />
-    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.0" />
+    <PackageReference Include="UShell.FrontendBundle" Version="3.2.32.1494" />
+    <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.32.1494" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.2" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.2" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.FileProviders;
+﻿using Logging.SmartStandards;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.IO;
@@ -36,7 +37,7 @@ namespace UniversalBFF.AspSupport {
 
       _WebAppBaseUrl = webAppBaseUrl;
 
-      _SourceInfoString = assemblyWithEmbeddedFiles.FullName;
+      _SourceInfoString = assemblyWithEmbeddedFiles.GetName()?.Name;
 
       _InnerProvider = new EmbeddedFileProvider(
          assemblyWithEmbeddedFiles,
@@ -61,6 +62,10 @@ namespace UniversalBFF.AspSupport {
       }
 
       IFileInfo innerFileInfo = _InnerProvider.GetFileInfo(subpath);
+
+      if (!innerFileInfo.Exists) {
+        DevLogger.LogError($"Filebundle '{_SourceInfoString}' (mounted as '{_WebAppBaseUrl}') cannot provide requested file '{subpath}')");
+      }
 
       return new WrappedFileInfo(innerFileInfo, _WebAppBaseUrl, _SourceInfoString);
     }

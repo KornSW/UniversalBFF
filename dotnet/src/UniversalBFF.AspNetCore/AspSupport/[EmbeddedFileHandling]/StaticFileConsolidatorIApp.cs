@@ -279,6 +279,15 @@ namespace UniversalBFF.AspSupport {
       string trimmed = requestPath.Trim();
       trimmed = trimmed.Replace('\\', '/');
 
+      if (
+        string.IsNullOrWhiteSpace(trimmed) ||
+        trimmed == "." ||
+        trimmed == "./" ||
+        trimmed == "/"
+      ) {
+        return string.Empty;
+      }
+
       if (!trimmed.StartsWith("/", StringComparison.Ordinal)) {
         trimmed = "/" + trimmed;
       }

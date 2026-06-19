@@ -39,10 +39,10 @@
   <Import Project="..\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems" Label="Shared" />
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.0" />
-    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.2" />
+    <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>

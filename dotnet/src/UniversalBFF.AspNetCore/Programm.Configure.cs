@@ -7,16 +7,17 @@ using Logging.SmartStandards.Configuration;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Negotiate;
-
 //using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-
+using Microsoft.Data.SqlClient;
 //using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -59,7 +60,15 @@ namespace UniversalBFF {
 
       DevLogger.LogInformation(0, 77109, "BFF IS INITIALIZING... (Base-URL: '{baseUrl}', Workdir: '{Workdir}')", baseUrl, outDir);
 
- 
+
+      Console.WriteLine(typeof(SqlConnection).Assembly.FullName);
+      Console.WriteLine(typeof(SqlConnection).Assembly.Location);
+      Console.WriteLine(System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription);
+      Console.WriteLine(System.Runtime.InteropServices.RuntimeInformation.OSDescription);
+      Console.WriteLine(System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture);
+
+
+
       // InstanceDiscoveryContext sharedContext = new InstanceDiscoveryContext();
       // InstanceDiscoveryContext.HookAmbienceManagment(() => sharedContext, (c) => { }, (c) => { });
 
@@ -128,15 +137,19 @@ namespace UniversalBFF {
       ModuleRegistrar registrar = new AspModuleRegistrar(baseUrl, services, psp, tp, pdp, true);
       ModuleLoader loader = new ModuleLoader(registrar);
 
+      loader.Load();
+
       services.AddSingleton<ModuleLoader>(loader);
       services.AddSingleton<IPortfolioService>(registrar);
       services.AddSingleton<IFrontendModuleRegistrar>(registrar);
       services.AddSingleton<ModuleRegistrar>(registrar);
 
+      services.AddControllerForUShellPortfolioService();
+
       services.AddControllers();
 
 
-      loader.Load();
+
 
       UjmwHostConfiguration.AuthHeaderEvaluator = AccessTokenValidator.TryValidateHttpAuthHeader;
       AccessTokenValidator.ConfigureTokenValidation(
@@ -234,8 +247,26 @@ namespace UniversalBFF {
 
       string baseUrl = config.GetValue<string>("BaseUrl");
 
+      UShellBundleFileProvider uShellFiles = new UShellBundleFileProvider(
+        new UShellHostingOptions {
+          BaseUrl = baseUrl,
+          HtmlPageTitle = "Universal BFF",
+          PortfolioUrl = baseUrl //+ "portfolio" das war fürher!
+        }
+      );
+
       //required for the www-root
-      app.UseStaticFiles();
+      app.UseDefaultFiles(
+        new DefaultFilesOptions(){ 
+          FileProvider = uShellFiles 
+        }
+      );
+
+      app.UseStaticFiles(
+        new StaticFileOptions() {
+          FileProvider = uShellFiles
+        }
+      );
 
       app.UseAmbientFieldAdapterMiddleware();
 
@@ -257,9 +288,14 @@ namespace UniversalBFF {
       app.UseAuthentication(); //<< WINDOWS-AUTH
       app.UseAuthorization();
 
-      app.UseEndpoints(endpoints => {
-        endpoints.MapControllers();
-      });
+      app.MapControllers();
+      //app.UseEndpoints(endpoints => {
+      //  endpoints.MapControllers();
+      //});
+
+      //app.MapFallback(
+
+      //);
 
       //ACHTUNG: Das muss zwingend VOR dem UseSpa aufgerufen werden!
       //app.ConfigureCteModuleHosting("/ui/modulename/");
@@ -272,19 +308,41 @@ namespace UniversalBFF {
 
       app.SetupSpaMultiHosting((IStaticHostingRegistrarForAsp registrar) => {
 
-        UShellBundleFileProvider uShellFiles = new UShellBundleFileProvider(
-          new UShellHostingOptions {
-            BaseUrl = baseUrl,
-            HtmlPageTitle = "Universal BFF",
-            PortfolioUrl = baseUrl + "portfolio"
-          }
-        );
-        registrar.Register(baseUrl, "app", uShellFiles);
-        registrar.SetDefaultDoc("app", "index.html", true);
+        //registrar.Register(baseUrl, "app", uShellFiles);
+        //registrar.SetDefaultDoc("app", "index.html", true);
+
+        registrar.Register(baseUrl, "/", uShellFiles);
+        registrar.SetDefaultDoc("/", "index.html", true);
 
         moduleRegistrar.CollectAndRegisterFrontendExtensionsTo(registrar);
 
       });
+
+
+
+      //app.Use((HttpContext context, Func<Task> next) => {
+      //  if (context.Request.Method != "GET") {
+      //    return next();
+      //  }
+
+      //  if (Path.HasExtension(context.Request.Path.Value)) {
+      //    return next();
+      //  }
+
+      //  IFileInfo indexFile = uShellFiles.GetFileInfo("index.html");
+
+      //  if (!indexFile.Exists) {
+      //    return next();
+      //  }
+
+      //  context.Response.StatusCode = 200;
+      //  context.Response.ContentType = "text/html; charset=utf-8";
+
+      //  return context.Response.SendFileAsync(indexFile);
+      //});
+
+
+
 
       //app.ConfigureUShellSpaHosting(
       //  baseUrl + "portfolio",
@@ -292,43 +350,49 @@ namespace UniversalBFF {
       //  baseUrl + "app"
       //);
 
-      SelfAnnouncementHelper.Configure(
-        lifetime, serverFeatures,
-        (string[] baseUrls, EndpointInfo[] endpoints, bool act, ref string info) => {
 
-          var sb = new StringBuilder();
-          string timestamp = DateTime.Now.ToLongTimeString();
 
-          Console.WriteLine("--------------------------------------");
-          if (act) {
-            Console.WriteLine("ANNOUNCE:");
-          }
-          else {
-            Console.WriteLine("UN-ANNOUNCE:");
-          }
-          Console.WriteLine("--------------------------------------");
-          foreach (EndpointInfo ep in endpoints) {
-            foreach (string url in baseUrls) {
-              Console.WriteLine(ep.ToString(url));
-              sb.Append(ep.ToString(url));
-              if (act) {
-                sb.AppendLine(" >> ONLINE @" + timestamp);
-              }
-              else {
-                sb.AppendLine(" >> offline @" + timestamp);
-              }
 
-            }
-          }
-          Console.WriteLine("--------------------------------------");
 
-          File.WriteAllText("_AnnouncementInfo.txt", sb.ToString());
 
-          info = "was additionally written into file '_AnnouncementInfo.txt'";
 
-        },
-        autoTriggerInterval: 1
-      );
+      //SelfAnnouncementHelper.Configure(
+      //  lifetime, serverFeatures,
+      //  (string[] baseUrls, EndpointInfo[] endpoints, bool act, ref string info) => {
+
+      //    var sb = new StringBuilder();
+      //    string timestamp = DateTime.Now.ToLongTimeString();
+
+      //    Console.WriteLine("--------------------------------------");
+      //    if (act) {
+      //      Console.WriteLine("ANNOUNCE:");
+      //    }
+      //    else {
+      //      Console.WriteLine("UN-ANNOUNCE:");
+      //    }
+      //    Console.WriteLine("--------------------------------------");
+      //    foreach (EndpointInfo ep in endpoints) {
+      //      foreach (string url in baseUrls) {
+      //        Console.WriteLine(ep.ToString(url));
+      //        sb.Append(ep.ToString(url));
+      //        if (act) {
+      //          sb.AppendLine(" >> ONLINE @" + timestamp);
+      //        }
+      //        else {
+      //          sb.AppendLine(" >> offline @" + timestamp);
+      //        }
+
+      //      }
+      //    }
+      //    Console.WriteLine("--------------------------------------");
+
+      //    File.WriteAllText("_AnnouncementInfo.txt", sb.ToString());
+
+      //    info = "was additionally written into file '_AnnouncementInfo.txt'";
+
+      //  },
+      //  autoTriggerInterval: 1
+      //);
 
     }
 

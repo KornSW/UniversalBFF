@@ -38,31 +38,31 @@
 
   <ItemGroup>
 
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
+
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 
     <PackageReference Include="ComponentDiscovery" Version="4.12.0" />
     <PackageReference Include="SmartAmbience" Version="2.5.1" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.0" />
-    <PackageReference Include="SmartStandards.Logging" Version="3.4.3" />
-    <PackageReference Include="Snowflake44" Version="3.7.0" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.0" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
+    <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
+    <PackageReference Include="Snowflake44" Version="3.8.1" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.2" />
 
     <PackageReference Include="FUSE-fx.EfSupport" Version="1.1.0" />
     <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.3.0" />
     <PackageReference Include="FUSE-fx.ModelDescription" Version="2.1.0" />
     <PackageReference Include="FUSE-fx.RepositoryContract" Version="1.1.0" />
-
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.22">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.22" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.22">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="10.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.9">
       <PrivateAssets>*</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.22">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

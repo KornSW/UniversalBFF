@@ -23,7 +23,7 @@ namespace UniversalBFF {
     /// </param>
     /// <param name="defaultDoc"></param> 
     /// <exception cref="InvalidOperationException"></exception>
-    void RegisterFrontendExtension(string moduleScopingKey, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace, string extensionAlias = "ui", string defaultDoc = "index.html");
+    void RegisterFrontendExtension(string moduleScopingKey, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace, string extensionAlias = "ui", string defaultDoc = null);
 
     /// <summary></summary>
     /// <param name="moduleScopingKey"></param>

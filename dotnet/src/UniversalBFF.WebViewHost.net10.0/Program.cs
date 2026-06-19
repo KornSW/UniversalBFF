@@ -45,7 +45,14 @@ namespace UniversalBFF {
 
         _AspApplication = new WebViewAspNetCoreAdapter(
           Assembly.GetExecutingAssembly(),
-          (s,c) => OnConfigureServices(s,c),
+          (s,c) => {
+            OnConfigureServices(s,c);
+            //HACK: We need to add NewtonsoftJson support for WebView2's JSON serialization,
+            //because System.Text.Json has a BUG causing exceptions like this:
+            //  ThrowInvalidOperationException_PipeWriterDoesNotImplementUnflushedBytes(PipeWriter pipeWriter)
+            // see: https://github.com/dotnet/runtime/issues/108075?utm_source=chatgpt.com
+            s.AddControllers().AddNewtonsoftJson();
+          },
           (a,c,s,e,l) => OnRunApplication(a,c,s,e,l)
         );
 

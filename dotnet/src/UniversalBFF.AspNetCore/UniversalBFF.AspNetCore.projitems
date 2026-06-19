@@ -17,11 +17,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)AspSupport\[EmbeddedFileHandling]\MountRegistration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AspSupport\[EmbeddedFileHandling]\SpaMultiHostingExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AspSupport\[EmbeddedFileHandling]\StaticFileConsolidatorIApp.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controllers\HelloWorldController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LogMessages.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Programm.Configure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)[ShouldBeInAuhTokenHandling]\AllowAllAuthHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)[ShouldBeInInstanceDiscovery]\AspServiceProviderWithInstanceDiscoveryFallback.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)[ShouldBeInInstanceDiscovery]\[Experimental].cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Controllers\" />
   </ItemGroup>
 </Project>

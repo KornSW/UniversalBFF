@@ -70,7 +70,7 @@ namespace UniversalBFF {
     }
 
     public void RegisterModule(ModuleDescription moduleDescription) {
-      this.EnsurePortfolioIsInitialized();
+      //this.EnsurePortfolioIsInitialized();
       if (string.IsNullOrWhiteSpace(moduleDescription.ModuleUid)) {
         moduleDescription.ModuleUid = Snowflake44.Generate().ToString();
       }
@@ -100,14 +100,16 @@ namespace UniversalBFF {
     /// </param>
     /// <param name="defaultDoc"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void RegisterFrontendExtension(string moduleScopingKey, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace, string extensionAlias = "ui", string defaultDoc = "index.html") {
+    public void RegisterFrontendExtension(string moduleScopingKey, Assembly assemblyWithEmbeddedFiles, string embeddedFilesNamespace, string extensionAlias = "ui", string defaultDoc = null) {
       string mountpointUrl = $"{HttpUtility.UrlEncode(moduleScopingKey)}/{HttpUtility.UrlEncode(extensionAlias)}/";
  
       lock (_ModuleFileRegistrationMethods) {
         _ModuleFileRegistrationMethods.Add(
           (r) => {
             r.Register(_BaseUrl, mountpointUrl, assemblyWithEmbeddedFiles, embeddedFilesNamespace);
-            r.SetDefaultDoc(mountpointUrl, defaultDoc, true);
+            if(defaultDoc != null) {
+              r.SetDefaultDoc(mountpointUrl, defaultDoc, true);
+            }
           }
         );
       }
@@ -140,33 +142,6 @@ namespace UniversalBFF {
       this.EnsurePortfolioIsInitialized();
 
 
-    }
-
-    #region " IPortfolioService "
-
-    PortfolioEntry[] IPortfolioService.GetPortfolioIndex() {
-      this.EnsurePortfolioIsInitialized();
-
-      return new PortfolioEntry[] {
-        new PortfolioEntry() {
-          Label = "Default",//TODO: reicht nicht
-          PortfolioUrl = "default.portfolio.json"
-        }
-      };
-
-    }
-
-    PortfolioDescription IPortfolioService.GetPortfolioDescription(string nameInUrl) {
-      this.EnsurePortfolioIsInitialized();
-      return _PortfoliosPerName["default"]; //TODO: reicht nicht
-    }
-
-    ModuleDescription IPortfolioService.GetModuleDescription(string nameInUrl) {
-      lock (_RegisteredModules) {
-        return _RegisteredModules.Where((m)=>m.ModuleUid == nameInUrl).FirstOrDefault();
-      }
-      //TODO: das muss noch gemerget werdnen mit:
-      var DUMMY = nameof(_FrontendExtensionUrlsByAlias);
     }
 
     public void RegisterServerCommands(string moduleScopingKey, IServerCommandExecutor executor) {
@@ -219,6 +194,50 @@ namespace UniversalBFF {
         },
         apiV
       );
+    }
+
+    #region " IPortfolioService "
+
+    PortfolioEntry[] IPortfolioService.GetPortfolioIndex() {
+      this.EnsurePortfolioIsInitialized();
+
+      return new PortfolioEntry[] {
+        new PortfolioEntry() {
+          Label = "Default",//TODO: reicht nicht
+          PortfolioUrl = "default.portfolio.json"
+        }
+      };
+
+    }
+
+    /// <summary> </summary>
+    /// <param name="portfolioName">Only the technical name (URL-SAFE!) of a portfolio. NOT a full name like 'foo.portfolio.json'.</param>
+    /// <returns></returns>
+    PortfolioDescription IPortfolioService.GetPortfolioDescription(string portfolioName) {
+      this.EnsurePortfolioIsInitialized();
+      return _PortfoliosPerName["default"]; //TODO: reicht nicht
+    }
+
+
+    /// <summary> </summary>
+    /// <param name="moduleScopingKey">An technical name (URL-SAFE!) to discriminate application modules from each other.</param>
+    /// <returns></returns>
+    ModuleDescription IPortfolioService.GetModuleDescription(string moduleScopingKey) {
+
+      if (moduleScopingKey.Equals(DummyModuleName, StringComparison.OrdinalIgnoreCase)) {
+        return GetDummyModule();
+      }
+
+      lock (_RegisteredModules) {
+        ModuleDescription module = _RegisteredModules.Where(
+          (m) => m.ModuleUid == moduleScopingKey || m.ModuleScopingKey == moduleScopingKey
+        ).FirstOrDefault();
+        return module;
+      }
+
+      //TODO: das muss noch gemerget werdnen mit:
+      string DUMMY = nameof(_FrontendExtensionUrlsByAlias);
+
     }
 
     #endregion

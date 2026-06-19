@@ -12,7 +12,7 @@ namespace UniversalBFF {
     /// <summary> </summary>
     /// <typeparam name="TServiceContract"></typeparam>
     /// <param name="moduleScopingKey">An technical name (URL-SAFE!) to discriminate application modules from each other.</param>
-    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint!</param>
+    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint (slashes are allowed)!</param>
     /// <param name="factory"></param>
     /// <param name="apiV">The exposed api-version, under which this endpoint is registered for!</param>
     void RegisterUjmwServiceEndpoint<TServiceContract>(
@@ -22,7 +22,7 @@ namespace UniversalBFF {
     /// <summary> </summary>
     /// <param name="contractType"></param>
     /// <param name="moduleScopingKey">An technical name (URL-SAFE!) to discriminate application modules from each other.</param>
-    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint!</param>
+    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint (slashes are allowed)!</param>
     /// <param name="factory"></param>
     /// <param name="apiV">The exposed api-version, under which this endpoint is registered for!</param>
     void RegisterUjmwServiceEndpoint(
@@ -32,7 +32,7 @@ namespace UniversalBFF {
     /// <summary> </summary>
     /// <typeparam name="TServiceContract"></typeparam>
     /// <param name="moduleScopingKey">An technical name (URL-SAFE!) to discriminate application modules from each other.</param>
-    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint!</param>
+    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint (slashes are allowed)!</param>
     /// <param name="externalHostedUrlGetter"></param>
     /// <param name="apiV">The exposed api-version, under which this endpoint is registered for!</param>
     void RegisterUjmwProxy<TServiceContract>(
@@ -42,7 +42,7 @@ namespace UniversalBFF {
     /// <summary> </summary>
     /// <param name="contractType"></param>
     /// <param name="moduleScopingKey">An technical name (URL-SAFE!) to discriminate application modules from each other.</param>
-    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint!</param>
+    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint (slashes are allowed)!</param>
     /// <param name="externalHostedUrlGetter"></param>
     /// <param name="apiV">The exposed api-version, under which this endpoint is registered for!</param>
     void RegisterUjmwProxy(
@@ -51,7 +51,7 @@ namespace UniversalBFF {
 
     /// <summary> </summary>
     /// <param name="moduleScopingKey">An technical name (URL-SAFE!) to discriminate application modules from each other.</param>
-    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint!</param>
+    /// <param name="endpointAlias">An technical name (URL-SAFE!), used as alias to address this endpoint (slashes are allowed)!</param>
     /// <param name="forwardingAddress"></param>
     /// <param name="apiV">The exposed api-version, under which this endpoint is registered for!</param>
     void RegisterHttpProxy(

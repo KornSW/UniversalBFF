@@ -1,5 +1,4 @@
-﻿using Azure.Identity;
-using ComponentDiscovery;
+﻿using ComponentDiscovery;
 using Composition.InstanceDiscovery;
 using Logging.SmartStandards;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;

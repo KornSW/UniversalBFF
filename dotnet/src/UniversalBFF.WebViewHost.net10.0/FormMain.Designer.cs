@@ -53,7 +53,8 @@ namespace UniversalBFF {
       this.ClientSize = new System.Drawing.Size(970, 673);
       this.Controls.Add(webView2Control);
       this.Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
-      this.MinimumSize = new System.Drawing.Size(480, 300);
+      this.MinimumSize = new System.Drawing.Size(1100, 400);
+      this.Size = new System.Drawing.Size(1100, 700);
       this.Name = "FormMain";
       this.StartPosition = FormStartPosition.CenterScreen;
       this.Text = "Universal BFF";

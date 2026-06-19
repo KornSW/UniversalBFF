@@ -18,139 +18,147 @@ namespace UniversalBFF {
       if (_PortfoliosPerName != null) {
         return;
       }
+
       _PortfoliosPerName = new Dictionary<string, PortfolioDescription>();
       _PortfolioEntries = new List<PortfolioEntry>();
 
-      lock (_PortfoliosPerName) {
-        lock (_PortfolioEntries) {
+      try {
+        lock (_PortfoliosPerName) {
+          lock (_PortfolioEntries) {
 
-          if (_AutoCreateChooserPortfolio) {
-            PortfolioDescription chooserPortfolio = this.CreateChooserPortfolioAndModule(
-              out string chooserPortfolioName, out ModuleDescription chooserModule
-            );
-            _PortfoliosPerName[chooserPortfolioName] = chooserPortfolio;
-            this.RegisterModule(chooserModule);
-          }
+            ProductDefinition[] products = _ProductDefinitionProvider.GetProductDefinitions();
 
-          ProductDefinition[] products = _ProductDefinitionProvider.GetProductDefinitions();
+            if(products == null || products.Length == 0) {
+              //no products defined - fallback to a default product (which will lead to an empty portfolio, but at least the system is runnable and can be configured via the ui)
 
-          foreach (ProductDefinition product in products) {
-
-            PortfolioDescription newPortfolio = new PortfolioDescription();
-
-            newPortfolio.ApplicationTitle = product.Title;
-            newPortfolio.LogoUrlLight = product.LogoUrlLight;
-            newPortfolio.LogoUrlDark = product.LogoUrlDark;
-            newPortfolio.LandingWorkspaceName = product.LandingWorkspaceName;
-
-            _PortfoliosPerName[product.TechnicalName] = newPortfolio;
-
-            //prepared entries for the portfolio-chooser (where user selects the product):
-            PortfolioEntry newEntry = new PortfolioEntry();
-
-            newEntry.Label = product.Title;
-            newEntry.PortfolioUrl = product.TechnicalName + ".portfolio.json";
-
-            newEntry.Tags = new Dictionary<string, string>();
-            foreach (var kvp in product.MetaAttributes) {
-              //only display User-Visible Attributes (exclude '_'-prefix)!
-              if (!kvp.Key.StartsWith("_")) {
-                newEntry.Tags[kvp.Key] = kvp.Value;
+              //HACK: muss threadsafe werden!
+              string[] allModuleNames = _RegisteredModules.Select((m) => m.ModuleUid).ToArray();
+              string[] allWorkspaceKeys;
+              if (allModuleNames.Length == 0) {
+                allModuleNames = new string[] { DummyModuleName };
+                allWorkspaceKeys = new string[] { "welcome" };
               }
+              else {
+                allWorkspaceKeys = _RegisteredModules.Select((m) => m.Workspaces?.FirstOrDefault()?.WorkspaceKey).ToArray();
+
+              }
+              //"oob-usrmgmt"
+              string landingWorkspaceName = allWorkspaceKeys.FirstOrDefault();
+              if (string.IsNullOrWhiteSpace(landingWorkspaceName)) {
+                landingWorkspaceName = "Home";
+              }
+
+              products = new ProductDefinition[] {
+                new ProductDefinition() {
+                  TechnicalName = "default",
+                  Title = "BFF-Application",
+                  LandingWorkspaceName = landingWorkspaceName,
+                  EnabledModules = allModuleNames,
+                }
+              };
             }
 
-            //newEntry.LogoUrlLight = product.LogoUrlLight;
-            //newEntry.LogoUrlDark = product.LogoUrlDark;
+            if (products.Length > 1 && _AutoCreateChooserPortfolio) {
+              PortfolioDescription chooserPortfolio = this.CreateChooserPortfolioAndModule(
+                out string chooserPortfolioName, out ModuleDescription chooserModule
+              );
+              _PortfoliosPerName[chooserPortfolioName] = chooserPortfolio;
+              this.RegisterModule(chooserModule);
+            }
 
-            _PortfolioEntries.Add(newEntry);
+            foreach (ProductDefinition product in products) {
 
-            this.ApplySecurityConfigurationToPortfolio(product.TechnicalName, newPortfolio, product.MetaAttributes);
+              PortfolioDescription newPortfolio = new PortfolioDescription();
 
-            #region " Application Scopes "
+              newPortfolio.ApplicationTitle = product.Title;
+              newPortfolio.LogoUrlLight = product.LogoUrlLight;
+              newPortfolio.LogoUrlDark = product.LogoUrlDark;
+              newPortfolio.LandingWorkspaceName = product.LandingWorkspaceName;
 
-            foreach (IApplicationScopeProvider applicationScopeProvider in _ApplicationScopeProviders) {
+              newPortfolio.ModuleDescriptionUrls = product.EnabledModules.Select((m) => m + "/module.json").ToArray();
 
-              applicationScopeProvider.RegisterScopes(
-                product.TechnicalName,
-                product.MetaAttributes,
-                (ApplicationScopeDefinition scope) => {
+              _PortfoliosPerName[product.TechnicalName] = newPortfolio;
 
-                  ApplicationScopeEntry scopeEntry = null;
-                  if (newPortfolio.ApplicationScope == null) {
-                    newPortfolio.ApplicationScope = Array.Empty<ApplicationScopeEntry>();
-                  }
-                  else {
-                    scopeEntry = newPortfolio.ApplicationScope.Where((s) => s.Name == scope.Name).FirstOrDefault();
-                  }
-                  if (scopeEntry == null) {
-                    scopeEntry = new ApplicationScopeEntry();
-                    scopeEntry.Name = scope.Name;
-                    scopeEntry.Label = scope.Name;
-                    scopeEntry.InitialValue = scope.InitialValue;
+              //prepared entries for the portfolio-chooser (where user selects the product):
+              PortfolioEntry newEntry = new PortfolioEntry();
 
-                    //for the entry we use the label on purpose, as it is only relevant for the ui
-                    if (newEntry.Tags != null && newEntry.Tags.ContainsKey(scope.Label)) {
-                      newEntry.Tags[scope.Label] = scope.InitialValue;
+              newEntry.Label = product.Title;
+              newEntry.PortfolioUrl = product.TechnicalName + ".portfolio.json";
+
+              newEntry.Tags = new Dictionary<string, string>();
+              foreach (var kvp in product.MetaAttributes) {
+                //only display User-Visible Attributes (exclude '_'-prefix)!
+                if (!kvp.Key.StartsWith("_")) {
+                  newEntry.Tags[kvp.Key] = kvp.Value;
+                }
+              }
+
+              //newEntry.LogoUrlLight = product.LogoUrlLight;
+              //newEntry.LogoUrlDark = product.LogoUrlDark;
+
+              _PortfolioEntries.Add(newEntry);
+
+              this.ApplySecurityConfigurationToPortfolio(product.TechnicalName, newPortfolio, product.MetaAttributes);
+
+              #region " Application Scopes "
+
+              if(_ApplicationScopeProviders != null) {
+                foreach (IApplicationScopeProvider applicationScopeProvider in _ApplicationScopeProviders) {
+
+                  applicationScopeProvider.RegisterScopes(
+                    product.TechnicalName,
+                    product.MetaAttributes,
+                    (ApplicationScopeDefinition scope) => {
+
+                      ApplicationScopeEntry scopeEntry = null;
+                      if (newPortfolio.ApplicationScope == null) {
+                        newPortfolio.ApplicationScope = Array.Empty<ApplicationScopeEntry>();
+                      }
+                      else {
+                        scopeEntry = newPortfolio.ApplicationScope.Where((s) => s.Name == scope.Name).FirstOrDefault();
+                      }
+                      if (scopeEntry == null) {
+                        scopeEntry = new ApplicationScopeEntry();
+                        scopeEntry.Name = scope.Name;
+                        scopeEntry.Label = scope.Name;
+                        scopeEntry.InitialValue = scope.InitialValue;
+
+                        //for the entry we use the label on purpose, as it is only relevant for the ui
+                        if (newEntry.Tags != null && newEntry.Tags.ContainsKey(scope.Label)) {
+                          newEntry.Tags[scope.Label] = scope.InitialValue;
+                        }
+
+                      }
+                      if (!string.IsNullOrWhiteSpace(scope.Label)) {
+                        scopeEntry.Label = scope.Label;
+                      }
+
+                      //merge
+                      MergeScopeValuesAndContraints(
+                        scopeEntry,
+                        scope.KnownValues,
+                        scope.DependentScopeConstraints,
+                        scope.DependentScopeNames
+                      );
+
                     }
-
-                  }
-                  if (!string.IsNullOrWhiteSpace(scope.Label)) {
-                    scopeEntry.Label = scope.Label;
-                  }
-
-                  //merge
-                  MergeScopeValuesAndContraints(
-                    scopeEntry,
-                    scope.KnownValues,
-                    scope.DependentScopeConstraints,
-                    scope.DependentScopeNames
                   );
 
                 }
-              );
+              }
+
+              #endregion
 
             }
 
-            #endregion
+          }//lock entries
+        }//lock portfolios
+      }
+      catch (Exception ex) {
+        _PortfoliosPerName = null;
+        throw;
+      }
 
-          }
-
-        }//lock entries
-      }//lock portfolios
-
-    }
-
-    public PortfolioDescription CreateChooserPortfolioAndModule(
-      out string technicalName, out ModuleDescription module   
-    ) {
-
-      PortfolioDescription chooserPortfolio = new PortfolioDescription();
-
-      technicalName = "_CHOOSER";
-      chooserPortfolio.ApplicationTitle = "Select Product";
-      chooserPortfolio.LandingWorkspaceName = "Chooser";
-
-      chooserPortfolio.ModuleDescriptionUrls = new string[] {
-        "??" //TODO: wie wirds eingebunden?
-      };
-
-      module = new ModuleDescription();
-      module.ModuleTitle = chooserPortfolio.ApplicationTitle;
-      module.ModuleUid = technicalName;
-
-      //TODO: modul deklarieren
-
-      //...
-
-      Dictionary<string, string> metaAttributes = new  Dictionary<string, string>();
-      metaAttributes["_PublicWorkspaces"] = "Chooser";
-      metaAttributes["_PublicUsecases"] = "Chooser";
-
-      this.ApplySecurityConfigurationToPortfolio(
-        technicalName, chooserPortfolio, metaAttributes
-      );
-
-      return chooserPortfolio;
     }
 
     internal void ApplySecurityConfigurationToPortfolio(
@@ -349,6 +357,89 @@ namespace UniversalBFF {
     }
 
     #endregion
+
+    public PortfolioDescription CreateChooserPortfolioAndModule(
+      out string technicalName, out ModuleDescription module
+    ) {
+
+      PortfolioDescription chooserPortfolio = new PortfolioDescription();
+
+      technicalName = "_CHOOSER";
+      chooserPortfolio.ApplicationTitle = "Select Product";
+      chooserPortfolio.LandingWorkspaceName = "Chooser";
+
+      chooserPortfolio.ModuleDescriptionUrls = new string[] {
+        "??" //TODO: wie wirds eingebunden?
+      };
+
+      module = new ModuleDescription();
+      module.ModuleTitle = chooserPortfolio.ApplicationTitle;
+      module.ModuleUid = technicalName;
+
+      //TODO: modul deklarieren
+
+      //...
+
+      Dictionary<string, string> metaAttributes = new Dictionary<string, string>();
+      metaAttributes["_PublicWorkspaces"] = "Chooser";
+      metaAttributes["_PublicUsecases"] = "Chooser";
+
+      this.ApplySecurityConfigurationToPortfolio(
+        technicalName, chooserPortfolio, metaAttributes
+      );
+
+      return chooserPortfolio;
+    }
+
+    internal const string DummyModuleName = "dummy";
+
+    private static ModuleDescription GetDummyModule() {
+
+      return new ModuleDescription() {
+        ModuleTitle = "Dummy Module",
+        ModuleUid = "2092355893314189805",
+        ModuleScopingKey = DummyModuleName,
+        Commands = new CommandDescription[] {
+             new CommandDescription() {
+                ActionName = "nav-welcome",
+                UniqueCommandKey = "2092355901753303639",
+                Label = "Welcome",
+                Description ="",
+                //IconKey = "",
+                CommandType = "activate-workspace",
+                TargetWorkspaceKey = "welcome",
+                MenuFolder = "MENU"
+             }
+          }.ToList(),
+        Workspaces = new WorkspaceDescription[] {
+             new WorkspaceDescription() {
+               WorkspaceKey = "welcome",
+               WorkspaceTitle = "Welcome",
+               //IconName = "",
+               IsSidebar = false,
+               WorkspaceAppearance = "default"
+             }
+          }.ToList(),
+        StaticUsecaseAssignments = new StaticUsecaseAssignment[] {
+          new StaticUsecaseAssignment() {
+            TargetWorkspaceKey = "welcome",
+            UsecaseKey = "welcome-page",
+              InitUnitOfWork = new IDynamicParamObject {
+                { "tip of today", "create a portfolio and a module to see something here..." },
+              }
+          }
+        }.ToList(),
+        Usecases = new UsecaseDescription[] {
+          new UsecaseDescription() {
+            Title = "Welcome",
+            UsecaseKey = "welcome-page",
+            SingletonActionkey = "welcome-page",
+            //IconName = "dummy-icon",
+            WidgetClass = "demo",
+          }
+        }.ToList()
+      };
+    }
 
   }
 

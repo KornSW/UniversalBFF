@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Fuse;
+using System.Data.Fuse.Ef;
+using System.Data.Fuse.Ef.InstanceManagement;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using UniversalBFF.OobModules.UserManagement.Frontend.Contract;
@@ -33,26 +37,82 @@ namespace UniversalBFF.OobModules.UserManagement {
         ModuleScopingKey, nameof(LocalCredentialService), () => new LocalCredentialService()
       );
 
+      registrar.RegisterUjmwServiceEndpoint<IRepository<LocalCredentialEntity, Int64>>(
+        ModuleScopingKey, $"Store/LocalCredentials",
+        () => new EfRepository<LocalCredentialEntity, Int64>(
+          new ShortLivingDbContextInstanceProvider<UserManagementDbContext>(
+            () => new UserManagementDbContext()
+          )
+        )
+      );
 
     }
 
     public void RegisterModule(IFrontendModuleRegistrar registrar) {
 
-      var module = ModuleDescription.Build("Demo");
 
-      string workspaceKey1 = module.AddWorkspace("Workspace 1", (w) => {
-      });
-      string workspaceKey2 = module.AddWorkspace("Workspace 2", (w) => {
-      });
+      //TODO: das hier muss eigentlich per datei aus der webapp kommen!!!!
 
-      string usecaseKey1 = module.AddUsecase("UseCase 1", (u) => {
-        u.WidgetClass = "";
-        //u.UnitOfWorkDefaults["Abc"] = "Hallo";
-      });
-
-
-      
-
+      registrar.RegisterModule(
+        new ModuleDescription() {
+          ModuleTitle = "User Management",
+          ModuleUid = "2092362137326596206",
+          ModuleScopingKey = ModuleScopingKey,
+          Commands = new CommandDescription[] {
+               new CommandDescription() {
+                  ActionName = ModuleScopingKey + ".nav-users",
+                  UniqueCommandKey = "2092355901753303639",
+                  Label = "Manage Users",
+                  Description ="",
+                  IconKey = "fa-user",
+                  CommandType = "activate-workspace",
+                  TargetWorkspaceKey = ModuleScopingKey + ".Manage",
+                  MenuFolder = "Administration"
+               }
+            }.ToList(),
+          Workspaces = new WorkspaceDescription[] {
+               new WorkspaceDescription() {
+                 WorkspaceKey = ModuleScopingKey + ".Manage",
+                 WorkspaceTitle = "Manage Users",
+                 IconName = "fa-user",
+                 IsSidebar = false,
+                 WorkspaceAppearance = "default"
+               }
+            }.ToList(),
+          StaticUsecaseAssignments = new StaticUsecaseAssignment[] {
+            new StaticUsecaseAssignment() {
+              TargetWorkspaceKey = ModuleScopingKey + ".Manage",
+              UsecaseKey = ModuleScopingKey + ".Manage.LocalIdentities",
+                InitUnitOfWork = new IDynamicParamObject {
+                  { "Name", "LocalIdentities" },
+                }
+            },
+            new StaticUsecaseAssignment() {
+              TargetWorkspaceKey = ModuleScopingKey + ".Manage",
+              UsecaseKey = ModuleScopingKey + ".Manage.OAuthClients",
+                InitUnitOfWork = new IDynamicParamObject {
+                  { "Name", "OAuthClients" },
+                }
+            }
+          }.ToList(),
+          Usecases = new UsecaseDescription[] {
+            new UsecaseDescription() {
+              Title = "Local Identities",
+              UsecaseKey =  ModuleScopingKey + ".Manage.LocalIdentities",
+              SingletonActionkey = ModuleScopingKey + ".Manage.LocalIdentities",
+              //IconName = "dummy-icon",
+              WidgetClass = "demo",
+            },
+            new UsecaseDescription() {
+              Title = "OAuth Clients",
+              UsecaseKey = ModuleScopingKey + ".Manage.OAuthClients",
+              SingletonActionkey = ModuleScopingKey + ".Manage.OAuthClients",
+              //IconName = "dummy-icon",
+              WidgetClass = "demo",
+            }
+          }.ToList()
+        }
+      );
 
       //registrar.RegisterModule(
       //  new UShell.ModuleDescription() {
@@ -97,8 +157,7 @@ namespace UniversalBFF.OobModules.UserManagement {
       registrar.RegisterFrontendExtension(
         ModuleScopingKey,
         Assembly.GetExecutingAssembly(),
-        $"{defaultNamespace}.{subNamespaceOfEmbeddedSpaFiles}",
-        "index.html"
+        $"{defaultNamespace}.{subNamespaceOfEmbeddedSpaFiles}"
       );
 
     }
