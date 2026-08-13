@@ -14,6 +14,35 @@
     <icon>PackageIcon.png</icon>
     <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
     <dependencies>
+      <!-- (configuration for the Versioning-Util, which is not part of the xml-schema, because it's a pre-processor)
+      "KVU": { 
+        "versioningTwins":[ /* forced same [version] as our package and never treated as orphaned */
+          "UniversalBFF.ModuleContract"
+        ],
+        "dependencySync": {
+          "addMissing":true, "updateExisting":true, "allowDowngrades":true, "removeOrphaned":false,
+          "constraintLevel":"SEM-SAFE",
+          "blacklist": [
+            "System.Data.SqlClient",
+            "Newtonsoft.Json",
+            "Microsoft.*",
+            /* PEER VON AUTHTOKENHANDLING */
+            "jose-jwt", 
+          ],
+          "sources": [         
+            { "origin":"src\\UniversalBFF.net8.0\\UniversalBFF.net8.0.csproj", "targetFramework":"=" },
+            { "origin":"src\\UniversalBFF.net10.0\\UniversalBFF.net10.0.csproj", "targetFramework":"=" },
+            { 
+              "addMissing":true, "updateExisting":true, "allowDowngrades":false, "removeOrphaned":false,
+              "origin":"src\\UniversalBFF.AspNetCore.net8.0\\UniversalBFF.AspNetCore.net8.0.csproj", "targetFramework":"="
+            },
+            { 
+              "addMissing":true, "updateExisting":true, "allowDowngrades":false, "removeOrphaned":false,
+              "origin":"src\\UniversalBFF.AspNetCore.net10.0\\UniversalBFF.AspNetCore.net10.0.csproj", "targetFramework":"=" 
+            }
+          ]
+        }
+      } -->
       <group targetFramework="net8.0">
 
         <dependency id="UniversalBFF.ModuleContract" version="[1.0.0]" />
@@ -98,18 +127,18 @@
     <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
     <file src="PackageIcon.png" target="" />
     <!-- .NET 8.0 -->
-    <file src="dist\bin-net8.0\UniversalBFF.dll" target="lib/net8.0" />
-    <file src="dist\bin-net8.0\UniversalBFF.xml" target="lib/net8.0" />
-    <file src="dist\bin-net8.0\UniversalBFF.pdb" target="lib/net8.0" />      
-    <file src="dist\bin-net8.0\UniversalBFF.AspNetCore.dll" target="lib/net8.0" />
-    <file src="dist\bin-net8.0\UniversalBFF.AspNetCore.xml" target="lib/net8.0" />
-    <file src="dist\bin-net8.0\UniversalBFF.AspNetCore.pdb" target="lib/net8.0" />
+    <file src="dist\net8.0\UniversalBFF.dll" target="lib/net8.0" />
+    <file src="dist\net8.0\UniversalBFF.xml" target="lib/net8.0" />
+    <file src="dist\net8.0\UniversalBFF.pdb" target="lib/net8.0" />      
+    <file src="dist\net8.0\UniversalBFF.AspNetCore.dll" target="lib/net8.0" />
+    <file src="dist\net8.0\UniversalBFF.AspNetCore.xml" target="lib/net8.0" />
+    <file src="dist\net8.0\UniversalBFF.AspNetCore.pdb" target="lib/net8.0" />
     <!-- .NET 10.0 -->
-    <file src="dist\bin-net10.0\UniversalBFF.dll" target="lib/net10.0" />
-    <file src="dist\bin-net10.0\UniversalBFF.xml" target="lib/net10.0" />
-    <file src="dist\bin-net10.0\UniversalBFF.pdb" target="lib/net10.0" />
-    <file src="dist\bin-net10.0\UniversalBFF.AspNetCore.dll" target="lib/net10.0" />
-    <file src="dist\bin-net10.0\UniversalBFF.AspNetCore.xml" target="lib/net10.0" />
-    <file src="dist\bin-net10.0\UniversalBFF.AspNetCore.pdb" target="lib/net10.0" />
+    <file src="dist\net10.0\UniversalBFF.dll" target="lib/net10.0" />
+    <file src="dist\net10.0\UniversalBFF.xml" target="lib/net10.0" />
+    <file src="dist\net10.0\UniversalBFF.pdb" target="lib/net10.0" />
+    <file src="dist\net10.0\UniversalBFF.AspNetCore.dll" target="lib/net10.0" />
+    <file src="dist\net10.0\UniversalBFF.AspNetCore.xml" target="lib/net10.0" />
+    <file src="dist\net10.0\UniversalBFF.AspNetCore.pdb" target="lib/net10.0" />
   </files>
 </package>

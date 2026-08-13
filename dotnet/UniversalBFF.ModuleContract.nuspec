@@ -15,6 +15,25 @@
     <icon>PackageIcon.png</icon>
     <projectUrl>https://github.com/KornSW/UniversalBFF</projectUrl>
     <dependencies>
+      <!-- (configuration for the Versioning-Util, which is not part of the xml-schema, because it's a pre-processor)
+      "KVU": { 
+        "versioningTwins":[ /* forced same [version] as our package and never treated as orphaned */
+        ],
+        "dependencySync": {
+          "addMissing":true, "updateExisting":true, "allowDowngrades":true, "removeOrphaned":false,
+          "constraintLevel":"SEM-SAFE",
+          "blacklist": [
+            "System.Data.SqlClient",
+            "Newtonsoft.Json",
+            /* PEER VON AUTHTOKENHANDLING */
+            "jose-jwt", 
+          ],
+          "sources": [         
+            { "origin":"src\\UniversalBFF.ModuleContract.net8.0\\UniversalBFF.ModuleContract.net8.0.csproj", "targetFramework":"=" },
+            { "origin":"src\\UniversalBFF.ModuleContract.net10.0\\UniversalBFF.ModuleContract.net10.0.csproj", "targetFramework":"=" }
+          ]
+        }
+      } -->
       <group targetFramework="net8.0">
         <dependency id="Newtonsoft.Json" version="[13.0.3,13.9999]" />
         <dependency id="SmartStandards.AuthTokenHandling" version="[5.0.0,6.0)" />
@@ -29,12 +48,12 @@
     <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
     <file src="PackageIcon.png" target="" /> 
     <!-- .NET 8.0 -->
-    <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.dll" target="lib/net8.0" />
-    <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.xml" target="lib/net8.0" />
-    <file src="dist\bin-net8.0\UniversalBFF.ModuleContract.pdb" target="lib/net8.0" />
+    <file src="dist\net8.0\UniversalBFF.ModuleContract.dll" target="lib/net8.0" />
+    <file src="dist\net8.0\UniversalBFF.ModuleContract.xml" target="lib/net8.0" />
+    <file src="dist\net8.0\UniversalBFF.ModuleContract.pdb" target="lib/net8.0" />
     <!-- .NET 10.0 -->
-    <file src="dist\bin-net10.0\UniversalBFF.ModuleContract.dll" target="lib/net10.0" />
-    <file src="dist\bin-net10.0\UniversalBFF.ModuleContract.xml" target="lib/net10.0" />
-    <file src="dist\bin-net10.0\UniversalBFF.ModuleContract.pdb" target="lib/net10.0" />
+    <file src="dist\net10.0\UniversalBFF.ModuleContract.dll" target="lib/net10.0" />
+    <file src="dist\net10.0\UniversalBFF.ModuleContract.xml" target="lib/net10.0" />
+    <file src="dist\net10.0\UniversalBFF.ModuleContract.pdb" target="lib/net10.0" />
   </files>
 </package>

@@ -1,66 +1,81 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>UniversalBFF.AspHost</AssemblyName>
     <RootNamespace>UniversalBFF</RootNamespace>
-    <Version>1.0.0</Version>
+    <Deterministic>false</Deterministic>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <NoWarn>$(NoWarn);1591</NoWarn>
+    <ImportedNamespaces></ImportedNamespaces>
+  </PropertyGroup>
+
+  <!-- META DATA -->
+
+  <PropertyGroup>
+    <PackageId>UniversalBFF.AspHost</PackageId>
+    <Description>UniversalBFF.AspHost</Description>
+    <Product>UniversalBFF</Product>
+    <PackageTags></PackageTags>
+    <Company></Company>
+    <Copyright></Copyright>
+    <Authors></Authors>
+    <!-- VERSION -->
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- ADDITIONAL ASSEMBLY-ATTRIBUTES -->
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>SourceContext</_Parameter1>
+      <_Parameter2>UniversalBFF.AspHost</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <!-- BUILD -->
+
+  <PropertyGroup>
+    <OutputPath>..\..\dist</OutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <DefineConstants>$(DefineConstants);NET_CORE;NET_8_;NET_10_;NET_10</DefineConstants>
+    <NoWarn>$(NoWarn);1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.AspHost.xml</DocumentationFile>
-    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Deterministic>false</Deterministic>
-    <NoWarn>1701;1702;1591</NoWarn>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.AspHost.xml</DocumentationFile>
-    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Deterministic>false</Deterministic>
-    <NoWarn>1701;1702;1591</NoWarn>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
-  <!-- https://stackoverflow.com/questions/57412190/how-to-include-xml-documentation-from-nuget-package-in-csproj-build-output -->
   <Target Name="_ResolveCopyLocalNuGetPkgXmls" AfterTargets="ResolveReferences">
     <ItemGroup>
-      <!-- Copy XML files from all PackageReferences to output dir -->
+      <!-- Copy also XML-Doc files from all PackageReferences to output dir -->
       <ReferenceCopyLocalPaths Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)%(Filename).xml')" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)'!='' and Exists('%(RootDir)%(Directory)%(Filename).xml')" />
     </ItemGroup>
   </Target>
-  
-  <ItemGroup>
-    <Compile Remove="Logs\**" />
-    <Compile Remove="Util\**" />
-    <Content Remove="Logs\**" />
-    <Content Remove="Util\**" />
-    <EmbeddedResource Remove="Logs\**" />
-    <EmbeddedResource Remove="Util\**" />
-    <None Remove="Logs\**" />
-    <None Remove="Util\**" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Remove="_AnnouncementInfo.txt" />
-  </ItemGroup>
+
+  <!-- REFERENCES -->
 
   <ItemGroup>
 
     <!-- any additional MS-near references to get complete access to asp, is provided by this dependency-package: -->
-    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.10" />
+    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.12" />
 
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
-    
-    <PackageReference Include="UJMW.DynamicClient" Version="5.5.1" />
-    <PackageReference Include="UJMW.DynamicController" Version="5.5.1" />
+
+    <PackageReference Include="UJMW.DynamicClient" Version="5.6.2" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.6.2" />
 
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
     <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.1" />
@@ -73,25 +88,42 @@
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
     <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.4" />
 
-    <PackageReference Include="Snowflake44" Version="3.8.1" />
+    <PackageReference Include="Snowflake44" Version="3.8.3" />
 
     <PackageReference Include="UShell.FrontendBundle" Version="3.2.32.1494" />
     <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.32.1494" />
     <PackageReference Include="UShell.PortfolioDescription" Version="4.1.2" />
     <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.2" />
     <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.1" />
-    
+
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\UniversalBFF.ModuleContract.net10.0\UniversalBFF.ModuleContract.net10.0.csproj" />
     <ProjectReference Include="..\UniversalBFF.net10.0\UniversalBFF.net10.0.csproj" />
   </ItemGroup>
-  
+
+  <!-- INCLUDEs and FILEs -->
+
   <Import Project="..\UniversalBFF.AspNetCore\UniversalBFF.AspNetCore.projitems" Label="Shared" />
-  
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Compile Remove="Util\**" />
+    <Content Remove="Logs\**" />
+    <Content Remove="Util\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <EmbeddedResource Remove="Util\**" />
+    <None Remove="Logs\**" />
+    <None Remove="Util\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="_AnnouncementInfo.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

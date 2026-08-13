@@ -21,16 +21,16 @@
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.xml</DocumentationFile>
-    <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
+    <DocumentationFile>..\..\dist\net8.0\UniversalBFF.xml</DocumentationFile>
+    <OutputPath>..\..\dist\net8.0\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
     <DefineConstants>TRACE;DEBUG;NET5</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
-    <DocumentationFile>..\..\dist\bin-net8.0\UniversalBFF.xml</DocumentationFile>
+    <OutputPath>..\..\dist\net8.0\</OutputPath>
+    <DocumentationFile>..\..\dist\net8.0\UniversalBFF.xml</DocumentationFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
     <DefineConstants>TRACE;NET5</DefineConstants>
@@ -43,8 +43,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
-    <PackageReference Include="Snowflake44" Version="3.8.1" />
-    <PackageReference Include="UJMW.DynamicClient" Version="5.5.1" />
+    <PackageReference Include="Snowflake44" Version="3.8.3" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.6.2" />
     <PackageReference Include="UShell.PortfolioDescription" Version="4.1.2" />
     <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.1" />
 

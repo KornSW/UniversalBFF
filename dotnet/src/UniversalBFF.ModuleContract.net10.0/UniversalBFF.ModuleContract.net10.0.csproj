@@ -4,39 +4,59 @@
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>UniversalBFF.ModuleContract</AssemblyName>
     <RootNamespace>UniversalBFF</RootNamespace>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Deterministic>false</Deterministic>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ImportedNamespaces></ImportedNamespaces>
   </PropertyGroup>
-  
+
+  <!-- META DATA -->
+
   <PropertyGroup>
     <PackageId>UniversalBFF.ModuleContract</PackageId>
-    <Description></Description>
+    <Description>UniversalBFF.ModuleContract</Description>
     <Product>UniversalBFF</Product>
+    <PackageTags></PackageTags>
     <Company>(public domain)</Company>
     <Copyright>KornSW</Copyright>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
     <Authors>KornSW</Authors>
-    <FileVersion>1.0.0</FileVersion>
-    <PackageTags></PackageTags>
+    <!-- VERSION -->
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <!-- ADDITIONAL ASSEMBLY-ATTRIBUTES -->
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>SourceContext</_Parameter1>
+      <_Parameter2>UniversalBFF.ModuleContract</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <!-- BUILD -->
+
+  <PropertyGroup>
+    <OutputPath>..\..\dist</OutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <DefineConstants>$(DefineConstants);NET_CORE;NET_8_;NET_10_;NET_10</DefineConstants>
+    <NoWarn>$(NoWarn);1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.ModuleContract.xml</DocumentationFile>
-    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DefineConstants>TRACE;DEBUG;NET5</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.ModuleContract.xml</DocumentationFile>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DefineConstants>TRACE;NET5</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
-  <Import Project="..\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems" Label="Shared" />
+  <!-- REFERENCES -->
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
@@ -49,5 +69,9 @@
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
+
+  <!-- INCLUDEs and FILEs -->
+
+  <Import Project="..\UniversalBFF.ModuleContract\UniversalBFF.ModuleContract.projitems" Label="Shared" />
 
 </Project>

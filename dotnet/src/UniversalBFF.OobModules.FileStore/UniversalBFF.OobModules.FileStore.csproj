@@ -4,37 +4,59 @@
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>UniversalBFF.OobModules.FileStore</AssemblyName>
     <RootNamespace>UniversalBFF.OobModules.FileStore</RootNamespace>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Deterministic>false</Deterministic>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ImportedNamespaces></ImportedNamespaces>
   </PropertyGroup>
-  
+
+  <!-- META DATA -->
+
   <PropertyGroup>
     <PackageId>UniversalBFF.OobModules.FileStore</PackageId>
-    <Description></Description>
+    <Description>UniversalBFF.OobModules.FileStore</Description>
     <Product>UniversalBFF</Product>
+    <PackageTags></PackageTags>
     <Company>(public domain)</Company>
     <Copyright>KornSW + KeinIch</Copyright>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
     <Authors>KornSW + KeinIch</Authors>
-    <FileVersion>1.0.0</FileVersion>
-    <PackageTags></PackageTags>
+    <!-- VERSION -->
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <!-- ADDITIONAL ASSEMBLY-ATTRIBUTES -->
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>SourceContext</_Parameter1>
+      <_Parameter2>UniversalBFF.OobModules.FileStore</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <!-- BUILD -->
+
+  <PropertyGroup>
+    <OutputPath>..\..\dist</OutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <DefineConstants>$(DefineConstants);NET_CORE;NET_8_;NET_10_;NET_10</DefineConstants>
+    <NoWarn>$(NoWarn);1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.OobModules.FileStore.xml</DocumentationFile>
-    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DefineConstants>TRACE;DEBUG;NET5</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.OobModules.FileStore.xml</DocumentationFile>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DefineConstants>TRACE;NET5</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <Optimize>True</Optimize>
   </PropertyGroup>
+
+  <!-- REFERENCES -->
 
   <ItemGroup>
 
@@ -46,13 +68,13 @@
     <PackageReference Include="SmartAmbience" Version="2.5.1" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
-    <PackageReference Include="Snowflake44" Version="3.8.1" />
+    <PackageReference Include="Snowflake44" Version="3.8.3" />
     <PackageReference Include="UShell.PortfolioDescription" Version="4.1.2" />
 
-    <PackageReference Include="FUSE-fx.EfSupport" Version="1.1.0" />
+    <PackageReference Include="FUSE-fx.EfSupport" Version="3.0.1" />
     <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.3.0" />
     <PackageReference Include="FUSE-fx.ModelDescription" Version="2.1.0" />
-    <PackageReference Include="FUSE-fx.RepositoryContract" Version="1.1.0" />
+    <PackageReference Include="FUSE-fx.RepositoryContract" Version="3.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
       <PrivateAssets>all</PrivateAssets>
@@ -77,10 +99,11 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
+  <!-- INCLUDEs and FILEs -->
+
   <ItemGroup>
     <Folder Include="Backend\" />
     <Folder Include="Frontend\" />
   </ItemGroup>
-
 
 </Project>

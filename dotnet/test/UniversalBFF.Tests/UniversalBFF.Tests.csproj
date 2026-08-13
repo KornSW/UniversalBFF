@@ -4,38 +4,69 @@
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>UniversalBFF.Tests</AssemblyName>
     <RootNamespace>UniversalBFF</RootNamespace>
+    <Deterministic>false</Deterministic>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ImportedNamespaces></ImportedNamespaces>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <Version>1.0.0</Version>
-    <AssemblyName>UniversalBFF.AspHost</AssemblyName>
+  </PropertyGroup>
+
+  <!-- META DATA -->
+
+  <PropertyGroup>
     <PackageId>Tests</PackageId>
-    <Product>Tests</Product>
-    <Company />
+    <Description>UniversalBFF.Tests</Description>
+    <Product>UniversalBFF.Tests</Product>
+    <PackageTags></PackageTags>
+    <Company></Company>
+    <Copyright></Copyright>
     <Authors>Tests</Authors>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DefineConstants>DEBUG;TRACE;NET5</DefineConstants>
-    <OutputPath>Bin</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DefineConstants>TRACE;NET5</DefineConstants>
-    <OutputPath>Bin</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- VERSION -->
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
+    <!-- ADDITIONAL ASSEMBLY-ATTRIBUTES -->
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>SourceContext</_Parameter1>
+      <_Parameter2>UniversalBFF.Tests</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <!-- BUILD -->
+
+  <PropertyGroup>
+    <OutputPath>..\..\dist</OutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <DefineConstants>$(DefineConstants);NET_CORE;NET_8_;NET_10_;NET_10</DefineConstants>
+    <NoWarn>$(NoWarn);1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <!-- REFERENCES -->
+
+  <ItemGroup>
+    <PackageReference Include="MSTest" Version="3.11.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="ComponentDiscovery" Version="4.12.0" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
   </ItemGroup>
+
+  <!-- INCLUDEs and FILEs -->
 
 </Project>

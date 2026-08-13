@@ -4,57 +4,87 @@
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>UniversalBFF.OobModules.UserManagement</AssemblyName>
     <RootNamespace>UniversalBFF.OobModules.UserManagement</RootNamespace>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Deterministic>false</Deterministic>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ImportedNamespaces></ImportedNamespaces>
   </PropertyGroup>
-  
+
+  <!-- META DATA -->
+
   <PropertyGroup>
     <PackageId>UniversalBFF.OobModules.UserManagement</PackageId>
-    <Description></Description>
+    <Description>UniversalBFF.OobModules.UserManagement</Description>
     <Product>UniversalBFF</Product>
+    <PackageTags></PackageTags>
     <Company>(public domain)</Company>
     <Copyright>KornSW + KeinIch</Copyright>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
     <Authors>KornSW + KeinIch</Authors>
-    <FileVersion>1.0.0</FileVersion>
-    <PackageTags></PackageTags>
+    <!-- VERSION -->
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <!-- ADDITIONAL ASSEMBLY-ATTRIBUTES -->
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>SourceContext</_Parameter1>
+      <_Parameter2>UniversalBFF.OobModules.UserManagement</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <!-- BUILD -->
+
+  <PropertyGroup>
+    <OutputPath>..\..\dist</OutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <DefineConstants>$(DefineConstants);NET_CORE;NET_8_;NET_10_;NET_10</DefineConstants>
+    <NoWarn>$(NoWarn);1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.OobModules.UserManagement.xml</DocumentationFile>
-    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DefineConstants>TRACE;DEBUG;NET5</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\dist\bin-net10.0\</OutputPath>
-    <DocumentationFile>..\..\dist\bin-net10.0\UniversalBFF.OobModules.UserManagement.xml</DocumentationFile>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DefineConstants>TRACE;NET5</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <Optimize>True</Optimize>
   </PropertyGroup>
-  
+
+  <!-- Pre-Build nur in der Debug-Konfiguration -->
+  <Target Name="PreBuild" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Debug'">
+    <ItemGroup>
+      <MyFiles Include="$(ProjectDir)..\..\..\js\UniversalBFF.OobModules.UserManagement\dist\**\*" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(MyFiles)" DestinationFolder="$(ProjectDir)Frontend\webapp-files\%(RecursiveDir)" />
+  </Target>
+
+  <!-- REFERENCES -->
+
   <ItemGroup>
 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    
+
     <PackageReference Include="ComponentDiscovery" Version="4.12.0" />
     <PackageReference Include="SmartAmbience" Version="2.5.1" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
-    <PackageReference Include="Snowflake44" Version="3.8.1" />
+    <PackageReference Include="Snowflake44" Version="3.8.3" />
     <PackageReference Include="UShell.PortfolioDescription" Version="4.1.2" />
-    
-    <PackageReference Include="FUSE-fx.EfSupport" Version="1.1.0" />
+
+    <PackageReference Include="FUSE-fx.EfSupport" Version="3.0.1" />
     <PackageReference Include="FUSE-fx.EntityAnnotations" Version="4.3.0" />
     <PackageReference Include="FUSE-fx.ModelDescription" Version="2.1.0" />
-    <PackageReference Include="FUSE-fx.RepositoryContract" Version="1.1.0" />
-    
+    <PackageReference Include="FUSE-fx.RepositoryContract" Version="3.0.1" />
+
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
       <PrivateAssets>all</PrivateAssets>
@@ -79,38 +109,31 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
-  <!-- Pre-Build nur in der Debug-Konfiguration -->
-  <Target Name="PreBuild" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Debug'">
-    <ItemGroup>
-      <MyFiles Include="$(ProjectDir)..\..\..\js\UniversalBFF.OobModules.UserManagement\dist\**\*" />
-    </ItemGroup>
+  <!-- INCLUDEs and FILEs -->
 
-    <Copy SourceFiles="@(MyFiles)" DestinationFolder="$(ProjectDir)Frontend\webapp-files\%(RecursiveDir)" />
-  </Target>
-  
   <ItemGroup>
-  
-    <EmbeddedResource Include="Frontend\webapp-files\esm\**" />    
-    <EmbeddedResource Include="Frontend\webapp-files\*.js" /> 
-    <EmbeddedResource Include="Frontend\webapp-files\*.png" />  
-    <EmbeddedResource Include="Frontend\webapp-files\*.html" />  
-    
+
+    <EmbeddedResource Include="Frontend\webapp-files\esm\**" />
+    <EmbeddedResource Include="Frontend\webapp-files\*.js" />
+    <EmbeddedResource Include="Frontend\webapp-files\*.png" />
+    <EmbeddedResource Include="Frontend\webapp-files\*.html" />
+
     <!-- TEMP CONFIG-FILES FROM FRONTEND -->
-    <EmbeddedResource Remove="Frontend\webapp-files\*.json" />  
-    <Compile Remove="Frontend\webapp-files\*.json" />  
-    <None Remove="Frontend\webapp-files\*.json" />  
+    <EmbeddedResource Remove="Frontend\webapp-files\*.json" />
+    <Compile Remove="Frontend\webapp-files\*.json" />
+    <None Remove="Frontend\webapp-files\*.json" />
     <Compile Remove="Frontend\webapp-files\modules\**" />
     <Compile Remove="Frontend\webapp-files\portfolio\**" />
     <EmbeddedResource Remove="Frontend\webapp-files\modules\**" />
     <EmbeddedResource Remove="Frontend\webapp-files\portfolio\**" />
     <None Remove="Frontend\webapp-files\modules\**" />
-    <None Remove="Frontend\webapp-files\portfolio\**" />      
+    <None Remove="Frontend\webapp-files\portfolio\**" />
     <!-- NOT NEEDED -->
     <Compile Remove="Frontend\webapp-files\*.LICENSE.txt" />
     <EmbeddedResource Remove="Frontend\webapp-files\*.LICENSE.txt" />
     <None Remove="Frontend\webapp-files\*.LICENSE.txt" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Compile Update="Backend\Persistence.EF\Context.Generated.cs">
       <DesignTime>True</DesignTime>
@@ -123,7 +146,7 @@
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Update="Backend\Persistence.EF\Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -135,5 +158,5 @@
       <LastGenOutput>Entities.Generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  
+
 </Project>

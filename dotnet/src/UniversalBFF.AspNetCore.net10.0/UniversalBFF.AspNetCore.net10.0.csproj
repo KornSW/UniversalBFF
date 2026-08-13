@@ -71,12 +71,12 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
 
     <!-- any additional MS-near references to get complete access to asp, is provided by this dependency-package: -->
-    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.10" />
+    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.12" />
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 
-    <PackageReference Include="UJMW.DynamicClient" Version="5.5.1" />
-    <PackageReference Include="UJMW.DynamicController" Version="5.5.1" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.6.2" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.6.2" />
 
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
     <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.1" />
@@ -89,7 +89,7 @@
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
     <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.4" />
 
-    <PackageReference Include="Snowflake44" Version="3.8.1" />
+    <PackageReference Include="Snowflake44" Version="3.8.3" />
 
     <PackageReference Include="UShell.FrontendBundle" Version="3.2.32.1494" />
     <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.32.1494" />
