@@ -10,6 +10,21 @@
 
 
 
+## v 1.0.1
+released **2026-08-13**, including:
+ - Maintainance
+ - UShell custom Module loadable!
+ - Merge branch 'master' of https://github.com/KornSW/UniversalBFF
+ - Package-updates
+ - Some Cleanup again
+ - fixed Nuspec
+ - Package Updates
+ - Cleanup
+ - repaired nuspecs
+ - Moved to .NET 10 (MVP state reached!)
+
+
+
 ## v 1.0.0
 released **2026-05-28**, including:
  - Moved to .NET 10 (**MVP** state reached!)

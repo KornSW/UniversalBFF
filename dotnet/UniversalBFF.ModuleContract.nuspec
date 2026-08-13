@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>UniversalBFF.ModuleContract</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>UniversalBFF.ModuleContract</title>
     <authors>KornSW and KeinIch</authors>
     <owners>(public domain)</owners>
@@ -36,11 +36,16 @@
       } -->
       <group targetFramework="net8.0">
         <dependency id="Newtonsoft.Json" version="[13.0.3,13.9999]" />
-        <dependency id="SmartStandards.AuthTokenHandling" version="[5.0.0,6.0)" />
+        <dependency id="SmartStandards.AuthTokenHandling" version="[5.1.1,6.0)" />
+        <dependency id="UShell.PortfolioDescription" version="[4.1.2,5.0)" />
+        <dependency id="UShell.ServerCommands.Contract" version="[1.2.1,2.0)" />
       </group>
        <group targetFramework="net10.0">
         <dependency id="Newtonsoft.Json" version="[13.0.4,13.9999]" />
-        <dependency id="SmartStandards.AuthTokenHandling" version="[5.0.0,6.0)" />
+        <dependency id="SmartStandards.AuthTokenHandling" version="[5.1.1,6.0)" />
+        <dependency id="UShell.PortfolioDescription" version="[4.1.2,5.0)" />
+        <dependency id="UShell.PortfolioHosting.Mvc" version="[4.1.2,5.0)" />
+        <dependency id="UShell.ServerCommands.Contract" version="[1.2.1,2.0)" />
       </group>     
     </dependencies>
   </metadata>
