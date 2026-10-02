@@ -6,6 +6,7 @@ using System.Data.Fuse.Ef.InstanceManagement;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Runtime.CompilerServices;
 using UniversalBFF.OobModules.UserManagement.Frontend.Contract;
 using UShell;
 using UShell.ServerCommands;
@@ -48,10 +49,31 @@ namespace UniversalBFF.OobModules.UserManagement {
 
     }
 
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static string ReadContentFromEmbededResFile(string fileNameWithNamespace, Assembly assembly = null) {
+      assembly ??= Assembly.GetCallingAssembly();
+      using (Stream stream = assembly.GetManifestResourceStream(fileNameWithNamespace)) {
+        if (stream == null) {
+          throw new Exception($"Embedded resource '{fileNameWithNamespace}' not found.");
+        }
+        using (StreamReader reader = new StreamReader(stream)) {
+          return reader.ReadToEnd();
+        }
+      }
+    }
+
+
     public void RegisterModule(IFrontendModuleRegistrar registrar) {
 
+      //ModuleDescription moduleDesc = ModuleDescription.FromEmbeddedResFile(
+      //  "Frontend.webapp_files.module.json"
+      //);
 
-      //TODO: das hier muss eigentlich per datei aus der webapp kommen!!!!
+      //registrar.RegisterModule(moduleDesc);
+
+
+
 
       registrar.RegisterModule(
         new ModuleDescription() {

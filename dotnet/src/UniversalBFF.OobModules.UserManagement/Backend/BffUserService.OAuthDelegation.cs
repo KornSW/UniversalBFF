@@ -33,7 +33,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
               targetAuthorizeUrl = target.AuthUrl;
               targetClientId = target.ClientId;
-              anonymousSessionId = this.CreateSessionId("=>" + targetUid.ToString());
+              anonymousSessionId = this.CreateSession("=>" + targetUid.ToString(), target.Uid , target.ProviderClassName);
 
               return true;
             }
@@ -55,13 +55,13 @@ namespace UniversalBFF.OobModules.UserManagement {
 
       if (long.TryParse(sessionId, out long sid)) {
 
-        lock (_LoginsPerSessionId) {
+        lock (_AuthFlowSessions) {
 
-          if (_LoginsPerSessionId.TryGetValue(sid, out string originalClientIdAsLogonName)) { 
+          if (_AuthFlowSessions.TryGetValue(sid, out AuthFlowSession session)) {
 
-            if(
-              originalClientIdAsLogonName.StartsWith("=>") &&
-              long.TryParse(originalClientIdAsLogonName.Substring(2), out long targetUid)
+            if (
+              session.LogonNameOrSubject.StartsWith("=>") &&
+              long.TryParse(session.LogonNameOrSubject.Substring(2), out long targetUid)
             ) {
 
               using (UserManagementDbContext db = new UserManagementDbContext()) {
@@ -87,9 +87,15 @@ namespace UniversalBFF.OobModules.UserManagement {
                     out Dictionary<string, object> additionalClaims
                   )) {
 
-                    _LoginsPerSessionId[sid] =$"{providerResolvedSubject}@{oAuthOperations.ProviderInvariantName}-{target.Uid}";
+                    session.TokenResultFromDelegate = result;
+                    session.LogonNameOrSubject = $"{providerResolvedSubject}";
+                    session.OriginProviderName = oAuthOperations.ProviderInvariantName;
+                    session.OriginUid = target.Uid;
+                    session.UserDisplayName = session.LogonNameOrSubject;
+                    session.UserEmailAddress = "";
+                    session.UserImage = null;
 
-                    SecLogger.LogTrace(0, 77302, $"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_LoginsPerSessionId[sid]}' (subject resolved via provider)");
+                    SecLogger.LogTrace(0, 77302, $"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_AuthFlowSessions[sid]}' (subject resolved via provider)");
                     return true;
                   }
                   else {
@@ -104,9 +110,15 @@ namespace UniversalBFF.OobModules.UserManagement {
                         !String.IsNullOrWhiteSpace(selfExtractedSubjectClaim as string)
                       ) {
 
-                        _LoginsPerSessionId[sid] = $"{selfExtractedSubjectClaim}@{oAuthOperations.ProviderInvariantName}-{target.Uid}";
+                        session.TokenResultFromDelegate = result;
+                        session.LogonNameOrSubject = $"{selfExtractedSubjectClaim}";
+                        session.OriginProviderName = oAuthOperations.ProviderInvariantName;
+                        session.OriginUid = target.Uid;
+                        session.UserDisplayName = session.LogonNameOrSubject;
+                        session.UserEmailAddress = "";
+                        session.UserImage = null;
 
-                        SecLogger.LogTrace(0, 77303, $"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_LoginsPerSessionId[sid]}' (subject resolved via fallback-JWT introspection)");
+                        SecLogger.LogTrace(0, 77303, $"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_AuthFlowSessions[sid]}' (subject resolved via fallback-JWT introspection)");
                         return true;
 
                       }
@@ -114,10 +126,15 @@ namespace UniversalBFF.OobModules.UserManagement {
                     catch{
                       //do nothing - fallback failed because asuming token to be a JWK was wrong...
                     }
+                    session.TokenResultFromDelegate = result;
+                    session.LogonNameOrSubject = $"SHORT_LIVING_IDENTITY_{MD5(result.access_token)}";
+                    session.OriginProviderName = oAuthOperations.ProviderInvariantName;
+                    session.OriginUid = target.Uid;
+                    session.UserDisplayName = $"({oAuthOperations.ProviderDisplayTitle}-User)";
+                    session.UserEmailAddress = "";
+                    session.UserImage = null;
 
-                    _LoginsPerSessionId[sid] = $"TEMP_{MD5(result.access_token)}@{oAuthOperations.ProviderInvariantName}.{target.Uid}";
-
-                    SecLogger.LogTrace(0, 77304, $"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_LoginsPerSessionId[sid]}' (no subject resolvable)");
+                    SecLogger.LogTrace(0, 77304, $"Successfully returned from CodeFlow-Delegation (over '{target.DisplayLabel}') as identity '{_AuthFlowSessions[sid]}' (no subject resolvable)");
                     return true;
 
                     //SecLogger.LogError($"Impossible to map token (comming from oauth delegation) to a local identity because the subject could not be resolved...");

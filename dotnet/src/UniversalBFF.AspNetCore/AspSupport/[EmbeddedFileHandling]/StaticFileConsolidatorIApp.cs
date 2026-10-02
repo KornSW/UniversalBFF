@@ -1,8 +1,10 @@
 ﻿using Logging.SmartStandards;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -220,6 +222,16 @@ namespace UniversalBFF.AspSupport {
       StaticFileOptions options = new StaticFileOptions();
       options.RequestPath = reg.RequestPathRelativeToApplicationBase;
       options.FileProvider = reg.FileProvider;
+
+      //options.ServeUnknownFileTypes = true;
+      //options.OnPrepareResponse = ctx => {
+      //  var resp = ctx.Context.Response;
+      //  resp.Headers[HeaderNames.CacheControl] = "no-cache, no-store, must-revalidate";
+      //  resp.Headers[HeaderNames.Expires] = "0";
+      //  resp.Headers[HeaderNames.Pragma] = "no-cache";
+      //};   
+      //options.ContentTypeProvider = new FileExtensionContentTypeProvider();
+
       return options;
     }
 

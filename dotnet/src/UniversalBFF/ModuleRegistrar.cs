@@ -14,6 +14,9 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace UniversalBFF {
 
+  /// <summary>
+  /// : IFrontendModuleRegistrar, :IBackendServiceRegistrar, :IPortfolioService
+  /// </summary>
   public abstract partial class ModuleRegistrar : IFrontendModuleRegistrar, IBackendServiceRegistrar, IPortfolioService {
 
     private IPortfolioSecurityProvider _SecurityProvider;

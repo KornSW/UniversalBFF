@@ -1,4 +1,5 @@
-﻿using Security.AccessTokenHandling;
+﻿using Logging.SmartStandards;
+using Security.AccessTokenHandling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -208,41 +209,72 @@ namespace UniversalBFF {
 
       #endregion
 
+
+      //HACK: !!!!
+      //xxx_return;
+      
+
       if (_SecurityProvider == null) {
         return;
         //TODO: hier stattdessen einfach fallback auf Filesystem-Provider und cfg aus dem portfolio ziehen!!!
         //      ggf. sogar nach eienr 'fallback-auth.json' suchen, die nur die authentifizierungsdaten enthält
       }
 
-      _SecurityProvider.RegisterAuthTokenSources(
-        productName,
-        metaAttributes,
-        //CALLBACK:
-        (string authTokenSourceUid, AuthTokenConfig cfg, bool availableForPrimaryUiLogon)=> {
-         
-          portfolio.AuthTokenConfigs.Add(authTokenSourceUid, cfg);
+      try {
 
-          if (portfolio.AuthenticatedAccess == null) {
-            portfolio.AuthenticatedAccess = new AuthenticatedAccessDescription {
-              PrimaryUiTokenSources = Array.Empty<string>(),
-              RuntimeTagsFromTokenScope = new Dictionary<string, string>() //TODO: give a channel for this...
-            };
-          }
-          
-          if (availableForPrimaryUiLogon) {
-            int oldLength = portfolio.AuthenticatedAccess.PrimaryUiTokenSources.Length;
-            string[] newPrimaryUiTokenSources = new string[oldLength + 1];
-            Array.Copy(portfolio.AuthenticatedAccess.PrimaryUiTokenSources, newPrimaryUiTokenSources, oldLength);
-            newPrimaryUiTokenSources[oldLength] = authTokenSourceUid;
-            portfolio.AuthenticatedAccess.PrimaryUiTokenSources = newPrimaryUiTokenSources;
-          }
+        if (portfolio.AuthTokenConfigs == null) {
+          portfolio.AuthTokenConfigs = new Dictionary<string, AuthTokenConfig>();
+        }
 
-          if (portfolio.AuthTokenConfigs == null) {
-            portfolio.AuthTokenConfigs = new Dictionary<string, AuthTokenConfig>();
-          }
+        _SecurityProvider.RegisterAuthTokenSources(
+          productName,
+          metaAttributes,
+          //CALLBACK:
+          (string authTokenSourceUid, AuthTokenConfig cfg, bool availableForPrimaryUiLogon) => {
 
-        } 
-      );
+            portfolio.AuthTokenConfigs.Add(authTokenSourceUid, cfg);
+
+            if (portfolio.AuthenticatedAccess == null) {
+              portfolio.AuthenticatedAccess = new AuthenticatedAccessDescription {
+                PrimaryUiTokenSources = Array.Empty<string>(),
+                RuntimeTagsFromTokenScope = new Dictionary<string, string>() //TODO: give a channel for this...
+              };
+            }
+
+            //add to the list of available ui-entry login-sources (if the provider has marked it as such)
+            if (availableForPrimaryUiLogon) {
+
+              if(portfolio.AuthenticatedAccess.PrimaryUiTokenSources == null) {
+                portfolio.AuthenticatedAccess.PrimaryUiTokenSources = Array.Empty<string>();
+              }
+              int oldLength = portfolio.AuthenticatedAccess.PrimaryUiTokenSources.Length;
+              string[] newPrimaryUiTokenSources = new string[oldLength + 1];
+              Array.Copy(portfolio.AuthenticatedAccess.PrimaryUiTokenSources, newPrimaryUiTokenSources, oldLength);
+              newPrimaryUiTokenSources[oldLength] = authTokenSourceUid;
+              portfolio.AuthenticatedAccess.PrimaryUiTokenSources = newPrimaryUiTokenSources;
+
+            }
+
+          }
+        );
+
+      }
+      catch (Exception ex) {
+
+        DevLogger.LogCritical(2097062357014680002L, ex.Wrap(
+          $"The SecurityProvider has thrown an Exception during 'RegisterAuthTokenSources' while registering AuthTokenSources for product '{productName}': {ex.Message}"
+        ));
+
+        //portfolio.AuthTokenConfigs.Clear();
+
+        //portfolio.AuthTokenConfigs.Add(
+        //  Guid.Empty.ToString(), new AuthTokenConfig() {
+        //    IssueMode = "MISSING",
+        //  }
+        //);
+        //portfolio.AuthenticatedAccess.PrimaryUiTokenSources = new string[] { Guid.Empty.ToString() };
+
+      }
 
       //backward-compatibility (where we had only one 'PrimaryUiTokenSourceUid')
       if (portfolio.AuthenticatedAccess?.PrimaryUiTokenSources != null && portfolio.AuthenticatedAccess.PrimaryUiTokenSources.Length > 0) {

@@ -79,8 +79,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="SmartAmbience" Version="2.5.1" />
-    <PackageReference Include="SmartAmbience.MvcSupport" Version="2.5.1" />
+    <PackageReference Include="SmartAmbience" Version="3.2.1" />
+    <PackageReference Include="SmartAmbience.MvcSupport" Version="3.2.1" />
     <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
     <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.1" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
@@ -98,8 +98,8 @@
     
     <PackageReference Include="UShell.FrontendBundle" Version="3.2.32.1494" />
     <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.32.1494" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.2" />
-    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.2" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.3" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.3" />
     <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.1" />
   </ItemGroup>
 

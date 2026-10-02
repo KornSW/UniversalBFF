@@ -19,6 +19,18 @@ namespace UniversalBFF.OobModules.UserManagement {
 
   public partial class BffUserService : IOAuthService {
 
+    //HACK: muss unbeingt weg!
+    private static byte[] _LocalJwtSingKey = Encoding.ASCII.GetBytes("GEFHARDASMUSSWEG");
+    private static int _LocalJwtTokenLifetimeMinutes = 240;
+    private static string _LocalJwtIssuer = "UniversalBFF";
+    private static string _LocalJwtAud = "UniversalBFF";
+
+    private static LocalJwtIssuer _LocalIssuer = new LocalJwtIssuer(
+      _LocalJwtSingKey, _LocalJwtTokenLifetimeMinutes, 
+      passtroughAllRequestedClaims: true, enforcedIssuer: _LocalJwtIssuer
+    );
+
+    private static LocalJwtIntrospector _LocalIntrospector = new LocalJwtIntrospector(_LocalJwtSingKey);
     private LocalCredentialService _LocalCredentialService = new LocalCredentialService();
 
     #region " TypeIndexer (Instance-Discovery-Getter) "
@@ -69,6 +81,9 @@ namespace UniversalBFF.OobModules.UserManagement {
     #region " Factory-Data "
 
     private void CheckIfInitialStateShouldInstaled() {
+
+      UserManagementDbContext.Migrate();
+
       using (UserManagementDbContext db = new UserManagementDbContext()) {
 
         if (db.TenantScopes.Any()) {
@@ -79,7 +94,7 @@ namespace UniversalBFF.OobModules.UserManagement {
           TenantUid = 1111111111111111111L,
           AvailablePortfolios = "*",
           DisplayLabel = "default",
-          PermittedScopes = ""
+          PermittedScopes = "DefaultTenant"
         };
         db.TenantScopes.Add(tenantScope);
 
@@ -93,7 +108,7 @@ namespace UniversalBFF.OobModules.UserManagement {
         tenantScope.Roles.Add(new RoleEntity {        
           RoleName = "Administrator",
           RoleDescriptiveLabel = "Administrator",
-          PermittedScopes = "UserManagement",
+          PermittedScopes = "ABL:UserManagement",
         });
 
         OAuthProxyTargetEntity oauth = new OAuthProxyTargetEntity();
@@ -106,7 +121,13 @@ namespace UniversalBFF.OobModules.UserManagement {
         oauth.TenantUid = tenantScope.TenantUid;
         oauth.AuthUrl = _OurProxyAuthUrl;
         oauth.DisplayLabel = "Logon (System-User)";
+        oauth.DisplayIconUrl = "";
         oauth.RetrivalUrl = _OurProxyRetrivalUrl;
+
+        oauth.ProviderClassName = typeof(LocalCredentialService).FullName;
+        oauth.AdditionalParamsJson = "{ }";
+        oauth.IntrospectorParamsJson = "{ }";
+        oauth.IframeSupported = true;
 
         db.OAuthProxyTargets.Add(oauth);
 
@@ -116,9 +137,10 @@ namespace UniversalBFF.OobModules.UserManagement {
         LocalCredentialEntity localAdmin = new LocalCredentialEntity {
           SubjectId = subjectId,
           DisplayName = "Admin (" + salt + ")",
+          //INITIAL PASSWORD IS THE FIRST 4 DIGITS OF THE SUBJECTID + SALT (both can be seen in db)
           PasswordHash = _LocalCredentialService.GetPasswordHash(first4DigitsOfSubjectId + salt),
           CreationDate = DateTime.Now,
-          EmailAddress = "admin",
+          EmailAddress = "admin@localhost",
           IsValidated = true,
         };
 
@@ -148,17 +170,12 @@ namespace UniversalBFF.OobModules.UserManagement {
 
     #endregion
 
+
+    //NUR WENN WIR LOKAL ARBETEN
     public bool TryAuthenticate(
       string apiClientId, string login, string password, bool noPasswordNeeded, string clientProvidedState,
       out string sessionId, out string message
     ) {
-
-      this.CheckIfInitialStateShouldInstaled();
-
-
-      throw new NotImplementedException("TODO: hier reparieren");
-      //TODO: hier reparieren:
-      //Validieren //der redirect uri!!!!! (DivideByZeroException müssen wir hier noch liefern!!):
 
       if (noPasswordNeeded) {
         message = $"Passtrough-Auth is currently not supported!";
@@ -166,24 +183,6 @@ namespace UniversalBFF.OobModules.UserManagement {
         sessionId = null;
         return false;
       }
-
-
-      sessionId = this.CreateSessionId(login);
-
-      if (this.IsClientOfLocalCredentialService(apiClientId)) {
-        return _LocalCredentialService.TryAuthenticate(login, password, out message);
-      }
-
-
-
-
-
-
-
-
-      //DER REST IST FALSCH - WIR LEITEN NICHT BEIM AUTH WEITER SODNERN SCHON BEIM LANDING!!!!!!!!
-      ////////////////////////
-
 
       using (UserManagementDbContext db = new UserManagementDbContext()) {
 
@@ -195,30 +194,32 @@ namespace UniversalBFF.OobModules.UserManagement {
           sessionId = null;
           return false;
         }
-      
 
+        //bool isLocal = (target.AuthUrl == _OurProxyAuthUrl);
+        bool isLocal = (target.ProviderClassName == typeof(LocalCredentialService).FullName);
 
+        if (isLocal) {
+          sessionId = this.CreateSession(login, target.Uid, target.ProviderClassName);
+          return _LocalCredentialService.TryAuthenticate(login, password, out message);
+        }
+        else {
+          sessionId = this.CreateSession(login, target.Uid, target.ProviderClassName);
+        }
 
-          //REMOTE AUTH REDIRECTION
+        //REMOTE AUTH REDIRECTION
 
-          message = $"Redirection to 3rd.pt OAuth Prpovider '{target.DisplayLabel}' not Possible!";
-          SecLogger.LogCritical(2079222383703567498L, 77305, "TryAuthenticate failed: " + message);
-          sessionId = null;
-          return false;
+        message = $"Redirection to 3rd.pt OAuth Prpovider '{target.DisplayLabel}' not Possible!";
+        SecLogger.LogCritical(2079222383703567498L, 77305, "TryAuthenticate failed: " + message);
+        sessionId = null;
+        return false;
 
+       // throw new NotImplementedException("TODO: hier reparieren");
+       // //TODO: hier reparieren:
+       ////Authtokenhandling// muss nächsten hop 
+       //   //im state die original redirecturl + scopes einpacken und spärter /
+       // ///wieder auspacken wenn das token da ist
 
-
-
-        throw new NotImplementedException("TODO: hier reparieren");
-        //TODO: hier reparieren:
-       //Authtokenhandling// muss nächsten hop 
-          //im state die original redirecturl + scopes einpacken und spärter /
-        ///wieder auspacken wenn das token da ist
-
-
-
-
-        return true;
+       // return true;
 
       }
 
@@ -229,8 +230,8 @@ namespace UniversalBFF.OobModules.UserManagement {
       out ScopeDescriptor[] availableScopes, out string message
     ) {
 
-      if (TryValidateSessionId(sessionId, out string login)) {
-        availableScopes = this.GetAvailableScopes(login, prefferedScopes);
+      if (TryValidateSessionId(sessionId, out AuthFlowSession session)) {
+        availableScopes = this.GetAvailableScopes(session.LogonNameOrSubject, prefferedScopes);
         message = null;
         return true;
       }
@@ -246,24 +247,28 @@ namespace UniversalBFF.OobModules.UserManagement {
       string loginOrClientId, string[] scopesToSelect
     ) {
 
-      return new ScopeDescriptor[] {
-      new ScopeDescriptor {
-        Expression = "read", Label = "Read Data",
-        Selected = true,//mandatory!
-        ReadOnly= true, Invisible= false
-      },
-      new ScopeDescriptor {
-        Expression = "write", Label = "Write Data",
-        Selected = scopesToSelect.Contains("write"),
-        ReadOnly= false, Invisible= false
-      },
-    };
+      //im universalbff wollen wir keine consent-prompts!
+      return new ScopeDescriptor[] { };
+
+      ////aus db holen? nur lokal oder für alle???
+      //IOAuthServiceWithDelegation rakommen?
+
+      //return new ScopeDescriptor[] {
+      //  new ScopeDescriptor {
+      //    Expression = "read", Label = "Read Data",
+      //    Selected = true,//mandatory!
+      //    ReadOnly= true, Invisible= false
+      //  },
+      //  new ScopeDescriptor {
+      //    Expression = "write", Label = "Write Data",
+      //    Selected = scopesToSelect.Contains("write"),
+      //    ReadOnly= false, Invisible= false
+      //  },
+      //};
 
     }
 
     #region " IMPLICIT - FLOW "
-
-
 
     public bool TryValidateSessionIdAndCreateToken(
       string apiClientId, string sessionId, string[] selectedScopes,
@@ -272,29 +277,145 @@ namespace UniversalBFF.OobModules.UserManagement {
 
       tokenResult = new TokenIssuingResult();
 
-      //KANN EIGENTLOCH NUR DEN LOOPBACK BETREFFEN - die proxy-targets schicken uns ja zur retrieval-url
-
-      if (TryValidateSessionId(sessionId, out string login)) {
+      if (TryValidateSessionId(sessionId, out AuthFlowSession session)) {
 
         //for security selectedScopes needs be be filtered again because some value could have been injected
-        selectedScopes = this.GetAvailableScopes(login, selectedScopes).ToStringArray();
+        selectedScopes = this.GetAvailableScopes(session.LogonNameOrSubject, selectedScopes).ToStringArray();
 
-        //this is to keep the demo simple,
-        //in a real world scenario not a good idea...
-        string subject = login;
+        using (UserManagementDbContext db = new UserManagementDbContext()) {
 
+          //OAuthProxyTargetEntity origin = db.OAuthProxyTargets.Where(o => o.ClientId == apiClientId).FirstOrDefault();
+          OAuthProxyTargetEntity origin = db.OAuthProxyTargets.Where(o => o.Uid == session.OriginUid).FirstOrDefault();
 
+          if (origin == null) {
+            tokenResult.error = $"The client_id '{apiClientId}' is not valid!";
+            tokenResult.error_description = $"The client_id '{apiClientId}' is not valid!";
+            SecLogger.LogError($"The client_id '{apiClientId}' is not valid (in {nameof(TryValidateSessionIdAndCreateToken)})!");
+            return false;
+          }
 
+          List<string> allScopes = new List<string>();
+          allScopes.Add($"Tenant:{origin.TenantUid}");  
+          foreach (string s in origin.TenantScope.PermittedScopes.Split(' ')) {
+            if (!string.IsNullOrEmpty(s) && !allScopes.Contains(s)) {
+              allScopes.Add(s);
+            }
+          }
 
+          CachedUserIdentityEntity cachedIdentity = db.CachedUserIdentities.Where(
+            c => c.OriginUid == origin.Uid && c.OriginSpecificSubjectId == session.LogonNameOrSubject //provider-resolved-subject
+          ).FirstOrDefault();
 
-        //AUF interne on-demand-identität mappen und dann neues token erstellen!!!
-        // + login sollte hier nicht als subject herhalen!!! sondern die interne id der on-demand-identität!!!
-        // muss beim validieren des tokens wieder zurückgemappt werden!!!
-        // zus. wegen revoke-check bei google muss das token selbst aber eigentlich auch mit in unserem hängen
-        //   claims    parent_access_token, parent_refresh_token parent_origin_id-> ID des oauth-targets parent_origin_label -> displaylabel des oauth-targets
-        throw new NotImplementedException("TODO: hier entscheiden, ob wir das original token druchschleusen wollen ODER ein eigenes generieren (dann müssten wir das origial aber irgendwie hier behalten)");
+          RoleEntity[] rolesToAssign;
 
+    
+          if (cachedIdentity != null) {
 
+            if (cachedIdentity.Disabled) {
+              tokenResult.error = $"IDENTITY is DISABLED!";
+              tokenResult.error_description = $"IDENTITY is DISABLED!"; ;
+              SecLogger.LogError($"IDENTITY '{session.LogonNameOrSubject}' is DISABLED! (in {nameof(TryValidateSessionIdAndCreateToken)})!");
+              return false;
+            }
+
+            rolesToAssign = db.KnownUserLegitimations.Where(
+              (r) => r.OriginUid == origin.Uid && r.OriginSpecificSubjectId == session.LogonNameOrSubject
+            ).Select((l)=> l.Role).ToArray();
+
+            foreach (string s in cachedIdentity.PermittedScopes.Split(' ')) {
+              if (!string.IsNullOrEmpty(s) && !allScopes.Contains(s)) {
+                allScopes.Add(s);
+              }
+            }
+
+          }
+          else {
+
+            cachedIdentity = new CachedUserIdentityEntity();
+            cachedIdentity.OriginUid = origin.Uid;
+            cachedIdentity.OriginSpecificSubjectId = session.LogonNameOrSubject;
+            cachedIdentity.Disabled = false;
+            cachedIdentity.CreationDate = DateTime.Now;
+            cachedIdentity.PermittedScopes = "";  //NOT FROM tokenResult.scope, because we'll maintain this primary in the db;
+
+            db.CachedUserIdentities.Add(cachedIdentity);
+
+            rolesToAssign = db.Roles.Where((r) => r.TenantUid == origin.TenantUid && r.IsDefaultRoleForNewUsers).ToArray();
+
+            foreach (RoleEntity roleToAssign in rolesToAssign) {
+              db.KnownUserLegitimations.Add(new KnownUserLegitimationEntity {
+                OriginUid = origin.Uid,
+                OriginSpecificSubjectId = session.LogonNameOrSubject,
+                TenantUid = roleToAssign.TenantUid,
+                RoleName = roleToAssign.RoleName
+              });
+            }
+
+          }
+
+          cachedIdentity.CachedDisplayName = session.UserDisplayName;
+          cachedIdentity.CachedEmailAddress = session.UserEmailAddress;
+          cachedIdentity.CachedImage = session.UserImage;
+          cachedIdentity.LastLogonDate = DateTime.Now;
+
+          foreach (RoleEntity roleToAssign in rolesToAssign) {
+            allScopes.Add("Role:" + roleToAssign.RoleName);
+            foreach (string s in roleToAssign.PermittedScopes.Split(' ')) {
+              if (!string.IsNullOrEmpty(s) && !allScopes.Contains(s)) {
+                allScopes.Add(s);
+              }
+            }
+          }
+
+          string scopeString = string.Join(' ', allScopes.Distinct().OrderBy((s) => s));
+
+          _LocalIssuer.TryRequestAccessToken(
+            new Dictionary<string, object> {
+              { "iss", $"{_LocalJwtIssuer}" },
+              { "aud", $"{_LocalJwtAud}" },
+              { "jti", sessionId },
+              { "sub", cachedIdentity.OriginSpecificSubjectId },
+              { "scope", scopeString },
+              { "ori", origin.Uid },
+              { "wrp", session.TokenResultFromDelegate?.access_token }
+            },
+            out TokenIssuingResult atWrap
+          );
+          tokenResult.access_token = atWrap.access_token;
+
+          //_LocalIssuer.TryRequestAccessToken(
+          //  new Dictionary<string, object> {
+          //    { "iss", $"{_LocalJwtIssuer}"},
+          //    { "aud", $"{_LocalJwtAud}"},
+          //    { "jti", sessionId },
+          //    { "sub", cachedIdentity.OriginSpecificSubjectId },
+          //    { "scope",scopeString },
+          //    { "ori", origin.Uid },
+          //    { "wrp", session.TokenResultFromDelegate?.id_token }
+          //  },
+          //  out TokenIssuingResult idWrap
+          //);
+          //tokenResult.id_token = idWrap.id_token;
+
+          //_LocalIssuer.TryRequestAccessToken(
+          //  new Dictionary<string, object> {
+          //    { "iss", $"{_LocalJwtIssuer}"},
+          //    { "aud", $"{_LocalJwtAud}"},
+          //    { "jti", sessionId },
+          //    { "sub", cachedIdentity.OriginSpecificSubjectId },
+          //    { "scope",scopeString },
+          //    { "ori", origin.Uid },
+          //    { "wrp", session.TokenResultFromDelegate?.refresh_token }
+          //  },
+          //  out TokenIssuingResult rfWrap
+          //);
+          //tokenResult.refresh_token = rfWrap.refresh_token;
+
+          db.SaveChanges();
+
+        }
+
+        return true;
       }
       else {
         tokenResult.error = "Invalid or expired logon-session";
@@ -305,7 +426,6 @@ namespace UniversalBFF.OobModules.UserManagement {
     }
 
     #endregion
-
 
     #region " CODE - FLOW "
 
@@ -426,6 +546,41 @@ namespace UniversalBFF.OobModules.UserManagement {
 
     public void IntrospectAccessToken(string rawToken, out bool isActive, out Dictionary<string, object> claims) {
 
+      _LocalIntrospector.IntrospectAccessToken(rawToken, out isActive, out claims);
+
+      if (claims == null) {
+        claims = new Dictionary<string, object>();
+      }
+
+
+
+
+      //UserManagement-check ob user disabled ist
+
+      //ablauf weiterleiten an ori!!!! -> passenden introspector provider nutzen oder an lolkalen diest weiter geben
+
+
+
+
+      //if(claims.TryGetValue("ori", out object value)) {
+      //  musslakal sein
+
+      //}
+      //if (claims.TryGetValue("wrp", out object value)) {
+      //  muss da sein wenn nicht lokal
+
+      //}
+
+
+
+
+      //rawToken
+
+
+
+
+
+
       throw new NotImplementedException("TODO: hier reparieren");
       //TODO: hier reparieren:
       //_JwtIntropector.IntrospectAccessToken(rawToken, out isActive, out claims);
@@ -445,7 +600,9 @@ namespace UniversalBFF.OobModules.UserManagement {
       if (long.TryParse(apiClientId, out long targetUid)) {
         using (UserManagementDbContext db = new UserManagementDbContext()) {
 
-          OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.Uid == targetUid).FirstOrDefault();
+          //OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.Uid == targetUid).FirstOrDefault();
+          OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.ClientId == apiClientId).FirstOrDefault();
+
           if (target != null) {
             return true;
             //if (target.AuthUrl != _OurProxyAuthUrl) {
@@ -473,7 +630,10 @@ namespace UniversalBFF.OobModules.UserManagement {
 
       if (long.TryParse(apiClientId, out long targetUid)) {
         using (UserManagementDbContext db = new UserManagementDbContext()) {
-          OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.Uid == targetUid).FirstOrDefault();
+
+          //OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.Uid == targetUid).FirstOrDefault();
+          OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.ClientId == apiClientId).FirstOrDefault();
+
           if (target != null) {
             return (apiClientSecret == target.ClientSecret);
           }
@@ -483,14 +643,14 @@ namespace UniversalBFF.OobModules.UserManagement {
       return false;
     }
 
-    private bool TryValidateSessionId(string sessionId, out string login) {
-      lock (_LoginsPerSessionId) {
+    private bool TryValidateSessionId(string sessionId, out AuthFlowSession session) {
+      lock (_AuthFlowSessions) {
 
         if (long.TryParse(sessionId, out long sid)) {
 
           if (Snowflake44.DecodeDateTime(sid).AddMinutes(1) > DateTime.UtcNow) {
 
-            if (_LoginsPerSessionId.TryGetValue(sid, out login)) {
+            if (_AuthFlowSessions.TryGetValue(sid, out session)) {
 
               return true;
             }
@@ -498,36 +658,65 @@ namespace UniversalBFF.OobModules.UserManagement {
         }
       }
 
-      login = null;
+      session = null;
       return false;
     }
 
     #region " Sessions & Codes "
 
-    private Dictionary<long, string> _LoginsPerSessionId = new Dictionary<long, string>();
+    private Dictionary<long, AuthFlowSession> _AuthFlowSessions = new Dictionary<long, AuthFlowSession>();
+
+    [DebuggerDisplay("{OriginQualifiedSubjectIdentity}")]
+    private class AuthFlowSession {
+
+      public TokenIssuingResult TokenResultFromDelegate;
+
+      public string LogonNameOrSubject { get; set; } = null;
+      public string OriginProviderName { get; set; }
+      public long OriginUid { get; set; }
+      public string UserDisplayName { get; set; }
+      public string UserEmailAddress { get; set; }
+      public byte[] UserImage { get; set; }
+
+      public string OriginQualifiedSubjectIdentity {
+        get {
+          return $"{LogonNameOrSubject}@{OriginProviderName}#{OriginUid}";
+        }
+      }
+
+    }
 
     private Dictionary<long, TokenIssuingResult> _TokensPerRetrievalCode = new Dictionary<long, TokenIssuingResult>();
 
-    private string CreateSessionId(string login) {
+    private string CreateSession(string loginOrSubject,long originUid, string originProviderName) {
 
-      long sid = Snowflake44.Generate();
-      string newSessionId = sid.ToString();
+      long newSessionId = Snowflake44.Generate();
 
-      lock (_LoginsPerSessionId) {
-        _LoginsPerSessionId[sid] = login;
+      AuthFlowSession newSession = new AuthFlowSession {
+        LogonNameOrSubject = loginOrSubject,
+        OriginProviderName = originProviderName,
+        OriginUid = originUid,
+        //temp -> can be updated later:
+        UserDisplayName = loginOrSubject,
+        UserEmailAddress = "",
+        UserImage = null
+      };
+
+      lock (_AuthFlowSessions) {
+        _AuthFlowSessions[newSessionId] = newSession;
       }
 
       this.CleanupExpiredCodesAndSessions();
 
-      return newSessionId;
+      return newSessionId.ToString();
     }
 
     private void CleanupExpiredCodesAndSessions() {
 
-      lock (_LoginsPerSessionId) {
-        foreach (long sid in _LoginsPerSessionId.Keys.ToArray()) {
+      lock (_AuthFlowSessions) {
+        foreach (long sid in _AuthFlowSessions.Keys.ToArray()) {
           if (Snowflake44.DecodeDateTime(sid).AddMinutes(1) < DateTime.UtcNow) {
-            _LoginsPerSessionId.Remove(sid);
+            _AuthFlowSessions.Remove(sid);
           }
         }
       }
@@ -546,34 +735,34 @@ namespace UniversalBFF.OobModules.UserManagement {
 
     #region " IsLocalAPICLient "
 
-    private Dictionary<string, Boolean> _IsLocalAPICLientInfoCache = new Dictionary<string, bool>();
+    //private Dictionary<string, Boolean> _IsLocalAPICLientInfoCache = new Dictionary<string, bool>();
 
-    private bool IsClientOfLocalCredentialService(string oauthClientId) {
-      bool isLocal = false;
-      lock (_IsLocalAPICLientInfoCache) {
-        if (_IsLocalAPICLientInfoCache.TryGetValue(oauthClientId, out isLocal)) {
-          return isLocal;
-        }
-        using (UserManagementDbContext db = new UserManagementDbContext()) {
+    //private bool IsClientOfLocalCredentialService(string oauthClientId) {
+    //  bool isLocal = false;
+    //  lock (_IsLocalAPICLientInfoCache) {
+    //    if (_IsLocalAPICLientInfoCache.TryGetValue(oauthClientId, out isLocal)) {
+    //      return isLocal;
+    //    }
+    //    using (UserManagementDbContext db = new UserManagementDbContext()) {
 
-          OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.ClientId == oauthClientId).FirstOrDefault();
-          if (target != null) {
-            //we have a configuration for this
-            if (target.AuthUrl == _OurProxyAuthUrl) {
-              isLocal = true;
-              _IsLocalAPICLientInfoCache[oauthClientId] = true;
-              return true;
-            }
-          }
+    //      OAuthProxyTargetEntity target = db.OAuthProxyTargets.Where(o => o.ClientId == oauthClientId).FirstOrDefault();
+    //      if (target != null) {
+    //        //we have a configuration for this
+    //        if (target.AuthUrl == _OurProxyAuthUrl) {
+    //          isLocal = true;
+    //          _IsLocalAPICLientInfoCache[oauthClientId] = true;
+    //          return true;
+    //        }
+    //      }
 
-          _IsLocalAPICLientInfoCache[oauthClientId] = false;
-          return false;
+    //      _IsLocalAPICLientInfoCache[oauthClientId] = false;
+    //      return false;
 
-          //TODO: hier ggf die lokalen ApiOauthClients prüfen
+    //      //TODO: hier ggf die lokalen ApiOauthClients prüfen
 
-        }
-      }
-    }
+    //    }
+    //  }
+    //}
 
     #endregion
 

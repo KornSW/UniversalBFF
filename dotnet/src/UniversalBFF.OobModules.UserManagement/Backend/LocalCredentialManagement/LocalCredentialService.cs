@@ -131,6 +131,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
           lcl.WrongPasswordCount = 0;
           lcl.LockedUntil = null;
+          lcl.LastLogonDate = DateTime.Now;
 
           SecLogger.LogInformation(2079222383703567403L, 77390, "TryAuthenticate succeeded for local Credential '{login}'", login);
 
@@ -190,6 +191,21 @@ namespace UniversalBFF.OobModules.UserManagement {
     }
 
     public bool TryRequestAccessToken(Dictionary<string, object> claimsToRequest, out TokenIssuingResult result) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       throw new NotImplementedException();
     }
 
