@@ -32,11 +32,13 @@ Do not recreate these cross-cutting capabilities locally unless a real gap has b
 When changing UniversalBFF, keep these representations synchronized where affected:
 
 - `README.md`
-- `doc/1-requirements.md`
-- `doc/2-architecture.md`
-- `doc/3-quickstart.md`
-- `doc/4-user-management-oauth.md`
-- `doc/ideas.md`
+- `doc/requirements.md`
+- `doc/architecture.md`
+- `doc/quickstart.md`
+- `doc/ecosystem.md`
+- `doc/user-management-oauth.md`
+- `doc/epics/` (e.g. `doc/epics/epic-future-directions.md`)
+- `doc/work/backlog.md` and `doc/work/tech-debt.md`
 - this skill
 
 Do not manually edit `doc/changelog.md`; it is maintained by the versioning/build process.
@@ -209,7 +211,7 @@ Current implementation contains incomplete and bypassed paths, including early r
 
 is the skill `universalbff-user-management-oauth`. Load it before changing any of these areas.
 
-Authentication model (decided, D-20): every token source has exactly one role - Authority-Local, Authority-Proxy or Passthrough. The owner of the protected resource grants permissions; BFF-owned endpoints accept only BFF tokens by default; client-requested scopes never grant anything for BFF resources. The human-readable use-case and responsibility tables live in `doc/2-architecture.md` ("Authentication Use Cases And Responsibilities") and should be extended in the same tabular style when new authentication use cases appear.
+live in `doc/architecture.md` ("Authentication
 
 Discovery advertises only code/legacy implicit flows and confidential-client authentication, not unimplemented refresh/client-credentials grants.
 

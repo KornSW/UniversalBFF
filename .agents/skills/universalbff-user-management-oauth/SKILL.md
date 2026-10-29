@@ -287,7 +287,7 @@ Missing: local JWT check, `ori` resolution, disabled-identity check, handling of
 
 ## 11. Open Decisions (decision log)
 
-Status values: `PROPOSED` (agent default, not confirmed), `DECIDED` (confirmed by the developer, with date). Only `DECIDED` entries are binding. Record every decision here and in `doc/2-architecture.md` where it changes documented behavior.
+Record every decision here and in `doc/architecture.md` where
 
 | Id | Question | Options | Proposed default | Status |
 |---|---|---|---|---|
@@ -309,7 +309,7 @@ Status values: `PROPOSED` (agent default, not confirmed), `DECIDED` (confirmed b
 | **c) Stateless and encrypted: `wrp` stays in the BFF JWT but is symmetrically encrypted. Each token gets a random salt claim `slt`; the key is derived from `slt` plus an internal BFF secret stored in the DB.** See §11.1. | DECIDED 2026-10-22 |
 | D-17 | Which token do BFF datastores use when several logon sources exist (U-09)? | a) U-Shell: alias - a datastore `tokenSourceUid` may reference "the primary UI token" (e.g. the empty Guid or a well-known alias), resolved to the source that actually logged on; b) BFF publishes one virtual token source for all its sources and stores every logon under it; c) datastores list several acceptable sources | **a) (additive in U-Shell, all sources issue the same BFF token type anyway).** | DECIDED 2026-10-22 |
 | Resolved by D-20: for Authority-Proxy targets `AdditionalParamsJson` holds upstream authorize parameters only and is no longer published as portfolio `Claims`; for Passthrough targets it is published and represents real scopes at the identity provider. Optional: `PermittedScopes` on the target for per-source permissions. | DECIDED 2026-10-22 (via D-20) |
-| D-20 | Cut between passive U-Shell (browser does everything) and U-Shell behind the BFF proxy; who manages what | a) force everything through the proxy; b) role per token source | **b) Every `OAuthProxyTarget` gets a role (`Mode`): `Local`, `Proxy` or `Passthrough`. Rule: the owner of the protected resource grants permissions. BFF-owned endpoints accept only BFF tokens by default. Human-readable model incl. responsibility tables: `doc/2-architecture.md`, "Authentication Use Cases And Responsibilities".** | DECIDED 2026-10-22 |
+Human-readable model incl. responsibility tables: `doc/architecture.md`,
 | D-19 | Token storage in the browser (U-13) | a) keep `localStorage`; b) `sessionStorage`; c) BFF cookie pattern (HttpOnly session cookie, token stays server-side) | **c) is the explicit target and is pursued as far as backward compatibility allows; `localStorage` remains as legacy mode during the transition.** Larger U-Shell refactoring, tracked as UB-24 in `UShell.Docs/doc/backlog.md`. | DECIDED 2026-10-22 |
 
 ### 11.1 Explanations for open decisions
@@ -345,7 +345,7 @@ Findings from the code (2026-10-22), relevant for the permission concern:
 - Keep `RegisterAuthTokenSources` output compatible with U-Shell portfolio consumers; changing `IssueMode`, endpoint URLs or the source uid scheme is a breaking change for frontends.
 - Never put upstream client secrets or upstream tokens into portfolio data. `wrp` is the only carrier of the upstream token and lives inside the signed BFF JWT.
 - Scopes are always granted from database state, never from request values.
-- When a gap from §10 is closed or a decision from §11 is made, update this skill, `doc/2-architecture.md` and the security notes in `most-important-details-for-universalbff`.
+update this skill, `doc/architecture.md` and the security
 - Tests: MSTest in `dotnet/test/UniversalBFF.Tests`. Follow the linked-source pattern of `BffOAuthCodeFlowTests` for DB-free tests. Never call real external providers.
 
 ## 13. U-Shell Compatibility (D-05)

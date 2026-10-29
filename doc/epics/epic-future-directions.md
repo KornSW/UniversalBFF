@@ -1,6 +1,6 @@
-# UniversalBFF Ideas And Future Directions
+# Epic: UniversalBFF Future Directions
 
-This document collects possible future improvements for UniversalBFF. Items listed here are not active requirements unless they are explicitly promoted into `doc/1-requirements.md` and implemented through a committed change.
+This epic collects possible future improvements for UniversalBFF. Items listed here are not active requirements unless they are explicitly promoted into [`requirements.md`](../requirements.md) and [`work/backlog.md`](../work/backlog.md) and implemented through a committed change.
 
 ## Documentation
 

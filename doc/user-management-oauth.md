@@ -106,7 +106,7 @@ The cut between "U-Shell talks to identity providers directly" and "U-Shell talk
 | **Authority-Proxy** | UniversalBFF (the upstream token is carried encrypted inside the BFF token) | UniversalBFF database; the external provider only proves authenticity | Everything hosted by the BFF: modules, UJMW endpoints, repositories |
 | **Passthrough** | The external identity provider, directly to the browser | The identity provider (or the resource behind it) | Foreign APIs that the BFF neither owns nor protects |
 
-Responsibilities and practical use cases are described in [Architecture](2-architecture.md#authentication-use-cases-and-responsibilities).
+[Architecture](architecture.md#authentication-use-cases-and-responsibilities)
 
 ## Flows
 

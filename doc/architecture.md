@@ -179,7 +179,7 @@ The passive mode without a BFF is simply "Passthrough without BFF": the same mod
 | Corporate logon plus direct access to a provider API | Authority-Proxy + Passthrough | BFF modules use the BFF token; a mail widget additionally uses a Graph token obtained directly from Entra ID |
 | U-Shell without BFF | Passthrough | Static portfolio file, browser authenticates directly against the identity provider of the backend |
 
-The implementation status of these roles is tracked in the User Management OAuth skill; `Passthrough` as an explicit target mode is not implemented yet. The full module documentation is [User Management as OAuth Server and Proxy](4-user-management-oauth.md).
+[User Management as OAuth Server and Proxy](user-management-oauth.md)
 
 ### Diagnostics, FileStore, ModuleManager
 

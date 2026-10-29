@@ -27,9 +27,11 @@ The target architecture favors reusable standards over product-local infrastruct
 
 ## Documentation
 
-- [Requirements](doc/1-requirements.md)
-- [Architecture](doc/2-architecture.md)
-- [Quickstart](doc/3-quickstart.md)
-- [User Management as OAuth server and proxy](doc/4-user-management-oauth.md)
+- [Requirements](doc/requirements.md)
+- [Architecture](doc/architecture.md)
+- [Quickstart](doc/quickstart.md)
+- [Ecosystem](doc/ecosystem.md)
+- [User Management as OAuth server and proxy](doc/user-management-oauth.md)
 - [Changelog](doc/changelog.md)
-- [Ideas and future directions](doc/ideas.md)
+- [Epics](doc/epics/) (e.g. [future directions](doc/epics/epic-future-directions.md))
+- [Work: backlog](doc/work/backlog.md) and [tech debt](doc/work/tech-debt.md)
