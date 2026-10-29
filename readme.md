@@ -30,5 +30,6 @@ The target architecture favors reusable standards over product-local infrastruct
 - [Requirements](doc/1-requirements.md)
 - [Architecture](doc/2-architecture.md)
 - [Quickstart](doc/3-quickstart.md)
+- [User Management as OAuth server and proxy](doc/4-user-management-oauth.md)
 - [Changelog](doc/changelog.md)
 - [Ideas and future directions](doc/ideas.md)

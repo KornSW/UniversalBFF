@@ -12,9 +12,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 using Security.AccessTokenHandling;
 using Security.AccessTokenHandling.OAuth.Server;
 using System;
+using System.IO;
+using System.Net.Http;
 using System.Web.UJMW;
 using UniversalBFF.AspSupport;
 using UShell;
@@ -129,8 +132,19 @@ namespace UniversalBFF {
       }
 
       if (pdp == null) {
-        DevLogger.LogInformation(0, 77116, $"Could not discover any available implementation of '{nameof(IProductDefinitionProvider)}' (via InstanceDiscovery)! Switching to fallback 'FileBasedProductDefinitionProvider'...");
-        pdp = new FileBasedProductDefinitionProvider(AppDomain.CurrentDomain.BaseDirectory);
+
+        DevLogger.LogInformation(0, 77116, $"Could not discover any available implementation of '{nameof(IProductDefinitionProvider)}' (via InstanceDiscovery)! Switching to OOB-Fallback'...");
+        if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "default.portfolio.json"))) {
+
+          DevLogger.LogInformation(0, 77117, $"Using fallback 'FileBasedProductDefinitionProvider' (because a 'default.portfolio.json' file was found - assuming, that file-based portfolio-definions should be used for this BFF)");
+          pdp = new FileBasedProductDefinitionProvider(AppDomain.CurrentDomain.BaseDirectory);
+
+        }
+        else {
+          DevLogger.LogInformation(0, 77117, $"Using fallback 'SinglePortfolioDefinitionProvider' (because NO 'default.portfolio.json' file was found - assuming, that just a single portfolio (containing all available modules) should be used for this BFF)");    
+          pdp = new SinglePortfolioDefinitionProvider(args.HtmlPageTitle);
+        }
+
       }
       services.AddSingleton<IProductDefinitionProvider>(pdp);
 
@@ -151,7 +165,29 @@ namespace UniversalBFF {
       );
 
       //GO!
-      loader.Load();
+      string[] loadedLocalModuleKeys = loader.Load();
+
+      //HACK: geht evtl schöner wenn zuständigkeiten anders zugeschnitten werden
+      foreach (string moduleKey in loadedLocalModuleKeys) {
+        //he needs this info to serve correct 'module.json' urls!
+        pdp.AnnounceModuleUrl(moduleKey, $"{moduleKey}/module.json");
+      }
+      if(args.FrontendRemoteModuleUrlsResolver != null) {
+        string[] remoteUrls = args.FrontendRemoteModuleUrlsResolver.Invoke();
+        if(remoteUrls != null) {
+          HttpClient c = new HttpClient();
+          foreach (string remoteModuleUrl in remoteUrls) {
+            try {
+              string rawModuleJson = c.GetStringAsync(remoteModuleUrl).GetAwaiter().GetResult();
+              string remoteModuleKey = JsonConvert.DeserializeObject<ModuleDescription>(rawModuleJson)?.ModuleScopingKey;
+              pdp.AnnounceModuleUrl(remoteModuleKey, remoteModuleUrl);
+            }
+            catch(Exception ex) {
+              DevLogger.LogError(ex.Wrap($"Could not Load remote module from '{remoteModuleUrl}' :{ex.Message}"));
+            }
+          }
+        }
+      }
 
       services.AddSingleton<ModuleLoader>(loader);
 

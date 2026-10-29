@@ -134,6 +134,53 @@ Embedded frontend assets are exposed through an embedded bundle file provider. M
 - a UShell module description with administration workspace/usecases,
 - embedded frontend assets under the `oob-usrmgmt` module scope.
 
+## Authentication Use Cases And Responsibilities
+
+U-Shell can run passively hosted (shell plus configuration file, all authentication done by the browser) or behind UniversalBFF with the User Management module acting as OAuth proxy. UniversalBFF does **not** force every token through the proxy. Instead, the cut is made **per token source** (`AuthTokenConfig`), and every token source has exactly one role.
+
+Guiding rule: **the owner of the resource a token grants access to is the authority for the permissions in that token.**
+
+### Token Source Roles
+
+| Role | Who issues the token? | Who grants permissions? | Intended for |
+|---|---|---|---|
+| **Authority-Local** | UniversalBFF | UniversalBFF database | Local users, initial setup, offline or isolated installations |
+| **Authority-Proxy** | UniversalBFF (the upstream token is carried encrypted inside the BFF token) | UniversalBFF database; the external provider only proves authenticity | Everything **hosted by the BFF**: modules, UJMW endpoints, repositories |
+| **Passthrough** | The external identity provider, directly to the browser | The identity provider (or the resource behind it) | **Foreign APIs** (e.g. Microsoft Graph, partner backends) that the BFF neither owns nor protects |
+
+The passive mode without a BFF is simply "Passthrough without BFF": the same model, only the configuration comes from a static file instead of the BFF portfolio.
+
+### Consequences
+
+| Topic | Authority-Local / Authority-Proxy | Passthrough |
+|---|---|---|
+| Scopes requested by the client | Never grant anything; at most narrow the granted set | Real scopes requested at the identity provider |
+| Provider-specific authorize parameters (`AdditionalParamsJson`) | Applied by the BFF on the hop BFF -> external provider (proxy only); not published in the portfolio | Published in the portfolio and sent by the browser |
+| Accepted by BFF-owned endpoints | Yes (default) | No by default; accepting foreign tokens would be a later, explicit extension |
+| Primary UI logon | Recommended | Additional tokens for specific widgets/datastores |
+| Browser storage | Target: HttpOnly cookie mode; raw token in `localStorage` as legacy mode | Token necessarily held by the browser |
+| Secrets | Upstream client secret stays server-side | Public client id only; never a secret |
+
+### Responsibilities
+
+| Institution | Manages |
+|---|---|
+| **Identity provider operator** (e.g. corporate Entra ID) | Identities, authentication, MFA, app registrations, scopes of **its own** APIs |
+| **BFF operator / application owner** | Catalog of token sources including the role per source, upstream secrets, tenant assignment, roles and permissions for **BFF-hosted** resources |
+| **Portfolio author** (U-Shell configuration) | Which sources are offered at logon; which datastore uses which source (or alias). **No permission granting.** |
+| **Module developer** | Which permissions a module **requires** (names, `RequiredApplicationScopes`). Never grants them. |
+
+### Practical Use Cases
+
+| Use case | Role(s) | Example |
+|---|---|---|
+| Stand-alone installation without corporate identity | Authority-Local | Admin logs on with email and password stored in the BFF |
+| Corporate logon for BFF-hosted modules | Authority-Proxy | User logs on via Entra ID; the BFF assigns tenant, roles and scopes from its own database |
+| Corporate logon plus direct access to a provider API | Authority-Proxy + Passthrough | BFF modules use the BFF token; a mail widget additionally uses a Graph token obtained directly from Entra ID |
+| U-Shell without BFF | Passthrough | Static portfolio file, browser authenticates directly against the identity provider of the backend |
+
+The implementation status of these roles is tracked in the User Management OAuth skill; `Passthrough` as an explicit target mode is not implemented yet. The full module documentation is [User Management as OAuth Server and Proxy](4-user-management-oauth.md).
+
 ### Diagnostics, FileStore, ModuleManager
 
 These projects currently contain skeleton or commented module-provider examples. They indicate planned module areas but should not be documented as finished runtime modules until implemented.
@@ -169,6 +216,16 @@ SmartStandards Logging is configured through the normal `Logging:SmartStandards`
 | SmartStandards Logging | Provides runtime diagnostics and ASP.NET Core logging integration. |
 | UShell | Defines frontend shell, portfolio descriptions, module metadata, commands, workspaces, and usecases. |
 | FUSE-fx | Provides repository abstractions used by data-oriented module services. |
+
+### User-Management OAuth Compatibility
+
+`BffUserService.OAuthCodeFlow.cs` implements the current AuthTokenHandling `IOAuthService` code-flow and discovery members. A pending code holds the issuing client id, token, opaque PKCE challenge, resource indicator and one-minute expiry together. Redemption atomically consumes the entry before checking expiry, client binding and the existing confidential-client credentials. Failed redemption attempts cannot reuse the code.
+
+The AuthTokenHandling OAuth controller verifies PKCE S256 and checks the resource returned with the code. It also retains the original challenge and resource across delegated login; the BFF does not duplicate these controller responsibilities. Legacy BFF clients may still omit PKCE. The resource is retained unchanged, but this compatibility adaptation does not change the existing JWT audience or implement audience validation.
+
+Discovery advertises authorization-code and existing legacy implicit flows, PKCE S256 and `client_secret_post`, but not unimplemented refresh-token or client-credentials grants. Dynamic client registration is explicitly unsupported (`invalid_client_metadata`); clients remain provisioned through the existing database. Token-source registration with `AccessTokenManager` remains a separate future task.
+
+`BffOAuthCodeFlowTests` compiles the production OAuth partial as linked source with test-only substitutes for its database-dependent sibling methods. These MSTest tests cover code lifecycle and capability metadata without external infrastructure; they do not establish complete service, database, controller or host integration. Existing unfinished introspection and other security limitations remain outside this adaptation.
 
 ## Current Architectural Limitations
 

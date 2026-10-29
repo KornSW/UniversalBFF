@@ -71,25 +71,10 @@ namespace UniversalBFF.OobModules.UserManagement {
           if(mappedConfig.Claims == null) {
             mappedConfig.Claims = new Dictionary<string, string>();
           }
-     
-          if (oauthConfig.AdditionalParamsJson != null && oauthConfig.AdditionalParamsJson.StartsWith("{")) {
-            try {
-              Dictionary<string,object> kvps = JsonConvert.DeserializeObject<Dictionary<string, object>>(oauthConfig.AdditionalParamsJson);
-              foreach (KeyValuePair<string, object> kvp in kvps) {
-                mappedConfig.Claims[kvp.Key] = kvp.Value?.ToString();
-              }
-            }
-            catch (Exception ex) {
-              DevLogger.LogError($"Error parsing AdditionalParamsJson for OAuthProxyTargetEntity {oauthConfig.Uid}: {ex.Message}");
-            }
-          }
-          //mappedConfig.Claims["scope"] = $"Tenant:{oauthConfig.TenantUid}";
 
-          //oauthConfig.AuthUrl
-          //oauthConfig.ProviderClassName
-          //mappedConfig.ClientId = oauthConfig.ClientId;
-          //mappedConfig.ClientSecret = oauthConfig.ClientSecret;
-
+          //NOTE: 'AdditionalParamsJson' contains the upstream authorize parameters (proxy mode),
+          //which are applied server-side only (see InitializeOAuthOperationsProvider) and must not
+          //be exposed as portfolio claims. BFF scopes are derived from the database.
 
           //ACHTUNG: das hier lenkt die UI auf unseren proxy-endpunkt, der dann die anfragen weiterleitet
           //hier ist also lediglich das mapping von metadaten nötig um dann pro request individuell routen zu können
@@ -98,14 +83,9 @@ namespace UniversalBFF.OobModules.UserManagement {
           mappedConfig.AuthEndpointUrl = _OurProxyAuthUrl;
           mappedConfig.RetrieveEndpointUrl = _OurProxyRetrivalUrl;
 
-
-
-          //TODO: fehler odernicht????
-          //mappedConfig.ClientId = oauthConfig.Uid.ToString();
-          mappedConfig.ClientId = oauthConfig.ClientId.ToString();
-
-
-
+          //the PUBLIC client id is the Uid of the target - the inner (upstream) ClientId/ClientSecret
+          //never leave the server
+          mappedConfig.ClientId = oauthConfig.Uid.ToString();
 
           mappedConfig.ClientSecret = null; //not needed for implicit flow!
           mappedConfig.AuthEndpointRejectsIframe = !oauthConfig.IframeSupported; //our will redirect, so its relevant
@@ -116,8 +96,11 @@ namespace UniversalBFF.OobModules.UserManagement {
           mappedConfig.ValidationMode = "OAUTH_INTROSPECTION_ENDPOINT";
           mappedConfig.ValidationEndpointUrl = _OurProxyIntrospectionUrl;
 
+          string tokenSourceId = Snowflake44.ConvertToGuid(oauthConfig.Uid).ToString();
+          this.RegisterKnownTokenSourceId(tokenSourceId);
+
           registerAuthTokenSourceCallback(
-            Snowflake44.ConvertToGuid(oauthConfig.Uid).ToString(),
+            tokenSourceId,
             mappedConfig,
             availableForPrimaryUiLogon
           );
@@ -128,14 +111,37 @@ namespace UniversalBFF.OobModules.UserManagement {
 
     }
 
+    /// <summary>
+    /// Evaluates (using the ambient identity from the AccessTokenManager), whether the current identity
+    /// is legitimated for at least one tenant which has the given product in its 'AvailablePortfolios'.
+    /// </summary>
     public bool CanCurrentIdentityAccessProduct(string productName, Dictionary<string, string> metaAttributes) {
-      //TODO: implement real logic here
-      return true;
+      if (!this.TryGetCurrentIdentity(out string tokenSourceId, out string subject, out string[] scopes)) {
+        return false;
+      }
+      long[] tenantUids = GetTenantUidsFromScopes(scopes);
+      if (tenantUids.Length == 0) {
+        return false;
+      }
+      using (UserManagementDbContext db = new UserManagementDbContext()) {
+        string[] availablePortfolios = db.TenantScopes.Where(
+          (t) => tenantUids.Contains(t.TenantUid)
+        ).Select(
+          (t) => t.AvailablePortfolios
+        ).ToArray();
+        return CanAccessProduct(availablePortfolios, productName);
+      }
     }
 
+    /// <summary>
+    /// Evaluates (using the ambient identity from the AccessTokenManager), whether the scopes of the
+    /// current token contain the given scope ('scopeName:scopeValue').
+    /// </summary>
     public bool CanCurrentIdentityAccessScope(string scopeName, string scopeValue) {
-      //TODO: implement real logic here
-      return true;
+      if (!this.TryGetCurrentIdentity(out string tokenSourceId, out string subject, out string[] scopes)) {
+        return false;
+      }
+      return ContainsScope(scopes, scopeName, scopeValue);
     }
 
   }

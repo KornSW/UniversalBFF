@@ -69,6 +69,10 @@ UniversalBFF should:
 - Authentication/token interpretation should be handled by SmartStandards AuthTokenHandling rather than product-local token parsing.
 - A portfolio security provider may contribute authentication-related portfolio configuration.
 - Anonymous access metadata may be represented in portfolio descriptions.
+- Every token source has exactly one role: Authority-Local, Authority-Proxy or Passthrough (see `2-architecture.md`, "Authentication Use Cases And Responsibilities").
+- Permissions for BFF-hosted resources must be granted exclusively from BFF database state; client-requested scopes may only narrow them.
+- External identity providers used via the proxy only prove authenticity; their scopes never become BFF permissions.
+- The BFF must not force all tokens through the proxy: tokens for foreign APIs may be obtained directly by the browser (Passthrough).
 - The current implementation must remain honest about incomplete security-related paths and must not document TODO code as complete behavior.
 
 ### Logging And Diagnostics

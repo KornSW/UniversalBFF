@@ -35,6 +35,7 @@ When changing UniversalBFF, keep these representations synchronized where affect
 - `doc/1-requirements.md`
 - `doc/2-architecture.md`
 - `doc/3-quickstart.md`
+- `doc/4-user-management-oauth.md`
 - `doc/ideas.md`
 - this skill
 
@@ -203,6 +204,14 @@ Security integration exists conceptually through:
 - anonymous/authenticated access metadata in portfolio descriptions.
 
 Current implementation contains incomplete and bypassed paths, including early return behavior in security-related portfolio configuration. Do not document these paths as complete production security behavior until implemented and tested.
+
+`BffUserService.OAuthCodeFlow.cs` implements current `IOAuthService` signatures, discovery and explicit rejection of dynamic registration. Code entries retain client id, token, opaque PKCE challenge, resource and expiry together; redemption consumes the entry atomically, including failed attempts. The controller owns PKCE verification, resource matching and original-value transport across delegation. PKCE remains optional for legacy BFF clients. Do not infer audience binding from resource retention: existing JWT audience semantics are unchanged.
+
+is the skill `universalbff-user-management-oauth`. Load it before changing any of these areas.
+
+Authentication model (decided, D-20): every token source has exactly one role - Authority-Local, Authority-Proxy or Passthrough. The owner of the protected resource grants permissions; BFF-owned endpoints accept only BFF tokens by default; client-requested scopes never grant anything for BFF resources. The human-readable use-case and responsibility tables live in `doc/2-architecture.md` ("Authentication Use Cases And Responsibilities") and should be extended in the same tabular style when new authentication use cases appear.
+
+Discovery advertises only code/legacy implicit flows and confidential-client authentication, not unimplemented refresh/client-credentials grants.
 
 ## Out-Of-Box Modules
 

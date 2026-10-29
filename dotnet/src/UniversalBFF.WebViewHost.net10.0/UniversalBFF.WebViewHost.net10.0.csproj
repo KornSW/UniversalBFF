@@ -84,19 +84,21 @@
 
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
 
+    <PackageReference Include="SmartStandards.CyclicTriggering.AspNetCore" Version="0.1.2" />
+
     <!-- any additional MS-near references to get complete access to asp, is provided by this dependency-package: -->
-    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.15" />
+    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.17" />
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
-    <PackageReference Include="UJMW.DynamicClient" Version="5.6.2" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.7.0-develop" />
 
     <!-- THIS APP CONTAINS AN SEAMLESS BROWSER CONTROL WITHIN ITS UI -->
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3967.48" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.0" />
 
-    <PackageReference Include="UJMW.DynamicController" Version="5.6.2" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="5.1.1" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.7.0-develop" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="6.0.3-develop" />
     <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.4" />
 
     <PackageReference Include="SmartAmbience" Version="3.2.1" />

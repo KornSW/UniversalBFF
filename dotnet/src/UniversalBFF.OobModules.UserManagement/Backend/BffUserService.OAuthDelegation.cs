@@ -70,7 +70,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
                 if (target != null) {
 
-                  IOAuthOperationsProvider oAuthOperations = this.InitializeOAuthOperationsProvider(target);
+                  IOAuthOperationsProvider oAuthOperations = this.GetOAuthOperationsProvider(target);
 
                   if (!oAuthOperations.TryGetAccessTokenViaOAuthCode(
                     codeFromDelegate, target.ClientId, target.ClientSecret, thisRedirectUri,
@@ -165,9 +165,23 @@ namespace UniversalBFF.OobModules.UserManagement {
 
     private static LocalJwtIntrospector _NonValidatingJwkIntrospector = new LocalJwtIntrospector((jwk) => true);
 
-    private IOAuthOperationsProvider InitializeOAuthOperationsProvider(OAuthProxyTargetEntity target) {
+    private Dictionary<long, IOAuthOperationsProvider> _OAuthOperationsProvidersPerTargetUid = new Dictionary<long, IOAuthOperationsProvider>();
 
-      //TODO: Cache instances per targetUid?
+    /// <summary>
+    /// Returns a cached, configured provider instance for the given target.
+    /// </summary>
+    private IOAuthOperationsProvider GetOAuthOperationsProvider(OAuthProxyTargetEntity target) {
+      lock (_OAuthOperationsProvidersPerTargetUid) {
+        IOAuthOperationsProvider provider;
+        if (!_OAuthOperationsProvidersPerTargetUid.TryGetValue(target.Uid, out provider)) {
+          provider = this.InitializeOAuthOperationsProvider(target);
+          _OAuthOperationsProvidersPerTargetUid[target.Uid] = provider;
+        }
+        return provider;
+      }
+    }
+
+    private IOAuthOperationsProvider InitializeOAuthOperationsProvider(OAuthProxyTargetEntity target) {
 
       IOAuthOperationsProvider oAuthOperations = (
         this.TypeIndexer.GetApplicableTypes<IOAuthOperationsProvider>(true)

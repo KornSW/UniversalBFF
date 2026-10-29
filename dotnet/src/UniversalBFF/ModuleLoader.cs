@@ -59,32 +59,64 @@ namespace UniversalBFF {
 
     }
 
-    public void Load() {
+    /// <summary>
+    /// Returns all loaded module-keys!
+    /// </summary>
+    /// <returns></returns>
+    public string[] Load() {
 
       this.UnLoad();
 
       IFrontendModuleProvider[] frontendProivders = _FrontendModuleProviderRessolver.Invoke();
+      IBackendServiceProvider[] backendProviders = _BackendServiceProviderRessolver.Invoke();
+
+      IEnumerable<Tuple<string, string>> metadata =
+        frontendProivders.Select(
+          (p) => new Tuple<string,string>( p.ModuleKey, p.ModuleVersion)
+        ).Union(
+          backendProviders.Select(
+            (p) => new Tuple<string, string>(p.ModuleKey, p.ModuleVersion)
+          )
+        );
+
+      FrontendInitializationContext frontendInitializationContext = new FrontendInitializationContext(
+         (string moduleToFind, out string discoveredVersion)=> {
+           Tuple<string, string> match = metadata.Where((tpl) => tpl.Item1 == moduleToFind).FirstOrDefault(); 
+           discoveredVersion = match?.Item2;
+           return (match != null);
+        }
+      );
+
+      BackendInitializationContext backendInitializationContext = new BackendInitializationContext(
+        (string moduleToFind, out string discoveredVersion) => {
+          Tuple<string, string> match = metadata.Where((tpl) => tpl.Item1 == moduleToFind).FirstOrDefault();
+          discoveredVersion = match?.Item2;
+          return (match != null);
+        },
+        gatewayOnly:false //here - out ModuleLoader is initializing a complete BFF (incl. frontend)
+      );
+
       foreach (IFrontendModuleProvider provider in frontendProivders) {
         DevLogger.LogInformation(2097061253866330689L,0, $"Using FRONTEND module provider '{provider.GetType().FullName}'...");
         try {
-          provider.RegisterModule(_Registrar);
+          provider.RegisterModule(_Registrar, frontendInitializationContext);
         }
         catch (Exception ex) {
           DevLogger.LogCritical(2097061253866330690L, 0, ex.Wrap($"Error while using FRONTEND module provider '{provider.GetType().FullName}': {ex.Message}"));
         }
       }
 
-      IBackendServiceProvider[] backendProviders = _BackendServiceProviderRessolver.Invoke();
       foreach (IBackendServiceProvider provider in backendProviders) {
         DevLogger.LogInformation(2097061267357304270L, 0, $"Using BACKEND service provider '{provider.GetType().FullName}'...");
         try {
-          provider.RegisterServices(_Registrar);
+          provider.RegisterServices(_Registrar, backendInitializationContext);
         }
         catch (Exception ex) {
           DevLogger.LogCritical(2097061267357304271L, 0, ex.Wrap($"Error while using BACKEND service provider '{provider.GetType().FullName}': {ex.Message}"));
         }
       }
 
+      return metadata.Select((m) => m.Item1).Distinct().ToArray();
     }
 
     public void UnLoad() {

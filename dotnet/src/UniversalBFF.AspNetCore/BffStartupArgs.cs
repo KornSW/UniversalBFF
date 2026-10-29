@@ -11,6 +11,7 @@ namespace UniversalBFF {
     private Func<IPortfolioSecurityProvider> _PortfolioSecurityProviderResolver = () => null; //dummy (provide NO instance)
     private Func<ITenancyProvider> _TenancyProviderResolver = () => null; //dummy (provide NO instance)
     private Func<IProductDefinitionProvider> _ProductDefinitionProviderResolver = () => null; //dummy (provide NO instance)
+    private Func<string[]> _FrontendRemoteModuleUrlsResolver = () => null; //dummy (provide NO instance)
     private Func<IFrontendModuleProvider[]> _FrontendModuleProvidersResolver = () => null; //dummy (provide NO instance)
     private Func<IBackendServiceProvider[]> _BackendServiceProvidersResolver = () => null; //dummy (provide NO instance)
 
@@ -22,6 +23,7 @@ namespace UniversalBFF {
         PortfolioSecurityProviderResolver = null, //<< null = auto-discover!
         TenancyProviderResolver = null,           //<< null = auto-discover!
         ProductDefinitionProviderResolver = null, //<< null = auto-discover!
+        FrontendRemoteModuleUrlsResolver = null, //<< null = auto-discover!
         FrontendModuleProvidersResolver = null,   //<< null = auto-discover!
         BackendServiceProvidersResolver = null    //<< null = auto-discover!
       };
@@ -68,7 +70,14 @@ namespace UniversalBFF {
       get { return _ProductDefinitionProviderResolver; }
       set { _ProductDefinitionProviderResolver = value; }
     }
-
+    /// <summary>
+    /// The set of externally hosted frontend modules that should be linked-in when the BFF ist starting...
+    /// (keep this resolver=null, if you want to use the internal auto-discovery)
+    /// </summary>
+    public Func<string[]> FrontendRemoteModuleUrlsResolver {
+      get { return _FrontendRemoteModuleUrlsResolver; }
+      set { _FrontendRemoteModuleUrlsResolver = value; }
+    }
     /// <summary>
     /// The set of available 'IFrontendModuleProvider's represents the aggration-source
     /// of all frontend-extensions (UI-Modules) that should be loaded when the BFF ist starting...

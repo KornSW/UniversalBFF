@@ -63,10 +63,16 @@
     <PackageReference Include="MSTest" Version="3.11.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="ComponentDiscovery" Version="4.12.0" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="5.1.1" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="6.0.3-develop" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
+    <PackageReference Include="Snowflake44" Version="3.8.3" />
   </ItemGroup>
 
   <!-- INCLUDEs and FILEs -->
+
+  <ItemGroup>
+    <Compile Include="..\..\src\UniversalBFF.OobModules.UserManagement\Backend\BffUserService.OAuthCodeFlow.cs" Link="Production\BffUserService.OAuthCodeFlow.cs" />
+    <Compile Include="..\..\src\UniversalBFF.OobModules.UserManagement\Backend\BffUserService.AmbientIdentity.cs" Link="Production\BffUserService.AmbientIdentity.cs" />
+  </ItemGroup>
 
 </Project>

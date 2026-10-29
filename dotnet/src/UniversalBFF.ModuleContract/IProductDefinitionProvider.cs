@@ -7,6 +7,8 @@ namespace UniversalBFF {
 
     public ProductDefinition[] GetProductDefinitions();
 
+    public void AnnounceModuleUrl(string moduleKey, string url);
+
   }
 
   public class ProductDefinition {

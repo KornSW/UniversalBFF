@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data.Fuse;
 using System.Data.Fuse.Ef;
 using System.Data.Fuse.Ef.InstanceManagement;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Runtime.CompilerServices;
+using System.Text;
 using UniversalBFF.OobModules.UserManagement.Frontend.Contract;
 using UShell;
 using UShell.ServerCommands;
@@ -22,7 +23,14 @@ namespace UniversalBFF.OobModules.UserManagement {
     /// </summary>
     internal const string ModuleScopingKey = "oob-usrmgmt";
 
-    public void RegisterServices(IBackendServiceRegistrar registrar) {
+    public string ModuleKey {
+      get { return ModuleScopingKey; }
+    }
+    public string ModuleVersion {
+      get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(3); }
+    }
+
+    public void RegisterServices(IBackendServiceRegistrar registrar, BackendInitializationContext context) {
 
       //OAuth ist ja in der basis da, das einlinken der custom BL aus diesem modul, welche
       //während des logins benutzt wird wird über andere hooks eingehangen...
@@ -64,7 +72,7 @@ namespace UniversalBFF.OobModules.UserManagement {
     }
 
 
-    public void RegisterModule(IFrontendModuleRegistrar registrar) {
+    public void RegisterModule(IFrontendModuleRegistrar registrar, FrontendInitializationContext context) {
 
       //ModuleDescription moduleDesc = ModuleDescription.FromEmbeddedResFile(
       //  "Frontend.webapp_files.module.json"

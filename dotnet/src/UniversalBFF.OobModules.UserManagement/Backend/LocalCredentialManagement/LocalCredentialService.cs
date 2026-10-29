@@ -82,6 +82,23 @@ namespace UniversalBFF.OobModules.UserManagement {
     internal bool TryAuthenticate(
       string login, string password, out string message
     ) {
+      return this.TryAuthenticate(login, password, out message, out LocalCredentialEntity credential);
+    }
+
+    /// <summary>
+    /// Verifies local credentials (login via numeric SubjectId or email address) and returns the
+    /// resolved credential, so that callers can use its canonical SubjectId.
+    /// </summary>
+    internal bool TryAuthenticate(
+      string login, string password, out string message, out LocalCredentialEntity credential
+    ) {
+
+      credential = null;
+
+      if (string.IsNullOrWhiteSpace(login) || password == null) {
+        message = "Wrong credentials";
+        return false;
+      }
 
       using (UserManagementDbContext db = new UserManagementDbContext()) {
 
@@ -137,6 +154,7 @@ namespace UniversalBFF.OobModules.UserManagement {
 
           message = null;
           db.SaveChanges();
+          credential = lcl;
           return true;
         }
 

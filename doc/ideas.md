@@ -17,6 +17,17 @@ This document collects possible future improvements for UniversalBFF. Items list
 - Clarify whether module providers should support dependency injection directly or remain simple discoverable classes.
 - Add deterministic conflict handling for duplicate module UIDs, module scoping keys, command keys, workspace keys, and usecase keys.
 
+## U-Shell Hosting Alignment
+
+U-Shell defines the hostability contract for shell and module bundles in the `ushell-hosting` skill of `ProjectUShell/UShell.Docs` (`.agents/skills/ushell-hosting/SKILL.md`). The following items would align UniversalBFF with that target state:
+
+- Let module providers register the embedded `module.json` emitted by the module's React build (`ModuleDescription.FromEmbeddedResFile`) instead of assembling workspaces, use cases and commands in C#. Providers only supplement host-bound values (module UID, token source assignments, absolute URLs of non-co-located backends); the exact set is open decision D-09 in UShell.Docs.
+- Embed the React build output in every build configuration (the current copy target runs in Debug only) and include `module.json` (currently `webapp-files\*.json` is excluded).
+- Keep the canonical module layout `{moduleScopingKey}/module.json`, `{moduleScopingKey}/ui/`, `{moduleScopingKey}/api/v{n}/`, so relative URLs inside `module.json` resolve without rewriting.
+- Keep replacing `_PUBLIC_PATH_` for existing bundles; new bundles use webpack `publicPath: "auto"`.
+- Set cache headers for embedded bundles: `no-cache` for `.html`, `.json` and `remoteEntry.js`, long-term caching for hashed chunks.
+- User Management reference module: replace the C#-built module description and `WidgetClass = "demo"`, rename the federation name `srViewer`, and stop passing `backendApiUrl` through the UnitOfWork.
+
 ## Portfolio And Product Definitions
 
 - Complete portfolio index handling for multiple products instead of returning only a default entry.
