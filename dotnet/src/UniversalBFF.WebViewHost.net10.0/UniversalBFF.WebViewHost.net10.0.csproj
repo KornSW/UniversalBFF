@@ -100,6 +100,8 @@
     <PackageReference Include="UJMW.DynamicController" Version="5.7.4" />
     <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="6.0.6" />
     <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.4" />
+    <!-- pinned: SmartStandards.Logging.Centralized 3.4.4 still references FUSE-fx.RepositoryContract 1.0.2, the modules need 3.x -->
+    <PackageReference Include="FUSE-fx.RepositoryContract" Version="3.0.2" />
 
     <PackageReference Include="SmartAmbience" Version="3.2.2" />
     <PackageReference Include="SmartAmbience.MvcSupport" Version="3.2.2" />

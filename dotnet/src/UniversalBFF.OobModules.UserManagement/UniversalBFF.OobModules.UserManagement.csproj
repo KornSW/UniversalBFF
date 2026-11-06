@@ -57,13 +57,22 @@
     <Optimize>True</Optimize>
   </PropertyGroup>
 
-  <!-- Pre-Build nur in der Debug-Konfiguration -->
-  <Target Name="PreBuild" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Debug'">
+  <!-- Pre-Build nur in der Debug-Konfiguration (und nur, wenn das Web-Projekt gebaut wurde) -->
+  <!-- Web-Build-Layout: dist/module.json + dist/ui/** -->
+  <Target Name="PreBuild" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Debug' And Exists('$(ProjectDir)..\..\..\js\UniversalBFF.OobModules.UserManagement\dist\module.json')">
     <ItemGroup>
       <MyFiles Include="$(ProjectDir)..\..\..\js\UniversalBFF.OobModules.UserManagement\dist\**\*" />
     </ItemGroup>
 
+    <RemoveDir Directories="$(ProjectDir)Frontend\webapp-files" />
     <Copy SourceFiles="@(MyFiles)" DestinationFolder="$(ProjectDir)Frontend\webapp-files\%(RecursiveDir)" />
+
+    <!-- re-evaluate the wildcards (the static ones were evaluated BEFORE the copy) -->
+    <ItemGroup>
+      <EmbeddedResource Remove="Frontend\webapp-files\**" />
+      <EmbeddedResource Include="Frontend\webapp-files\module.json" />
+      <EmbeddedResource Include="Frontend\webapp-files\ui\**" Exclude="Frontend\webapp-files\ui\**\*.LICENSE.txt" />
+    </ItemGroup>
   </Target>
 
   <!-- REFERENCES -->
@@ -114,25 +123,15 @@
 
   <ItemGroup>
 
-    <EmbeddedResource Include="Frontend\webapp-files\esm\**" />
-    <EmbeddedResource Include="Frontend\webapp-files\*.js" />
-    <EmbeddedResource Include="Frontend\webapp-files\*.png" />
-    <EmbeddedResource Include="Frontend\webapp-files\*.html" />
+    <!-- THE DESIGNED MODEL (same source as for the generated entities - served as FUSE schema) -->
+    <EmbeddedResource Include="..\UniversalBFF.OobModules.Edmx\UserManagement.Model.json" Link="Backend\Persistence.EF\UserManagement.Model.json" LogicalName="UniversalBFF.OobModules.UserManagement.UserManagement.Model.json" />
 
-    <!-- TEMP CONFIG-FILES FROM FRONTEND -->
-    <EmbeddedResource Remove="Frontend\webapp-files\*.json" />
-    <Compile Remove="Frontend\webapp-files\*.json" />
-    <None Remove="Frontend\webapp-files\*.json" />
-    <Compile Remove="Frontend\webapp-files\modules\**" />
-    <Compile Remove="Frontend\webapp-files\portfolio\**" />
-    <EmbeddedResource Remove="Frontend\webapp-files\modules\**" />
-    <EmbeddedResource Remove="Frontend\webapp-files\portfolio\**" />
-    <None Remove="Frontend\webapp-files\modules\**" />
-    <None Remove="Frontend\webapp-files\portfolio\**" />
-    <!-- NOT NEEDED -->
-    <Compile Remove="Frontend\webapp-files\*.LICENSE.txt" />
-    <EmbeddedResource Remove="Frontend\webapp-files\*.LICENSE.txt" />
-    <None Remove="Frontend\webapp-files\*.LICENSE.txt" />
+    <!-- WEB-PROJECT ARTIFACTS (js/UniversalBFF.OobModules.UserManagement/dist) -->
+    <None Remove="Frontend\webapp-files\**" />
+    <!-- the module description (loaded by the UserManagementModuleProvider) -->
+    <EmbeddedResource Include="Frontend\webapp-files\module.json" />
+    <!-- the module bundle (federated widgets, mounted as '{moduleScopingKey}/ui/') -->
+    <EmbeddedResource Include="Frontend\webapp-files\ui\**" Exclude="Frontend\webapp-files\ui\**\*.LICENSE.txt" />
   </ItemGroup>
 
   <ItemGroup>

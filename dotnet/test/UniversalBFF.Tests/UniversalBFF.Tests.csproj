@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="..\..\src\UniversalBFF.OobModules.UserManagement\Backend\BffUserService.OAuthCodeFlow.cs" Link="Production\BffUserService.OAuthCodeFlow.cs" />
     <Compile Include="..\..\src\UniversalBFF.OobModules.UserManagement\Backend\BffUserService.AmbientIdentity.cs" Link="Production\BffUserService.AmbientIdentity.cs" />
+    <Compile Include="..\..\src\UniversalBFF.OobModules.UserManagement\Backend\BffUserService.Constants.cs" Link="Production\BffUserService.Constants.cs" />
   </ItemGroup>
 
 </Project>

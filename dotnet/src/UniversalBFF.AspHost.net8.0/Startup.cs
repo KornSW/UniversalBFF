@@ -147,11 +147,10 @@ namespace UniversalBFF {
       loader.Load();
 
       UjmwHostConfiguration.AuthHeaderEvaluator = AccessTokenValidator.TryValidateHttpAuthHeader;
-      AccessTokenValidator.ConfigureTokenValidation(
-        new LocalJwtIntrospector("TheSignKey"),
-        (cfg) => {
-        }
-      );
+      //the token sources (issuers/introspectors) are registered at the AccessTokenManager by the modules
+      //(e.g. the UserManagement module during 'loader.Load()') - without any registered
+      //token source, every UJMW call is rejected (fail closed)
+      AccessTokenValidator.ConfigureTokenValidationViaAccessTokenManager();
 
       //TODO: das hier - anhand der konfig-struktur, welche aus der appsetings geladen werden soll
       //AccessTokenValidator.ConfigureByConfig(loader);

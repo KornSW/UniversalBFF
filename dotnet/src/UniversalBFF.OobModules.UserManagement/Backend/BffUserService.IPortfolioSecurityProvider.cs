@@ -98,6 +98,9 @@ namespace UniversalBFF.OobModules.UserManagement {
 
           string tokenSourceId = Snowflake44.ConvertToGuid(oauthConfig.Uid).ToString();
           this.RegisterKnownTokenSourceId(tokenSourceId);
+          if (availableForPrimaryUiLogon) {
+            UserManagementModuleProvider.AnnouncePrimaryUiTokenSource(tokenSourceId);
+          }
 
           registerAuthTokenSourceCallback(
             tokenSourceId,

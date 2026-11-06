@@ -17,6 +17,15 @@ This epic collects possible future improvements for UniversalBFF. Items listed h
 - Clarify whether module providers should support dependency injection directly or remain simple discoverable classes.
 - Add deterministic conflict handling for duplicate module UIDs, module scoping keys, command keys, workspace keys, and usecase keys.
 
+### Module isolation in composite applications (open topic)
+
+Host and modules are loaded into one process and share one output folder (`dotnet/dist/`) and one assembly load context. Diverging dependency versions therefore collide (first case: `SmartStandards.Logging.Centralized` pulled `FUSE-fx.RepositoryContract` 1.0.2 while the modules need 3.0.2; currently solved by aligning/pinning the versions). Questions to answer:
+
+- Policy first: which shared libraries form the "platform" whose versions are owned and aligned by the host (contracts that cross module boundaries, e.g. FUSE, UShell, AuthTokenHandling, UJMW), and which ones a module may bring in private versions.
+- Sandboxing **without** additional load contexts: version alignment rules, build-time checks (detect diverging versions of the same assembly in the composed output), separate output folders per module plus a deterministic resolve order.
+- Sandboxing **with** `AssemblyLoadContext`s per module: only for module-private dependencies; platform contracts must stay in the default context, otherwise types no longer match across the module boundary (the "decoupling hell": duplicate type identities, failing casts, serializer and DI surprises).
+- How `ComponentDiscovery`/`TypeIndexer` and the `PluginDir` resolving would behave with isolated contexts.
+
 ## U-Shell Hosting Alignment
 
 U-Shell defines the hostability contract for shell and module bundles in the `ushell-hosting` skill of `ProjectUShell/UShell.Docs` (`.agents/skills/ushell-hosting/SKILL.md`). The following items would align UniversalBFF with that target state:

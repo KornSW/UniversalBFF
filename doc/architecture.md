@@ -87,7 +87,7 @@ The default route shape is:
 
 For example, the User Management module registers contracts under the `oob-usrmgmt` module scope. The route is built by `AspModuleRegistrar.BuildEndpointRoute` and by the dynamic controller options in `AspModuleRegistrar.RegisterUjmwServiceEndpoint`.
 
-Authentication header evaluation is delegated to SmartStandards AuthTokenHandling through `UjmwHostConfiguration.AuthHeaderEvaluator = AccessTokenValidator.TryValidateHttpAuthHeader`.
+Authentication header evaluation is delegated to SmartStandards AuthTokenHandling through `UjmwHostConfiguration.SetAuthHeaderEvaluator(...)` with `AccessTokenValidator.TryValidateHttpAuthHeader`. The validator is wired via `AccessTokenValidator.ConfigureTokenValidationViaAccessTokenManager()`: the core configures no introspector itself, modules register their token sources at the `AccessTokenManager` (the User Management module registers the tokens issued by the BFF). Without any registered token source every UJMW call is rejected (fail closed).
 
 ## U-Shell And Portfolio Hosting
 

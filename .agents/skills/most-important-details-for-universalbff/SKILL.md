@@ -153,8 +153,13 @@ The route shape is:
 UJMW authentication header evaluation is wired through:
 
 ```text
-UjmwHostConfiguration.AuthHeaderEvaluator = AccessTokenValidator.TryValidateHttpAuthHeader
+UjmwHostConfiguration.SetAuthHeaderEvaluator(new AuthHeaderValidationMethod(AccessTokenValidator.TryValidateHttpAuthHeader))
+AccessTokenValidator.ConfigureTokenValidationViaAccessTokenManager()
 ```
+
+The core never configures introspectors itself: modules register their token sources at the `AccessTokenManager`
+(the User Management module registers the BFF token source via `BffUserService.RegisterTokenSourceAtAccessTokenManager`,
+routed by issuer). Without any registered token source every UJMW call is rejected (fail closed).
 
 Token semantics belong to SmartStandards AuthTokenHandling, not to business services.
 
@@ -219,15 +224,20 @@ Discovery advertises only code/legacy implicit flows and confidential-client aut
 
 ### User Management
 
-`UniversalBFF.OobModules.UserManagement` is the most complete OOB module. It registers:
+`UniversalBFF.OobModules.UserManagement` is the most complete OOB module and is being shaped into the reference module (epic `doc/epics/epic-usermanagement-module-mvp.md` - read it before changing the module). It registers:
 
-- `IUserManagementService`,
-- `ILocalCredentialManagementService`,
-- `IRepository<LocalCredentialEntity, Int64>`,
-- UShell module/workspace/usecase metadata,
-- embedded frontend assets under `oob-usrmgmt`.
+- `IUserManagementService`, `ILocalCredentialManagementService` (placeholders),
+- the FUSE store `oob-usrmgmt/api/v1/store` (`ManagementStore`): `ISchemaProvider` plus one `IRepository` per administrable entity at `store/{ModelEntityName}`, wrapped by `ManagementStoreRepository` (detached copies, write-only secret fields),
+- the `module.json` of the web project `js/UniversalBFF.OobModules.UserManagement` (embedded as `Frontend/webapp-files/module.json`); the provider only supplements host-bound values (datastore URL resolution, primary UI token source),
+- the module bundle (federation scope `oobUsrMgmt`) under `oob-usrmgmt/ui/`.
 
-Use this as the primary current module example.
+Rules for this module:
+
+- The UI is described only in `js/UniversalBFF.OobModules.UserManagement/src/module.json`; never assemble workspaces, use cases or commands in C#.
+- Backend communication is the FUSE `IRepository`/`ISchemaProvider` contract only; raise a showstopper instead of adding service contracts.
+- The store schema is `UniversalBFF.OobModules.Edmx/UserManagement.Model.json` (embedded); entity names are model names without the `Entity` class suffix.
+- Build the web project before a Debug build of the module (the Debug build copies `dist/`); `webapp-files` is git-ignored.
+- Platform library versions (e.g. `FUSE-fx.RepositoryContract`) must be aligned between host and modules, because they share `dotnet/dist/` and one load context (see the pin in the hosts and "Module isolation" in `doc/epics/epic-future-directions.md`).
 
 ### Diagnostics, FileStore, ModuleManager
 
@@ -256,6 +266,7 @@ Be explicit and honest about these areas:
 - `RegisterBackendExtension<TServiceContract>` is currently empty.
 - Some portfolio methods still return default values regardless of input.
 - Some security integration paths are incomplete or bypassed.
+- Module descriptions loaded via `FromEmbeddedResFile` lose nested values when served (NO GO, `doc/work/issue-moduledescription-serialization.md`).
 - Several OOB module projects are skeletons.
 - Tests are currently minimal.
 

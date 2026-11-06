@@ -21,8 +21,6 @@ namespace UniversalBFF.OobModules.UserManagement {
 
     private const int _LocalJwtTokenLifetimeMinutes = 240;
     private const int _AuthFlowSessionLifetimeMinutes = 10;
-    private const string _LocalJwtIssuer = "UniversalBFF";
-    private const string _LocalJwtAud = "UniversalBFF";
 
     private static readonly object _JwtToolsSyncRoot = new object();
     private static LocalJwtIssuer _LocalIssuer = null;

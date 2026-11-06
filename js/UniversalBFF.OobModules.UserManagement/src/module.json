@@ -1,0 +1,283 @@
+{
+  "moduleUid": "2092362137326596206",
+  "moduleTitle": "User Management",
+  "moduleScopingKey": "oob-usrmgmt",
+
+  "datastores": [
+    {
+      "key": "oob-usrmgmt.store",
+      "providerClass": "fuse",
+      "providerArguments": {
+        "url": "api/v1/store/",
+        "routePattern": "route"
+      }
+    }
+  ],
+
+  "commands": [
+    {
+      "uniqueCommandKey": "oob-usrmgmt.nav-users-and-access",
+      "commandType": "activate-workspace",
+      "label": "Users & Access",
+      "iconKey": "fa-user",
+      "menuFolder": "Administration/User Management",
+      "targetWorkspaceKey": "oob-usrmgmt.UsersAndAccess"
+    },
+    {
+      "uniqueCommandKey": "oob-usrmgmt.nav-tenants-and-roles",
+      "commandType": "activate-workspace",
+      "label": "Tenants & Roles",
+      "iconKey": "fa-building",
+      "menuFolder": "Administration/User Management",
+      "targetWorkspaceKey": "oob-usrmgmt.TenantsAndRoles"
+    },
+    {
+      "uniqueCommandKey": "oob-usrmgmt.nav-signin-and-clients",
+      "commandType": "activate-workspace",
+      "label": "Sign-in Providers & API Clients",
+      "iconKey": "fa-key",
+      "menuFolder": "Administration/User Management",
+      "targetWorkspaceKey": "oob-usrmgmt.SignInAndClients"
+    }
+  ],
+
+  "workspaces": [
+    {
+      "workspaceKey": "oob-usrmgmt.UsersAndAccess",
+      "workspaceTitle": "Users & Access",
+      "iconName": "fa-user",
+      "workspaceAppearance": "default"
+    },
+    {
+      "workspaceKey": "oob-usrmgmt.TenantsAndRoles",
+      "workspaceTitle": "Tenants & Roles",
+      "iconName": "fa-building",
+      "workspaceAppearance": "default"
+    },
+    {
+      "workspaceKey": "oob-usrmgmt.SignInAndClients",
+      "workspaceTitle": "Sign-in Providers & API Clients",
+      "iconName": "fa-key",
+      "workspaceAppearance": "default"
+    }
+  ],
+
+  "staticUsecaseAssignments": [
+    { "targetWorkspaceKey": "oob-usrmgmt.UsersAndAccess", "usecaseKey": "oob-usrmgmt.KnownUsers" },
+    { "targetWorkspaceKey": "oob-usrmgmt.UsersAndAccess", "usecaseKey": "oob-usrmgmt.RoleAssignments" },
+    { "targetWorkspaceKey": "oob-usrmgmt.UsersAndAccess", "usecaseKey": "oob-usrmgmt.LocalAccounts" },
+    { "targetWorkspaceKey": "oob-usrmgmt.TenantsAndRoles", "usecaseKey": "oob-usrmgmt.Tenants" },
+    { "targetWorkspaceKey": "oob-usrmgmt.TenantsAndRoles", "usecaseKey": "oob-usrmgmt.Roles" },
+    { "targetWorkspaceKey": "oob-usrmgmt.SignInAndClients", "usecaseKey": "oob-usrmgmt.SignInProviders" },
+    { "targetWorkspaceKey": "oob-usrmgmt.SignInAndClients", "usecaseKey": "oob-usrmgmt.ApiClients" }
+  ],
+
+  "usecases": [
+    {
+      "usecaseKey": "oob-usrmgmt.KnownUsers",
+      "title": "Known Users",
+      "widgetClass": "{\"scope\":\"oobUsrMgmt\",\"module\":\"./EntityTableWidget\",\"url\":\"ui/remoteEntry.js\"}",
+      "unitOfWorkDefaults": {
+        "entityName": "CachedUserIdentity",
+        "layoutDescription": {
+          "entityLayouts": [
+            {
+              "entityName": "CachedUserIdentity",
+              "displayLabel": "User",
+              "displayLabelPlural": "Users",
+              "identityLabelPattern": "{CachedDisplayName}",
+              "isBlEntrypoint": true,
+              "tableFields": ["CachedDisplayName", "CachedEmailAddress", "Disabled", "PermittedScopes", "LastLogonDate"],
+              "fieldLayouts": [
+                { "fieldName": "CachedDisplayName", "displayLabel": "Display Name" },
+                { "fieldName": "CachedEmailAddress", "displayLabel": "E-Mail" },
+                { "fieldName": "OriginUid", "displayLabel": "Sign-in Provider" },
+                { "fieldName": "OriginSpecificSubjectId", "displayLabel": "Subject (at Provider)" },
+                { "fieldName": "PermittedScopes", "displayLabel": "Additional Scopes" },
+                { "fieldName": "CreationDate", "displayLabel": "Created" },
+                { "fieldName": "LastLogonDate", "displayLabel": "Last Logon" }
+              ],
+              "partitions": [],
+              "dislpayRemainingFields": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "usecaseKey": "oob-usrmgmt.RoleAssignments",
+      "title": "Role Assignments",
+      "widgetClass": "{\"scope\":\"oobUsrMgmt\",\"module\":\"./EntityTableWidget\",\"url\":\"ui/remoteEntry.js\"}",
+      "unitOfWorkDefaults": {
+        "entityName": "KnownUserLegitimation",
+        "layoutDescription": {
+          "entityLayouts": [
+            {
+              "entityName": "KnownUserLegitimation",
+              "displayLabel": "Role Assignment",
+              "displayLabelPlural": "Role Assignments",
+              "identityLabelPattern": "{OriginSpecificSubjectId}: {RoleName}",
+              "isBlEntrypoint": true,
+              "fieldLayouts": [
+                { "fieldName": "OriginUid", "displayLabel": "Sign-in Provider" },
+                { "fieldName": "OriginSpecificSubjectId", "displayLabel": "Subject (at Provider)" },
+                { "fieldName": "RoleName", "displayLabel": "Role" },
+                { "fieldName": "TenantUid", "displayLabel": "Tenant" }
+              ],
+              "partitions": [],
+              "dislpayRemainingFields": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "usecaseKey": "oob-usrmgmt.LocalAccounts",
+      "title": "Local Accounts",
+      "widgetClass": "{\"scope\":\"oobUsrMgmt\",\"module\":\"./EntityTableWidget\",\"url\":\"ui/remoteEntry.js\"}",
+      "unitOfWorkDefaults": {
+        "entityName": "LocalCredential",
+        "layoutDescription": {
+          "entityLayouts": [
+            {
+              "entityName": "LocalCredential",
+              "displayLabel": "Local Account",
+              "displayLabelPlural": "Local Accounts",
+              "identityLabelPattern": "{DisplayName} ({EmailAddress})",
+              "isBlEntrypoint": true,
+              "tableFields": ["DisplayName", "EmailAddress", "IsValidated", "LockedUntil", "LastLogonDate"],
+              "fieldLayouts": [
+                { "fieldName": "SubjectId", "displayLabel": "Subject Id" },
+                { "fieldName": "DisplayName", "displayLabel": "Display Name" },
+                { "fieldName": "EmailAddress", "displayLabel": "E-Mail" },
+                { "fieldName": "IsValidated", "displayLabel": "E-Mail Validated" },
+                { "fieldName": "CreationDate", "displayLabel": "Created" },
+                { "fieldName": "WrongPasswordCount", "displayLabel": "Failed Logons" },
+                { "fieldName": "LockedUntil", "displayLabel": "Locked Until" },
+                { "fieldName": "LastLogonDate", "displayLabel": "Last Logon" }
+              ],
+              "partitions": [],
+              "dislpayRemainingFields": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "usecaseKey": "oob-usrmgmt.Tenants",
+      "title": "Tenants",
+      "widgetClass": "{\"scope\":\"oobUsrMgmt\",\"module\":\"./EntityTableWidget\",\"url\":\"ui/remoteEntry.js\"}",
+      "unitOfWorkDefaults": {
+        "entityName": "TenantScope",
+        "layoutDescription": {
+          "entityLayouts": [
+            {
+              "entityName": "TenantScope",
+              "displayLabel": "Tenant",
+              "displayLabelPlural": "Tenants",
+              "identityLabelPattern": "{DisplayLabel}",
+              "isBlEntrypoint": true,
+              "fieldLayouts": [
+                { "fieldName": "TenantUid", "displayLabel": "Tenant Uid" },
+                { "fieldName": "DisplayLabel", "displayLabel": "Name" },
+                { "fieldName": "PermittedScopes", "displayLabel": "Permitted Scopes" },
+                { "fieldName": "AvailablePortfolios", "displayLabel": "Available Portfolios" }
+              ],
+              "partitions": [],
+              "dislpayRemainingFields": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "usecaseKey": "oob-usrmgmt.Roles",
+      "title": "Roles",
+      "widgetClass": "{\"scope\":\"oobUsrMgmt\",\"module\":\"./EntityTableWidget\",\"url\":\"ui/remoteEntry.js\"}",
+      "unitOfWorkDefaults": {
+        "entityName": "Role",
+        "layoutDescription": {
+          "entityLayouts": [
+            {
+              "entityName": "Role",
+              "displayLabel": "Role",
+              "displayLabelPlural": "Roles",
+              "identityLabelPattern": "{RoleDescriptiveLabel}",
+              "isBlEntrypoint": true,
+              "fieldLayouts": [
+                { "fieldName": "RoleName", "displayLabel": "Role Name" },
+                { "fieldName": "TenantUid", "displayLabel": "Tenant" },
+                { "fieldName": "RoleDescriptiveLabel", "displayLabel": "Label" },
+                { "fieldName": "PermittedScopes", "displayLabel": "Permitted Scopes" },
+                { "fieldName": "IsDefaultRoleForNewUsers", "displayLabel": "Default for New Users" }
+              ],
+              "partitions": [],
+              "dislpayRemainingFields": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "usecaseKey": "oob-usrmgmt.SignInProviders",
+      "title": "Sign-in Providers",
+      "widgetClass": "{\"scope\":\"oobUsrMgmt\",\"module\":\"./EntityTableWidget\",\"url\":\"ui/remoteEntry.js\"}",
+      "unitOfWorkDefaults": {
+        "entityName": "OAuthProxyTarget",
+        "layoutDescription": {
+          "entityLayouts": [
+            {
+              "entityName": "OAuthProxyTarget",
+              "displayLabel": "Sign-in Provider",
+              "displayLabelPlural": "Sign-in Providers",
+              "identityLabelPattern": "{DisplayLabel}",
+              "isBlEntrypoint": true,
+              "tableFields": ["DisplayLabel", "ProviderClassName", "ClientId", "AuthUrl", "IframeSupported"],
+              "fieldLayouts": [
+                { "fieldName": "Uid", "displayLabel": "Uid (Token Source)" },
+                { "fieldName": "DisplayLabel", "displayLabel": "Name" },
+                { "fieldName": "DisplayIconUrl", "displayLabel": "Icon Url" },
+                { "fieldName": "ProviderClassName", "displayLabel": "Provider Class" },
+                { "fieldName": "ClientId", "displayLabel": "Client Id" },
+                { "fieldName": "AuthUrl", "displayLabel": "Authorize Url" },
+                { "fieldName": "RetrivalUrl", "displayLabel": "Token Url" },
+                { "fieldName": "TenantUid", "displayLabel": "Tenant" },
+                { "fieldName": "IframeSupported", "displayLabel": "Iframe Supported" }
+              ],
+              "partitions": [],
+              "dislpayRemainingFields": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "usecaseKey": "oob-usrmgmt.ApiClients",
+      "title": "API Clients",
+      "widgetClass": "{\"scope\":\"oobUsrMgmt\",\"module\":\"./EntityTableWidget\",\"url\":\"ui/remoteEntry.js\"}",
+      "unitOfWorkDefaults": {
+        "entityName": "ApiOAuthClient",
+        "layoutDescription": {
+          "entityLayouts": [
+            {
+              "entityName": "ApiOAuthClient",
+              "displayLabel": "API Client",
+              "displayLabelPlural": "API Clients",
+              "identityLabelPattern": "{ClientId}",
+              "isBlEntrypoint": true,
+              "tableFields": ["ClientId", "MappedSubjectId", "RedirectUrl", "ValidUntil"],
+              "fieldLayouts": [
+                { "fieldName": "ClientId", "displayLabel": "Client Id" },
+                { "fieldName": "MappedSubjectId", "displayLabel": "Acting as (Local Account)" },
+                { "fieldName": "RedirectUrl", "displayLabel": "Redirect Url" },
+                { "fieldName": "ValidUntil", "displayLabel": "Valid Until" }
+              ],
+              "partitions": [],
+              "dislpayRemainingFields": true
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

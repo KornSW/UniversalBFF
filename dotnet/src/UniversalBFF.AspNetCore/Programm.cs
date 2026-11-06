@@ -92,7 +92,17 @@ namespace UniversalBFF {
             services.AddSingleton<IAuthPageBuilder>((IAuthPageBuilder)psp);
           }
           else {
-            services.AddSingleton<IAuthPageBuilder>(new DefaultAuthPageBuilder("Logon", "", ""));
+            TemplateAuthPageBuilder authPage = new TemplateAuthPageBuilder(
+              "Logon",
+              portalUrl: null,
+              legalUrl: null,
+              defaultBgColor: "#8659a6",        //HACK: aktuell wirkungslos
+              defaultBgColorDarkmode: "#8659a6" //HACK: aktuell wirkungslos
+            );
+            //authPage.BackgroundCiColor = "#5B00BB";
+            services.AddSingleton<IAuthPageBuilder>(
+              authPage
+            );
           }
 
           services.AddOAuthServerController();
@@ -208,12 +218,13 @@ namespace UniversalBFF {
       #region " Setup authentication & authorization "
 
       bool useWinAuth = false;
-      UjmwHostConfiguration.AuthHeaderEvaluator = AccessTokenValidator.TryValidateHttpAuthHeader;
-      AccessTokenValidator.ConfigureTokenValidation(
-        new LocalJwtIntrospector("TheSignKey"),
-        (cfg) => {
-        }
+      //the token sources (issuers/introspectors) are registered at the AccessTokenManager by the modules
+      //(e.g. the UserManagement module during 'ModuleLoader.Load()') - without any registered
+      //token source, every UJMW call is rejected (fail closed)
+      UjmwHostConfiguration.SetAuthHeaderEvaluator(
+        new AuthHeaderValidationMethod(AccessTokenValidator.TryValidateHttpAuthHeader)
       );
+      AccessTokenValidator.ConfigureTokenValidationViaAccessTokenManager();
 
       //TODO: das hier - anhand der konfig-struktur, welche aus der appsetings geladen werden soll
       //AccessTokenValidator.ConfigureByConfig(loader);

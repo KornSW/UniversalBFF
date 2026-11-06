@@ -39,6 +39,8 @@ namespace UniversalBFF.OobModules.UserManagement {
     private string[] GetCandidateTokenSourceIds() {
       List<string> candidates = new List<string>();
       candidates.Add(AccessTokenManager.DefaultTokenSourceId);
+      //all tokens issued by this BFF are validated under this token source (see 'BffUserService.TokenSupply')
+      candidates.Add(BffTokenSourceId);
       lock (_KnownTokenSourceIds) {
         candidates.AddRange(_KnownTokenSourceIds);
       }

@@ -45,8 +45,8 @@ Host wiring (`dotnet/src/UniversalBFF.AspNetCore/Programm.cs`, same in `AspHost.
 
 1. `IPortfolioSecurityProvider` is resolved via `BffStartupArgs.PortfolioSecurityProviderResolver` or InstanceDiscovery.
 2. If it is also `IOAuthService`, it is registered as `IOAuthService`, an `IAuthPageBuilder` is registered (own implementation or `DefaultAuthPageBuilder`), and `services.AddOAuthServerController()` exposes `/oauth2/*`.
-3. `UjmwHostConfiguration.AuthHeaderEvaluator = AccessTokenValidator.TryValidateHttpAuthHeader`.
-4. `AccessTokenValidator.ConfigureTokenValidation(new LocalJwtIntrospector("TheSignKey"), ...)` - **placeholder, see §10 G-02**.
+3. `UjmwHostConfiguration.SetAuthHeaderEvaluator(new AuthHeaderValidationMethod(AccessTokenValidator.TryValidateHttpAuthHeader))`.
+4. `AccessTokenValidator.ConfigureTokenValidationViaAccessTokenManager()` - the core configures no introspector itself (fail closed without registered token sources). The module registers the BFF token source during `RegisterServices` (`BffUserService.RegisterTokenSourceAtAccessTokenManager`: `ApplyCustomTokenSource("UniversalBFF", issuer, introspector)` with the BFF signing secret + `MapIssuer`), i.e. in-process validation without loopback (D-02).
 
 `ModuleRegistrar.Init.cs` calls `RegisterAuthTokenSources` per product and fills `portfolio.AuthTokenConfigs` and `portfolio.AuthenticatedAccess.PrimaryUiTokenSources`.
 
@@ -271,7 +271,7 @@ Consequence: the introspector for local tokens lives in `BffUserService`, not in
 | Id | Location | Finding |
 |---|---|---|
 Result: delegation is effectively never triggered, and for external targets the upstream client id would be published to the UI. Target behavior: §9.1. |
-| G-02 | `Programm.cs` / `Startup.cs` | Validation uses `new LocalJwtIntrospector("TheSignKey")`, which does not match the issuing key `GEFHARDASMUSSWEG`. BFF-issued tokens cannot validate. No in-process wiring to the service yet. |
+| G-02 | `Programm.cs` / `Startup.cs` | RESOLVED 2026-11-06: validation is wired via the AccessTokenManager; the module registers the BFF token source (issuer routing). Still open from §9.2: `ori` resolution, disabled-identity check, `wrp` handling (see G-03). |
 Missing: local JWT check, `ori` resolution, disabled-identity check, handling of `wrp`. Target behavior: §9.2. |
 | G-04 | `TryAuthenticate` (local branch) | The session stores the entered login (email or SubjectId). The seeded identity uses the SubjectId, so an email logon creates a second identity with default roles only. A session is also created when the password check fails. |
 | G-05 | `GetAvailableScopes` + controller | No consent wanted (empty scope list), but the controller always renders the scope confirmation page: an empty extra click. |

@@ -1,0 +1,2 @@
+/* no '@tailwind base' here: the preflight belongs to the shell and must not be injected by a widget */
+@tailwind utilities;
