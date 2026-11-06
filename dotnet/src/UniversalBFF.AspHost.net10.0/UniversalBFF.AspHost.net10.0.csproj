@@ -68,21 +68,21 @@
   <ItemGroup>
 
     <!-- any additional MS-near references to get complete access to asp, is provided by this dependency-package: -->
-    <PackageReference Include="SmartStandards.CyclicTriggering.AspNetCore" Version="0.1.2" />
-    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.17" />
+    <PackageReference Include="SmartStandards.CyclicTriggering.AspNetCore" Version="0.1.3" />
+    <PackageReference Include="SmartStandards.WebApiDependencies.net10.0" Version="10.0.20" />
 
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
 
-    <PackageReference Include="UJMW.DynamicClient" Version="5.7.0-develop" />
-    <PackageReference Include="UJMW.DynamicController" Version="5.7.0-develop" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.7.4" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.7.4" />
 
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="6.0.3-develop" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="6.0.3-develop" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="6.0.6" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="6.0.6" />
 
-    <PackageReference Include="SmartAmbience" Version="3.2.1" />
-    <PackageReference Include="SmartAmbience.MvcSupport" Version="3.2.1" />
+    <PackageReference Include="SmartAmbience" Version="3.2.2" />
+    <PackageReference Include="SmartAmbience.MvcSupport" Version="3.2.2" />
 
     <PackageReference Include="SmartStandards.Essentials" Version="1.0.1" />
 

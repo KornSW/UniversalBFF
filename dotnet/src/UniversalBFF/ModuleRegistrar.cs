@@ -296,6 +296,19 @@ namespace UniversalBFF {
     /// <returns></returns>
     PortfolioDescription IPortfolioService.GetPortfolioDescription(string portfolioName) {
       this.EnsurePortfolioIsInitialized();
+
+      if (!_PortfoliosPerName.ContainsKey(portfolioName)) {
+
+        if (portfolioName == "default" && _PortfoliosPerName.Count == 1) {
+          return _PortfoliosPerName.First().Value;
+        }
+        if (portfolioName != "default" && _PortfoliosPerName.ContainsKey("default")) {
+          return _PortfoliosPerName["default"];
+        }
+
+        throw new Exception($"Portfolio '{portfolioName}' not found. Available portfolios: {string.Join(", ", _PortfoliosPerName.Keys)}");
+      }
+
       return _PortfoliosPerName["default"]; //TODO: reicht nicht
     }
 

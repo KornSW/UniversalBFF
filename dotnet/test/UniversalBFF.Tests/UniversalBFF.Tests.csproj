@@ -63,7 +63,7 @@
     <PackageReference Include="MSTest" Version="3.11.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="ComponentDiscovery" Version="4.12.0" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="6.0.3-develop" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="6.0.6" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
     <PackageReference Include="Snowflake44" Version="3.8.3" />
   </ItemGroup>

@@ -69,7 +69,7 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
 
 
-    <PackageReference Include="SmartStandards.CyclicTriggering.AspNetCore" Version="0.1.2" />
+    <PackageReference Include="SmartStandards.CyclicTriggering.AspNetCore" Version="0.1.3" />
     
     <!-- intermediate (until we've completely switched to 'Microsoft.AspNetCore.OpenApi' -->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.0.0" />
@@ -82,10 +82,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="SmartAmbience" Version="3.2.1" />
-    <PackageReference Include="SmartAmbience.MvcSupport" Version="3.2.1" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="6.0.3-develop" />
-    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="6.0.3-develop" />
+    <PackageReference Include="SmartAmbience" Version="3.2.2" />
+    <PackageReference Include="SmartAmbience.MvcSupport" Version="3.2.2" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling" Version="6.0.6" />
+    <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="6.0.6" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
     <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.4" />
     <PackageReference Include="SmartStandards.Logging.Centralized" Version="3.4.4" />
@@ -96,8 +96,8 @@
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="4.6.0" />
     
-    <PackageReference Include="UJMW.DynamicClient" Version="5.7.0-develop" />
-    <PackageReference Include="UJMW.DynamicController" Version="5.7.0-develop" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.7.4" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.7.4" />
     
     <PackageReference Include="UShell.FrontendBundle" Version="3.2.32.1494" />
     <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.32.1494" />

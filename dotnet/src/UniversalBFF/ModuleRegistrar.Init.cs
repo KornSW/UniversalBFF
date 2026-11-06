@@ -76,7 +76,14 @@ namespace UniversalBFF {
               newPortfolio.LogoUrlDark = product.LogoUrlDark;
               newPortfolio.LandingWorkspaceName = product.LandingWorkspaceName;
 
-              newPortfolio.ModuleDescriptionUrls = product.EnabledModules.Select((m) => m + "/module.json").ToArray();
+              newPortfolio.ModuleDescriptionUrls = product.EnabledModules.Select(
+                (m) => {
+                  //HACK: hier kann zuviel unterschiedlichen kommen
+                  return m;
+                  //return m + "/module.json";
+
+                }
+              ).ToArray();
 
               _PortfoliosPerName[product.TechnicalName] = newPortfolio;
 
