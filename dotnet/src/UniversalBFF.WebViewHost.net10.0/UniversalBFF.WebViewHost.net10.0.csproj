@@ -91,13 +91,13 @@
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SmartStandards.Logging" Version="3.4.4" />
-    <PackageReference Include="UJMW.DynamicClient" Version="5.7.4" />
+    <PackageReference Include="UJMW.DynamicClient" Version="5.8.0" />
 
     <!-- THIS APP CONTAINS AN SEAMLESS BROWSER CONTROL WITHIN ITS UI -->
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3967.48" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.0" />
 
-    <PackageReference Include="UJMW.DynamicController" Version="5.7.4" />
+    <PackageReference Include="UJMW.DynamicController" Version="5.8.0" />
     <PackageReference Include="SmartStandards.AuthTokenHandling.MvcSupport" Version="6.0.6" />
     <PackageReference Include="SmartStandards.Logging.AspSupport" Version="3.4.4" />
     <!-- pinned: SmartStandards.Logging.Centralized 3.4.4 still references FUSE-fx.RepositoryContract 1.0.2, the modules need 3.x -->
@@ -108,8 +108,8 @@
 
     <PackageReference Include="UShell.FrontendBundle" Version="3.2.32.1494" />
     <PackageReference Include="UShell.FrontendBundle.Mvc" Version="3.2.32.1494" />
-    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.3" />
-    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.3" />
+    <PackageReference Include="UShell.PortfolioDescription" Version="4.1.4" />
+    <PackageReference Include="UShell.PortfolioHosting.Mvc" Version="4.1.4" />
     <PackageReference Include="UShell.ServerCommands.Contract" Version="1.2.1" />
 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
