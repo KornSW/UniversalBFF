@@ -10,6 +10,18 @@
 
 
 
+## v 1.1.1
+released **2026-11-10**, including:
+ - Fix Module-Copy
+ - Package Updates
+ - OOB-UserManagement shows data
+ - zwischenstand PackageUpdates
+ - Merge branch 'master' of https://github.com/KornSW/UniversalBFF
+ - rearranged docs
+ - auth-refactoring
+
+
+
 ## v 1.1.0
 released **2026-10-02**, including:
  - New Feature: UserManagement-Modul zum laufen gebracht
