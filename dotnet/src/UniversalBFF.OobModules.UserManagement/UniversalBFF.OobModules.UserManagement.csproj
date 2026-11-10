@@ -59,7 +59,7 @@
 
   <!-- Pre-Build nur in der Debug-Konfiguration (und nur, wenn das Web-Projekt gebaut wurde) -->
   <!-- Web-Build-Layout: dist/module.json + dist/ui/** -->
-  <Target Name="PreBuild" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Debug' And Exists('$(ProjectDir)..\..\..\js\UniversalBFF.OobModules.UserManagement\dist\module.json')">
+  <Target Name="PreBuild" BeforeTargets="BeforeBuild" Condition="Exists('$(ProjectDir)..\..\..\js\UniversalBFF.OobModules.UserManagement\dist\module.json')">
     <ItemGroup>
       <MyFiles Include="$(ProjectDir)..\..\..\js\UniversalBFF.OobModules.UserManagement\dist\**\*" />
     </ItemGroup>
